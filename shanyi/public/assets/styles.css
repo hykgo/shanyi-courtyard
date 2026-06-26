@@ -1,0 +1,117 @@
+html {
+            scroll-behavior: smooth;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        ::-webkit-scrollbar {
+            display: none;
+        }
+        
+        body {
+            background-color: #FAF7F2;
+            background-image: radial-gradient(rgba(195, 161, 121, 0.08) 1px, transparent 0);
+            background-size: 24px 24px;
+        }
+
+        /* Silky Gate Transition */
+        .gate-transition {
+            transition: transform 1.5s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        
+        .fade-in-up {
+            animation: fadeInUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Polaroid Physics Wobble */
+        .polaroid-card {
+            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        /* Flowing premium golden gradient for primary buttons */
+        .gold-gradient-btn {
+            background: linear-gradient(135deg, #1F3E29, #315F40, #CBB191, #1F3E29);
+            background-size: 300% 300%;
+            animation: elegantGradient 10s ease infinite;
+        }
+
+        @keyframes elegantGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Poetic pulse glow reminiscent of gentle breathing */
+        .pulse-soft {
+            animation: breatheGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes breatheGlow {
+            0%, 100% { 
+                box-shadow: 0 0 0 0 rgba(195, 161, 121, 0.3); 
+                transform: scale(1);
+            }
+            50% { 
+                box-shadow: 0 0 20px 6px rgba(195, 161, 121, 0.15); 
+                transform: scale(1.02);
+            }
+        }
+
+        /* Decorative Chinese scroll lines */
+        .scroll-line::before, .scroll-line::after {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 1px;
+            background: #CBB191;
+            vertical-align: middle;
+            margin: 0 10px;
+            opacity: 0.7;
+        }
+
+        /* Falling petal container styles */
+        #petal-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+            overflow: hidden;
+        }
+
+        .petal {
+            position: absolute;
+            background: linear-gradient(135deg, rgba(246, 234, 230, 0.8), rgba(217, 125, 100, 0.4));
+            border-radius: 150% 0 150% 150%;
+            transform-origin: left top;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-50px) rotate(0deg) scale(0.6);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.9;
+            }
+            90% {
+                opacity: 0.9;
+            }
+            100% {
+                transform: translateY(105vh) translateX(200px) rotate(360deg) scale(0.8);
+                opacity: 0;
+            }
+        }
