@@ -371,10 +371,7 @@
                 const div = document.createElement('div');
                 div.className = "bullet-item text-[11px] bg-white/70 p-3 rounded-xl border border-yard-lightGreen/30 shadow-xs text-yard-charcoal/90 leading-relaxed tracking-wider transition-all opacity-0 -translate-y-2";
                 
-                const isNeon = bullet.id.includes('萌新');
-                const tagColorClass = isNeon ? 'text-yard-terracotta' : (bullet.id.includes('学长') || bullet.id.includes('学姐') ? 'text-yard-darkGreen' : 'text-yard-wood');
-                
-                div.innerHTML = `<span class="font-bold ${tagColorClass}">#${bullet.id}</span> ${bullet.text}`;
+                div.innerHTML = buildBulletMarkup(bullet.id, bullet.text.replace(/^“|”$/g, ''), new Date().toISOString());
                 
                 scroller.appendChild(div);
                 
@@ -403,6 +400,35 @@
             }[char]));
         }
 
+        function formatMessageTime(value) {
+            const date = value ? new Date(value) : new Date();
+            if (Number.isNaN(date.getTime())) {
+                return '刚刚';
+            }
+
+            return new Intl.DateTimeFormat('zh-CN', {
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false
+            }).format(date);
+        }
+
+        function buildBulletMarkup(name, content, createdAt, suffix = '') {
+            const isNeon = name.includes('萌新');
+            const tagColorClass = isNeon ? 'text-yard-terracotta' : (name.includes('学长') || name.includes('学姐') ? 'text-yard-darkGreen' : 'text-yard-wood');
+            const time = formatMessageTime(createdAt);
+
+            return `
+                <div class="flex items-center justify-between gap-3 mb-1">
+                    <span class="font-bold ${tagColorClass}">#${escapeHtml(name)}</span>
+                    <span class="text-[9px] text-yard-charcoal/35 font-roman tracking-[0.12em] shrink-0">${escapeHtml(time)}</span>
+                </div>
+                <div>“${escapeHtml(content)}” ${suffix}</div>
+            `;
+        }
+
         function renderMessageItem(message, options = {}) {
             const scroller = document.getElementById('bullet-scroller');
             const div = document.createElement('div');
@@ -410,11 +436,9 @@
 
             const name = message.name || '26级萌新';
             const content = message.content || '';
-            const isNeon = name.includes('萌新');
-            const tagColorClass = isNeon ? 'text-yard-terracotta' : (name.includes('学长') || name.includes('学姐') ? 'text-yard-darkGreen' : 'text-yard-wood');
             const suffix = options.justNow ? '<span class="text-yard-terracotta text-[9px] ml-1.5 font-bold">刚刚发布</span>' : '';
 
-            div.innerHTML = `<span class="font-bold ${tagColorClass}">#${escapeHtml(name)}</span> “${escapeHtml(content)}” ${suffix}`;
+            div.innerHTML = buildBulletMarkup(name, content, message.created_at, suffix);
             scroller.appendChild(div);
 
             requestAnimationFrame(() => {
