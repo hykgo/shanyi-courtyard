@@ -20,7 +20,6 @@
             
             // Set initial state selectors
             selectIdentity('26级萌新');
-            startMockBulletFlow();
             loadMessages();
             
             // Initiate polaroid swipe listeners
@@ -387,39 +386,17 @@
         }
 
         // Bullet Wall scroller
-        function startMockBulletFlow() {
+        function renderEmptyMessageState() {
             const scroller = document.getElementById('bullet-scroller');
-            const additionalBullets = [
-                { id: '26级萌新', text: '“平邑文艺小院听说都是葵花，好想带个速写本画上一整天！”' },
-                { id: '知心学姐', text: '“这里的落日跟手冲茶极配，你会爱上山艺的静谧时光。”' },
-                { id: '驻院艺术家', text: '“泥土与星空才是真正的画布，在这里，我们离自由很近。”' },
-                { id: '温暖学长', text: '“别担心开学。小院里的风，早已吹暖了你前行的路。”' }
-            ];
-            
-            let bulletIndex = 0;
-            setInterval(() => {
-                const bullet = additionalBullets[bulletIndex];
-                
-                const div = document.createElement('div');
-                div.className = "bullet-item text-[11px] bg-white/70 p-3 rounded-xl border border-yard-lightGreen/30 shadow-xs text-yard-charcoal/90 leading-relaxed tracking-wider transition-all opacity-0 -translate-y-2";
-                
-                div.innerHTML = buildBulletMarkup(bullet.id, bullet.text.replace(/^“|”$/g, ''), new Date().toISOString());
-                
-                scroller.appendChild(div);
-                
-                setTimeout(() => {
-                    div.classList.remove('opacity-0', '-translate-y-2');
-                    div.classList.add('opacity-100', 'translate-y-0');
-                }, 10);
-                
-                scroller.scrollTop = scroller.scrollHeight;
-                
-                if(scroller.children.length > 18) {
-                    scroller.children[0].remove();
-                }
-                
-                bulletIndex = (bulletIndex + 1) % additionalBullets.length;
-            }, 3800);
+            if (!scroller) return;
+
+            scroller.innerHTML = `
+                <div id="message-empty-state" class="h-full min-h-64 flex flex-col items-center justify-center text-center px-6 text-yard-charcoal/45">
+                    <i class="fas fa-envelope-open-text text-2xl text-yard-lightGreen mb-4"></i>
+                    <p class="text-xs font-bold tracking-[0.18em] text-yard-darkGreen/70">还没有真实来信</p>
+                    <p class="mt-2 text-[11px] leading-relaxed tracking-wider">第一封小院短笺，等你写下。</p>
+                </div>
+            `;
         }
 
         function escapeHtml(value) {
@@ -493,7 +470,10 @@
 
                 const data = await response.json();
                 const messages = Array.isArray(data.messages) ? data.messages : [];
-                if (!messages.length) return;
+                if (!messages.length) {
+                    renderEmptyMessageState();
+                    return;
+                }
 
                 const scroller = document.getElementById('bullet-scroller');
                 scroller.innerHTML = '';
