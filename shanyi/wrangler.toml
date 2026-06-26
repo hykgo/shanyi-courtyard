@@ -5,4 +5,4 @@ pages_build_output_dir = "public"
 [[d1_databases]]
 binding = "DB"
 database_name = "shanyi_messages"
-database_id = "c277957c-033b-4f28-b148-b1f0b3ef5950"
+database_id = "c277957c-03bb-4f28-b148-b1f0b3ef5950"
