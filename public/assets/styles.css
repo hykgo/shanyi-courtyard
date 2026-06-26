@@ -8,8 +8,8 @@ html {
         }
         
         body {
-            background-color: #FAF7F2;
-            background-image: radial-gradient(rgba(195, 161, 121, 0.08) 1px, transparent 0);
+            background-color: #133720;
+            background-image: radial-gradient(rgba(210, 181, 143, 0.08) 1px, transparent 0);
             background-size: 24px 24px;
         }
 
@@ -112,7 +112,7 @@ html {
 
         /* Flowing premium golden gradient for primary buttons */
         .gold-gradient-btn {
-            background: linear-gradient(135deg, #1F3E29, #315F40, #CBB191, #1F3E29);
+            background: linear-gradient(135deg, #173D25, #21492E, #D2B58F, #173D25);
             background-size: 300% 300%;
             animation: elegantGradient 10s ease infinite;
         }
@@ -130,11 +130,11 @@ html {
 
         @keyframes breatheGlow {
             0%, 100% { 
-                box-shadow: 0 0 0 0 rgba(195, 161, 121, 0.3); 
+                box-shadow: 0 0 0 0 rgba(210, 181, 143, 0.3); 
                 transform: scale(1);
             }
             50% { 
-                box-shadow: 0 0 20px 6px rgba(195, 161, 121, 0.15); 
+                box-shadow: 0 0 20px 6px rgba(210, 181, 143, 0.15); 
                 transform: scale(1.02);
             }
         }
@@ -145,7 +145,7 @@ html {
             display: inline-block;
             width: 20px;
             height: 1px;
-            background: #CBB191;
+            background: #D2B58F;
             vertical-align: middle;
             margin: 0 10px;
             opacity: 0.7;
@@ -165,7 +165,7 @@ html {
 
         .petal {
             position: absolute;
-            background: linear-gradient(135deg, rgba(246, 234, 230, 0.8), rgba(217, 125, 100, 0.4));
+            background: linear-gradient(135deg, rgba(246, 239, 222, 0.72), rgba(143, 93, 73, 0.34));
             border-radius: 150% 0 150% 150%;
             transform-origin: left top;
             animation: fall linear infinite;
