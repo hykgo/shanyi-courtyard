@@ -1,0 +1,14 @@
+{
+  "name": "shanyi-courtyard",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler pages dev public --d1 DB=shanyi_messages",
+    "deploy": "wrangler pages deploy public",
+    "db:migrate:local": "wrangler d1 migrations apply shanyi_messages --local",
+    "db:migrate:remote": "wrangler d1 migrations apply shanyi_messages --remote"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}
