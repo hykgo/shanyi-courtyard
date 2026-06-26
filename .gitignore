@@ -1,0 +1,6 @@
+node_modules/
+.wrangler/
+.dev.vars
+
+# Source design files are not needed for Pages deployment.
+*.ai

@@ -20,33 +20,6 @@ function sanitizeText(value, maxLength) {
     .slice(0, maxLength);
 }
 
-async function verifyTurnstile(request, env, token) {
-  if (!env.TURNSTILE_SECRET_KEY) {
-    return { success: true, skipped: true };
-  }
-
-  if (!token) {
-    return { success: false, error: "missing-turnstile-token" };
-  }
-
-  const ip = request.headers.get("CF-Connecting-IP") || "";
-  const formData = new FormData();
-  formData.append("secret", env.TURNSTILE_SECRET_KEY);
-  formData.append("response", token);
-  if (ip) formData.append("remoteip", ip);
-
-  const response = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
-    method: "POST",
-    body: formData,
-  });
-
-  if (!response.ok) {
-    return { success: false, error: "turnstile-request-failed" };
-  }
-
-  return response.json();
-}
-
 async function hashIp(ip, salt) {
   if (!ip || !salt) return null;
   const bytes = new TextEncoder().encode(`${salt}:${ip}`);
@@ -88,15 +61,9 @@ export async function onRequestPost(context) {
 
   const name = sanitizeText(payload.name || "26级萌新", MAX_NAME_LENGTH);
   const content = sanitizeText(payload.content, MAX_CONTENT_LENGTH);
-  const token = payload.turnstileToken;
 
   if (!content) {
     return json({ error: "请先写下留言" }, { status: 400 });
-  }
-
-  const turnstile = await verifyTurnstile(request, env, token);
-  if (!turnstile.success) {
-    return json({ error: "人机验证失败，请稍后重试" }, { status: 403 });
   }
 
   const ip = request.headers.get("CF-Connecting-IP") || "";

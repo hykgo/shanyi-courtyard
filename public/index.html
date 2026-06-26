@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="turnstile-site-key" content="0x4AAAAAADrUsf1XouGuBmAW">
     <title>文艺小院 · 云端漫游</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -13,7 +12,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@300;400;600;900&family=ZCOOL+XiaoWei&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" defer></script>
     
     <script>
         tailwind.config = {
@@ -41,125 +39,7 @@
             }
         }
     </script>
-    <style>
-        html {
-            scroll-behavior: smooth;
-            -webkit-tap-highlight-color: transparent;
-        }
-        
-        ::-webkit-scrollbar {
-            display: none;
-        }
-        
-        body {
-            background-color: #FAF7F2;
-            background-image: radial-gradient(rgba(195, 161, 121, 0.08) 1px, transparent 0);
-            background-size: 24px 24px;
-        }
-
-        /* Silky Gate Transition */
-        .gate-transition {
-            transition: transform 1.5s cubic-bezier(0.25, 1, 0.5, 1);
-        }
-        
-        .fade-in-up {
-            animation: fadeInUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Polaroid Physics Wobble */
-        .polaroid-card {
-            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        /* Flowing premium golden gradient for primary buttons */
-        .gold-gradient-btn {
-            background: linear-gradient(135deg, #1F3E29, #315F40, #CBB191, #1F3E29);
-            background-size: 300% 300%;
-            animation: elegantGradient 10s ease infinite;
-        }
-
-        @keyframes elegantGradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* Poetic pulse glow reminiscent of gentle breathing */
-        .pulse-soft {
-            animation: breatheGlow 3s ease-in-out infinite;
-        }
-
-        @keyframes breatheGlow {
-            0%, 100% { 
-                box-shadow: 0 0 0 0 rgba(195, 161, 121, 0.3); 
-                transform: scale(1);
-            }
-            50% { 
-                box-shadow: 0 0 20px 6px rgba(195, 161, 121, 0.15); 
-                transform: scale(1.02);
-            }
-        }
-
-        /* Decorative Chinese scroll lines */
-        .scroll-line::before, .scroll-line::after {
-            content: '';
-            display: inline-block;
-            width: 20px;
-            height: 1px;
-            background: #CBB191;
-            vertical-align: middle;
-            margin: 0 10px;
-            opacity: 0.7;
-        }
-
-        /* Falling petal container styles */
-        #petal-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 5;
-            overflow: hidden;
-        }
-
-        .petal {
-            position: absolute;
-            background: linear-gradient(135deg, rgba(246, 234, 230, 0.8), rgba(217, 125, 100, 0.4));
-            border-radius: 150% 0 150% 150%;
-            transform-origin: left top;
-            animation: fall linear infinite;
-        }
-
-        @keyframes fall {
-            0% {
-                transform: translateY(-50px) rotate(0deg) scale(0.6);
-                opacity: 0;
-            }
-            10% {
-                opacity: 0.9;
-            }
-            90% {
-                opacity: 0.9;
-            }
-            100% {
-                transform: translateY(105vh) translateX(200px) rotate(360deg) scale(0.8);
-                opacity: 0;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="./assets/styles.css">
 </head>
 <body class="font-serif text-yard-charcoal overflow-x-hidden min-h-screen">
 
@@ -167,12 +47,12 @@
     <div id="petal-container"></div>
 
     <!-- MOON GATE OVERLAY (Traditional Chinese Courtyard Entrance) -->
-    <div id="gate-overlay" class="fixed inset-0 z-50 flex overflow-hidden bg-[#161B18] select-none">
+    <div id="gate-overlay" class="mist-gate fixed inset-0 z-50 flex overflow-hidden select-none">
         <!-- Left Wooden Gate with Moon Circular Grille -->
-        <div id="left-door" class="w-1/2 h-full bg-yard-darkGreen gate-transition flex justify-end items-center border-r border-[#1a2d21] relative">
+        <div id="left-door" class="mist-door mist-door-left w-1/2 h-full gate-transition flex justify-end items-center border-r border-white/45 relative">
             <!-- Moon Gate Frame & Intricate Lattice Left-Half -->
             <div class="absolute right-0 top-1/2 -translate-y-1/2 w-44 h-88 flex items-center justify-end overflow-hidden pointer-events-none">
-                <div class="w-72 h-72 rounded-full border-[8px] border-yard-wood/40 flex items-center justify-end translate-x-36 bg-gradient-to-r from-transparent to-yard-darkGreen/80 relative">
+                <div class="w-72 h-72 rounded-full border-[8px] border-yard-wood/35 flex items-center justify-end translate-x-36 bg-gradient-to-r from-transparent to-white/45 relative">
                     <!-- Laser-cut grid representation (窗棂) -->
                     <div class="absolute right-0 w-36 h-[2px] bg-yard-wood/20"></div>
                     <div class="absolute right-0 top-20 w-36 h-[1px] bg-yard-wood/20"></div>
@@ -183,7 +63,7 @@
             </div>
             <!-- Vintage Brass Ring Knocker -->
             <div class="absolute right-3 top-1/2 -translate-y-1/2 z-20 flex flex-col items-center">
-                <div class="w-10 h-10 rounded-full border-2 border-yard-wood flex items-center justify-center bg-yard-darkGreen/90 shadow-md">
+                <div class="w-10 h-10 rounded-full border-2 border-yard-wood flex items-center justify-center bg-white/65 backdrop-blur-sm shadow-md">
                     <div class="w-2 h-2 rounded-full bg-yard-wood"></div>
                 </div>
                 <div class="w-5 h-8 border-2 border-yard-wood rounded-b-full -mt-2 origin-top rotate-6"></div>
@@ -191,10 +71,10 @@
         </div>
         
         <!-- Right Wooden Gate with Moon Circular Grille -->
-        <div id="right-door" class="w-1/2 h-full bg-yard-darkGreen gate-transition flex justify-start items-center border-l border-[#1a2d21] relative">
+        <div id="right-door" class="mist-door mist-door-right w-1/2 h-full gate-transition flex justify-start items-center border-l border-white/45 relative">
             <!-- Moon Gate Frame & Intricate Lattice Right-Half -->
             <div class="absolute left-0 top-1/2 -translate-y-1/2 w-44 h-88 flex items-center justify-start overflow-hidden pointer-events-none">
-                <div class="w-72 h-72 rounded-full border-[8px] border-yard-wood/40 flex items-center justify-start -translate-x-36 bg-gradient-to-l from-transparent to-yard-darkGreen/80 relative">
+                <div class="w-72 h-72 rounded-full border-[8px] border-yard-wood/35 flex items-center justify-start -translate-x-36 bg-gradient-to-l from-transparent to-white/45 relative">
                     <!-- Lattice patterns -->
                     <div class="absolute left-0 w-36 h-[2px] bg-yard-wood/20"></div>
                     <div class="absolute left-0 top-20 w-36 h-[1px] bg-yard-wood/20"></div>
@@ -205,7 +85,7 @@
             </div>
             <!-- Vintage Brass Ring Knocker Right -->
             <div class="absolute left-3 top-1/2 -translate-y-1/2 z-20 flex flex-col items-center">
-                <div class="w-10 h-10 rounded-full border-2 border-yard-wood flex items-center justify-center bg-yard-darkGreen/90 shadow-md">
+                <div class="w-10 h-10 rounded-full border-2 border-yard-wood flex items-center justify-center bg-white/65 backdrop-blur-sm shadow-md">
                     <div class="w-2 h-2 rounded-full bg-yard-wood"></div>
                 </div>
                 <div class="w-5 h-8 border-2 border-yard-wood rounded-b-full -mt-2 origin-top -rotate-6"></div>
@@ -214,16 +94,19 @@
 
         <!-- Center Elegant Calligraphy HUD -->
         <div id="gate-hud" class="absolute inset-0 flex flex-col justify-center items-center text-center px-6 transition-opacity duration-1000 z-10 pointer-events-none">
-            <span class="text-yard-wood font-roman tracking-[0.5em] text-xs uppercase mb-4 block font-semibold">SHANDONG UNIVERSITY OF THE ARTS</span>
+            <div class="w-28 h-28 mb-4 flex items-center justify-center">
+                <img src="./assets/wenyi-logo-transparent.png" alt="文艺小院标志" class="w-full h-full object-contain">
+            </div>
+            <span class="text-yard-darkGreen/55 font-roman tracking-[0.5em] text-xs uppercase mb-4 block font-semibold">SHANDONG UNIVERSITY OF THE ARTS</span>
             
             <div class="w-1 h-12 bg-gradient-to-b from-transparent to-yard-wood my-2"></div>
-            <h1 class="font-brush text-5xl md:text-6xl text-yard-cream tracking-widest leading-relaxed mb-6 py-2">
+            <h1 class="font-brush text-5xl md:text-6xl text-yard-darkGreen tracking-widest leading-relaxed mb-6 py-2">
                 推开文艺小院
             </h1>
             <div class="w-10 h-10 rounded-full border border-yard-wood/30 flex items-center justify-center text-yard-wood mb-6">
                 <span class="font-accent text-lg">扉</span>
             </div>
-            <p class="text-yard-cream/80 text-xs tracking-[0.25em] mb-12 font-light italic">
+            <p class="text-yard-charcoal/65 text-xs tracking-[0.25em] mb-12 font-light italic">
                 “你还没有到山艺，但山艺已经在等你”
             </p>
             
@@ -232,7 +115,7 @@
                     轻抚叩门 漫游小院 <i class="fas fa-feather ml-1 text-xs"></i>
                 </button>
             </div>
-            <span class="text-yard-cream/30 text-[10px] mt-16 tracking-widest animate-pulse">
+            <span class="text-yard-darkGreen/35 text-[10px] mt-16 tracking-widest animate-pulse">
                 <i class="fas fa-fingerprint mr-1"></i> 触碰上方金钮，启扉观景
             </span>
         </div>
@@ -245,10 +128,12 @@
         <header class="relative px-6 pt-16 pb-12 overflow-hidden bg-gradient-to-b from-yard-lightGreen/40 to-transparent">
             <!-- Delicate Top Header -->
             <div class="flex justify-between items-center mb-10">
-                <div class="flex items-center space-x-2.5">
-                    <span class="w-2.5 h-2.5 rounded-full bg-yard-darkGreen animate-pulse"></span>
-                    <span class="w-1 h-1 rounded-full bg-yard-wood"></span>
-                    <span class="text-[11px] text-yard-darkGreen/90 font-accent tracking-[0.2em] font-semibold">山艺云端迎新 · 文艺小院</span>
+                <div class="flex items-center space-x-3 min-w-0">
+                    <img src="./assets/wenyi-logo-transparent.png" alt="文艺小院标志" class="w-16 h-16 object-contain shrink-0">
+                    <div class="flex flex-col min-w-0">
+                        <span class="text-[11px] text-yard-darkGreen/90 font-accent tracking-[0.18em] font-semibold truncate">文艺小院 · 山艺来信</span>
+                        <span class="text-[8px] text-yard-wood/90 font-roman tracking-[0.18em] uppercase">SDUA · Art Takes Root</span>
+                    </div>
                 </div>
                 <div class="text-[9px] px-2.5 py-1 border border-yard-wood/40 rounded-full text-yard-wood/90 tracking-widest font-roman font-bold">
                     MCMVIII
@@ -301,12 +186,12 @@
             <div class="text-center space-y-4">
                 <span class="scroll-line text-yard-wood text-xs tracking-[0.25em] font-accent uppercase">美美与共 · 艺无止境</span>
                 <h2 class="font-brush text-4xl md:text-5xl text-yard-darkGreen tracking-widest leading-relaxed py-2">
-                    “你还没有到山艺，<br>但山艺已经在等你”
+                    “以艺为光，<br>把美种进乡野与校园”
                 </h2>
                 <div class="w-8 h-[2px] bg-yard-wood mx-auto my-4"></div>
                 <p class="text-yard-charcoal/80 text-xs md:text-sm max-w-xs mx-auto leading-loose font-light tracking-widest">
-                    推开斑驳的院门，看微风穿过琴弦。<br>
-                    在温热泥土里耕种梦想，提前在此，遇见你的韶华时光。
+                    文艺小院，是山艺青年走进基层的流动美育课堂。<br>
+                    戏剧、舞蹈、戏曲、书法在这里相遇，让艺术有温度，让陪伴有回响。
                 </p>
             </div>
         </header>
@@ -336,8 +221,12 @@
                             <span>第一所文艺小院落地 🏡</span>
                             <span class="text-[10px] text-yard-wood font-normal">临沂平邑 <i class="fas fa-chevron-right text-[8px] ml-1"></i></span>
                         </h4>
-                        <div class="w-full h-24 bg-cover bg-center rounded-xl opacity-80 hover:opacity-100 transition-opacity" style="background-image: url('https://placehold.co/400x200/F0E9DF/2C5E43?text=Linyi+Pingyi');"></div>
-                        <p class="text-[10px] text-yard-charcoal/60 mt-2 tracking-widest leading-relaxed">美育赋能乡村，将创意泥巴捏刻成理想风骨，唤醒沂蒙山川的斑斓梦境。</p>
+                        <div class="w-full h-32 bg-cover bg-center rounded-xl opacity-90 hover:opacity-100 transition-opacity mb-3" style="background-image: url('./assets/story/image1.jpeg');"></div>
+                        <p class="text-[10px] text-yard-charcoal/70 tracking-widest leading-relaxed">校团委与平邑县共建“文艺小院”，青年学子在座谈交流中倾听基层声音，围绕音乐发声、戏曲传唱、舞蹈排演、小品制作等内容碰撞艺术火花。</p>
+                        <div class="flex flex-wrap gap-1.5 mt-3 text-[9px] text-yard-wood/90">
+                            <span class="px-2 py-1 bg-white/70 rounded-full">乡村文化振兴</span>
+                            <span class="px-2 py-1 bg-white/70 rounded-full">文艺志愿服务</span>
+                        </div>
                     </div>
                 </div>
 
@@ -350,8 +239,12 @@
                             <span>第二所文艺小院落地 🎨</span>
                             <span class="text-[10px] text-yard-wood font-normal">菏泽定陶 <i class="fas fa-chevron-right text-[8px] ml-1"></i></span>
                         </h4>
-                        <div class="w-full h-24 bg-cover bg-center rounded-xl opacity-80" style="background-image: url('https://placehold.co/400x200/F0E9DF/2C5E43?text=Heze+Dingtao');"></div>
-                        <p class="text-[10px] text-yard-charcoal/60 mt-2 tracking-widest leading-relaxed">非遗剪纸与当代新美育碰擦出绚丽花火，把斑斓斑驳的乡野染上诗一般的情怀。</p>
+                        <div class="w-full h-32 bg-cover bg-center rounded-xl opacity-90 hover:opacity-100 transition-opacity mb-3" style="background-image: url('./assets/story/image2.jpeg');"></div>
+                        <p class="text-[10px] text-yard-charcoal/70 tracking-widest leading-relaxed">在定陶区半堤镇，实践团走进“红映半堤”党建综合阵地，参与乡村振兴定点帮扶座谈，把文艺志愿服务与基层发展需求连在一起。</p>
+                        <div class="flex flex-wrap gap-1.5 mt-3 text-[9px] text-yard-wood/90">
+                            <span class="px-2 py-1 bg-white/70 rounded-full">红映半堤</span>
+                            <span class="px-2 py-1 bg-white/70 rounded-full">定点帮扶</span>
+                        </div>
                     </div>
                 </div>
 
@@ -364,8 +257,12 @@
                             <span>第三所文艺小院落地 🌸</span>
                             <span class="text-[10px] text-yard-wood font-normal">长清双泉 <i class="fas fa-chevron-right text-[8px] ml-1"></i></span>
                         </h4>
-                        <div class="w-full h-24 bg-cover bg-center rounded-xl opacity-80" style="background-image: url('https://placehold.co/400x200/F0E9DF/2C5E43?text=Changqing+Shuangquan');"></div>
-                        <p class="text-[10px] text-yard-charcoal/60 mt-2 tracking-widest leading-relaxed">春和景明处，溪流伴琴弦，在漫漫桃花坞底，开启属于艺术师徒的自然栖居。</p>
+                        <div class="w-full h-32 bg-cover bg-center rounded-xl opacity-90 hover:opacity-100 transition-opacity mb-3" style="background-image: url('./assets/story/image9.jpeg');"></div>
+                        <p class="text-[10px] text-yard-charcoal/70 tracking-widest leading-relaxed">校团委与长清区双泉镇共建的第三所乡村“文艺小院”在双泉中心小学挂牌。双方围绕艺术支教、社团共建、美育提质深入交流。</p>
+                        <div class="flex flex-wrap gap-1.5 mt-3 text-[9px] text-yard-wood/90">
+                            <span class="px-2 py-1 bg-white/70 rounded-full">艺术支教</span>
+                            <span class="px-2 py-1 bg-white/70 rounded-full">社团共建</span>
+                        </div>
                     </div>
                 </div>
 
@@ -378,8 +275,12 @@
                             <span>小院再添新阵地 🏛️</span>
                             <span class="text-[10px] text-yard-wood font-normal">山东省青少年宫 <i class="fas fa-chevron-right text-[8px] ml-1"></i></span>
                         </h4>
-                        <div class="w-full h-24 bg-cover bg-center rounded-xl opacity-80" style="background-image: url('https://placehold.co/400x200/F0E9DF/2C5E43?text=Youth+Palace');"></div>
-                        <p class="text-[10px] text-yard-charcoal/60 mt-2 tracking-widest leading-relaxed">艺术之光闪耀新阵营，联合少儿合唱与创意手作，燃亮纯真渴望美的心眼。</p>
+                        <div class="w-full h-32 bg-cover bg-center rounded-xl opacity-90 hover:opacity-100 transition-opacity mb-3" style="background-image: url('./assets/story/image12.png');"></div>
+                        <p class="text-[10px] text-yard-charcoal/70 tracking-widest leading-relaxed">山东省青少年宫“文艺小院”共建揭牌。校团委一行走访教室、排练厅与活动场地，围绕美育支教、文艺志愿服务与非遗传承铺开合作。</p>
+                        <div class="flex flex-wrap gap-1.5 mt-3 text-[9px] text-yard-wood/90">
+                            <span class="px-2 py-1 bg-white/70 rounded-full">美育共创</span>
+                            <span class="px-2 py-1 bg-white/70 rounded-full">非遗传承</span>
+                        </div>
                     </div>
                 </div>
 
@@ -392,11 +293,70 @@
                             <span>第四所文艺小院落地 🏫</span>
                             <span class="text-[10px] text-yard-wood font-normal">长清实验学校 <i class="fas fa-chevron-right text-[8px] ml-1"></i></span>
                         </h4>
-                        <div class="w-full h-24 bg-cover bg-center rounded-xl opacity-80" style="background-image: url('https://placehold.co/400x200/F0E9DF/2C5E43?text=University+City');"></div>
-                        <p class="text-[10px] text-yard-charcoal/60 mt-2 tracking-widest leading-relaxed">大中小学一体美育协同，将大学艺术养分滋润至嫩绿幼苗，共拓美学地平线。</p>
+                        <div class="w-full h-32 bg-cover bg-center rounded-xl opacity-90 hover:opacity-100 transition-opacity mb-3" style="background-image: url('./assets/story/image17.jpeg');"></div>
+                        <p class="text-[10px] text-yard-charcoal/70 tracking-widest leading-relaxed">校团委走进济南市长清大学城实验学校举行揭牌仪式。合唱、舞蹈、戏剧、管乐等社团成果与山艺专业资源相遇，开启“大手拉小手”的双向奔赴。</p>
+                        <div class="flex flex-wrap gap-1.5 mt-3 text-[9px] text-yard-wood/90">
+                            <span class="px-2 py-1 bg-white/70 rounded-full">课程辅导</span>
+                            <span class="px-2 py-1 bg-white/70 rounded-full">作品创排</span>
+                        </div>
                     </div>
                 </div>
 
+            </div>
+        </section>
+
+        <!-- CLASSROOM SECTION (种下美好) -->
+        <section class="px-6 py-12 bg-yard-cream/65 border-t border-yard-lightGreen/40 relative">
+            <div class="flex items-center space-x-3 mb-8">
+                <div class="p-2.5 bg-yard-darkGreen text-yard-cream rounded-full w-10 h-10 flex items-center justify-center shadow-md">
+                    <i class="fas fa-seedling text-xs"></i>
+                </div>
+                <div>
+                    <h3 class="font-bold text-base text-yard-darkGreen font-serif tracking-widest">种下美好 · 美育课堂</h3>
+                    <p class="text-[9px] text-yard-charcoal/40 uppercase tracking-[0.2em] font-roman">Art Classes With Young Volunteers</p>
+                </div>
+            </div>
+
+            <div class="bg-white/75 border border-yard-lightGreen/60 rounded-3xl p-5 mb-6 shadow-sm">
+                <span class="text-[10px] font-bold text-yard-wood tracking-[0.2em] font-roman block mb-2">SHUANGQUAN PRIMARY SCHOOL</span>
+                <h4 class="font-bold text-yard-darkGreen text-sm tracking-widest mb-3">八次奔赴，把艺术种进童心</h4>
+                <p class="text-[11px] text-yard-charcoal/75 leading-loose tracking-wider">
+                    从 4 月 9 日第一课到 6 月 11 日收官课，山艺“种下美好”文艺志愿服务团队持续走进双泉中心小学。戏剧、舞蹈、戏曲、书法四大社团陪伴孩子们练声音、舒展身体、触摸传统、安放心绪，让每一颗艺术的种子在校园里向阳生长。
+                </p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 mb-6">
+                <div class="bg-white/70 rounded-2xl border border-yard-lightGreen/50 p-4">
+                    <span class="text-yard-terracotta text-lg block mb-2"><i class="fas fa-theater-masks"></i></span>
+                    <h4 class="font-bold text-xs text-yard-darkGreen tracking-widest mb-1">戏剧社团</h4>
+                    <p class="text-[10px] text-yard-charcoal/65 leading-relaxed">从朗读、绕口令到即兴表演，让孩子敢开口、敢表达。</p>
+                </div>
+                <div class="bg-white/70 rounded-2xl border border-yard-lightGreen/50 p-4">
+                    <span class="text-yard-terracotta text-lg block mb-2"><i class="fas fa-person-running"></i></span>
+                    <h4 class="font-bold text-xs text-yard-darkGreen tracking-widest mb-1">舞蹈社团</h4>
+                    <p class="text-[10px] text-yard-charcoal/65 leading-relaxed">在节拍与舞步里舒展身姿，慢慢找回自在和自信。</p>
+                </div>
+                <div class="bg-white/70 rounded-2xl border border-yard-lightGreen/50 p-4">
+                    <span class="text-yard-terracotta text-lg block mb-2"><i class="fas fa-masks-theater"></i></span>
+                    <h4 class="font-bold text-xs text-yard-darkGreen tracking-widest mb-1">戏曲社团</h4>
+                    <p class="text-[10px] text-yard-charcoal/65 leading-relaxed">唱腔、身段、脸谱与折扇，把传统文化送到孩子身边。</p>
+                </div>
+                <div class="bg-white/70 rounded-2xl border border-yard-lightGreen/50 p-4">
+                    <span class="text-yard-terracotta text-lg block mb-2"><i class="fas fa-pen-nib"></i></span>
+                    <h4 class="font-bold text-xs text-yard-darkGreen tracking-widest mb-1">书法社团</h4>
+                    <p class="text-[10px] text-yard-charcoal/65 leading-relaxed">一横一竖端正书写，也在笔墨里沉淀耐心与心性。</p>
+                </div>
+            </div>
+
+            <div class="space-y-3">
+                <div class="flex gap-3 bg-white/65 rounded-2xl border border-yard-lightGreen/45 p-4">
+                    <span class="text-[10px] font-bold text-yard-wood font-roman shrink-0">05.15</span>
+                    <p class="text-[10px] text-yard-charcoal/70 leading-relaxed tracking-wider">“大手拉小手，一起学民法典”：把法治知识融进戏剧、戏曲、书法、舞蹈课堂，艺术润心，也让规则意识生根。</p>
+                </div>
+                <div class="flex gap-3 bg-white/65 rounded-2xl border border-yard-lightGreen/45 p-4">
+                    <span class="text-[10px] font-bold text-yard-wood font-roman shrink-0">06.02</span>
+                    <p class="text-[10px] text-yard-charcoal/70 leading-relaxed tracking-wider">大学城实验学校第一课：四支队伍、三门课程，山艺青年把戏剧表达、舞蹈感知与京剧启蒙带进新校园。</p>
+                </div>
             </div>
         </section>
 
@@ -418,41 +378,12 @@
                     <h4 class="text-xs font-bold text-yard-darkGreen tracking-widest flex items-center">
                         <span class="inline-block w-1 h-3 bg-yard-wood mr-1.5 rounded-full"></span>【翻阅】师生回忆相册
                     </h4>
-                    <span class="text-[9px] text-yard-charcoal/40 tracking-widest">左右滑动 / 轻点翻页</span>
+                    <span id="photo-counter" class="text-[9px] text-yard-charcoal/40 tracking-widest">1 / 102</span>
                 </div>
                 
                 <!-- Polaroid Canvas Container -->
                 <div class="relative h-72 flex justify-center items-center overflow-hidden bg-white/40 rounded-3xl border border-yard-lightGreen/50 py-3 shadow-inner">
                     <div id="photo-deck" class="relative w-48 h-60">
-                        <!-- Card 1 -->
-                        <div class="polaroid-card absolute inset-0 bg-[#FAF7F2] p-2.5 shadow-xl rounded-md border border-gray-100 flex flex-col justify-between transform rotate-2 z-30" data-index="0">
-                            <div class="w-full h-40 bg-cover bg-center rounded-sm bg-gray-50 flex items-center justify-center text-xs text-gray-400 border border-gray-200/20" style="background-image: url('https://placehold.co/300x300/FCFAF2/1F3E29?text=Rural+Fair');">
-                                🎨
-                            </div>
-                            <div class="text-center font-brush text-base text-yard-darkGreen/90 py-1.5 tracking-wider">
-                                小院微风，画笔滚烫
-                            </div>
-                        </div>
-
-                        <!-- Card 2 -->
-                        <div class="polaroid-card absolute inset-0 bg-[#FAF7F2] p-2.5 shadow-xl rounded-md border border-gray-100 flex flex-col justify-between transform -rotate-3 z-20 opacity-90 translate-x-3" data-index="1">
-                            <div class="w-full h-40 bg-cover bg-center rounded-sm bg-gray-50 flex items-center justify-center text-xs text-gray-400 border border-gray-200/20" style="background-image: url('https://placehold.co/300x300/FCFAF2/1F3E29?text=Sunset+Jam');">
-                                🎸
-                            </div>
-                            <div class="text-center font-brush text-base text-yard-darkGreen/90 py-1.5 tracking-wider">
-                                落日琴弦，清澈晚风
-                            </div>
-                        </div>
-
-                        <!-- Card 3 -->
-                        <div class="polaroid-card absolute inset-0 bg-[#FAF7F2] p-2.5 shadow-xl rounded-md border border-gray-100 flex flex-col justify-between transform rotate-4 z-10 opacity-80 translate-y-1.5" data-index="2">
-                            <div class="w-full h-40 bg-cover bg-center rounded-sm bg-gray-50 flex items-center justify-center text-xs text-gray-400 border border-gray-200/20" style="background-image: url('https://placehold.co/300x300/FCFAF2/1F3E29?text=Poem+Salon');">
-                                📖
-                            </div>
-                            <div class="text-center font-brush text-base text-yard-darkGreen/90 py-1.5 tracking-wider">
-                                树下读书，诗野悠长
-                            </div>
-                        </div>
                     </div>
                     
                     <!-- Beautiful Mini Arrow Toggles -->
@@ -521,15 +452,23 @@
             </div>
 
             <!-- Flowing Bulletin message board -->
-            <div class="mb-8 bg-yard-cream/55 p-5 rounded-3xl border border-yard-lightGreen/50 min-h-40 relative overflow-hidden flex flex-col justify-between">
+            <div class="mb-8 bg-yard-cream/55 p-5 rounded-3xl border border-yard-lightGreen/50 min-h-[22rem] relative overflow-hidden flex flex-col justify-between">
                 <span class="text-[9px] text-yard-wood/80 absolute right-4 top-3.5 tracking-[0.2em] font-roman">COZY BULLETIN BOARD</span>
-                <div id="bullet-scroller" class="space-y-4 pr-1 select-none relative h-32 overflow-hidden">
+                <div id="bullet-scroller" class="space-y-3 pr-1 select-none relative h-80 overflow-y-auto overscroll-contain">
                     <!-- Initial seeds -->
                     <div class="bullet-item text-[11px] bg-white/70 p-3 rounded-xl border border-yard-lightGreen/30 shadow-xs text-yard-charcoal/90 leading-relaxed tracking-wider">
-                        <span class="font-bold text-yard-terracotta mr-1">#26级萌新</span> “双泉小院桃花盛开时，能邀学姐一起去看写生吗？”
+                        <div class="flex items-center justify-between gap-3 mb-1">
+                            <span class="font-bold text-yard-terracotta">#26级萌新</span>
+                            <span class="text-[9px] text-yard-charcoal/35 font-roman tracking-[0.12em] shrink-0">今日 09:18</span>
+                        </div>
+                        <div>“双泉小院桃花盛开时，能邀学姐一起去看写生吗？”</div>
                     </div>
                     <div class="bullet-item text-[11px] bg-white/70 p-3 rounded-xl border border-yard-lightGreen/30 shadow-xs text-yard-charcoal/90 leading-relaxed tracking-wider">
-                        <span class="font-bold text-yard-darkGreen mr-1">#治愈学长</span> “美不一定在美术馆，在大地上染泥土的鞋底，同样无比美丽。”
+                        <div class="flex items-center justify-between gap-3 mb-1">
+                            <span class="font-bold text-yard-darkGreen">#治愈学长</span>
+                            <span class="text-[9px] text-yard-charcoal/35 font-roman tracking-[0.12em] shrink-0">今日 10:42</span>
+                        </div>
+                        <div>“美不一定在美术馆，在大地上染泥土的鞋底，同样无比美丽。”</div>
                     </div>
                 </div>
             </div>
@@ -562,8 +501,6 @@
                 </div>
 
                 <!-- Custom styled premium button with golden shifting gradients -->
-                <div id="turnstile-widget" class="flex justify-center min-h-[1px]"></div>
-
                 <button id="submit-message-btn" onclick="submitMessage()" class="w-full py-4 gold-gradient-btn text-yard-cream rounded-2xl font-bold tracking-[0.2em] shadow-lg hover:brightness-105 active:scale-[0.98] transition-all flex items-center justify-center space-x-2 text-xs">
                     <i class="fas fa-feather-alt text-[10px]"></i>
                     <span>一键雕刻山艺专属明信片</span>
@@ -572,12 +509,14 @@
         </section>
 
         <!-- SYSTEM FOOTER -->
-        <footer class="mt-auto px-6 py-10 border-t border-yard-lightGreen/20 text-center space-y-4 bg-gradient-to-t from-yard-lightGreen/15 to-transparent">
-            <span class="font-brush text-2xl text-yard-darkGreen tracking-widest">山东艺术学院 · 文艺小院 🕊️</span>
-            <p class="text-[9px] text-yard-charcoal/40 tracking-[0.25em] leading-loose">
-                © 2026 山东艺术学院云漫游 H5 开发工作坊部<br>
-                推开朱扉，让艺术与青春在田野间野蛮生长
-            </p>
+        <footer class="mt-auto px-6 py-10 border-t border-yard-lightGreen/20 bg-gradient-to-t from-yard-lightGreen/15 to-transparent">
+            <div class="flex items-center justify-center gap-3">
+                <p class="text-[9px] text-yard-charcoal/40 tracking-[0.25em] leading-loose text-left">
+                    © 2026 山东艺术学院云漫游 H5 开发工作坊部<br>
+                    推开朱扉，让艺术与青春在田野间野蛮生长
+                </p>
+                <img src="./assets/wenyi-logo-transparent.png" alt="文艺小院标志" class="w-12 h-12 object-contain shrink-0">
+            </div>
         </footer>
 
     </div>
@@ -640,822 +579,6 @@
         <span id="toast-text">消息提示</span>
     </div>
 
-    <script>
-        /* GLOBAL SYSTEM STATE */
-        let activeIdentity = '26级萌新';
-        let currentPhotoIndex = 0;
-        let audioContext = null;
-        let synthInterval = null;
-        let isMusicPlaying = false;
-        let turnstileWidgetId = null;
-        let isSubmittingMessage = false;
-        
-        // Window on-load
-        window.onload = function() {
-            // Spawn subtle falling elements across screen
-            spawnPetalsLoop();
-            
-            // Set initial state selectors
-            selectIdentity('26级萌新');
-            startMockBulletFlow();
-            loadMessages();
-            initTurnstile();
-            
-            // Initiate polaroid swipe listeners
-            initPolaroidSwipe();
-        };
-
-        // Elegant gate sliding with CSS Spring and Delay
-        function openTheGate() {
-            const leftDoor = document.getElementById('left-door');
-            const rightDoor = document.getElementById('right-door');
-            const gateHud = document.getElementById('gate-hud');
-            const gateOverlay = document.getElementById('gate-overlay');
-            const mainContent = document.getElementById('main-content');
-            
-            gateHud.style.opacity = '0';
-            
-            leftDoor.style.transform = 'translateX(-100%)';
-            rightDoor.style.transform = 'translateX(100%)';
-            
-            mainContent.classList.remove('opacity-0');
-            mainContent.classList.add('opacity-100');
-            
-            setTimeout(() => {
-                gateOverlay.style.display = 'none';
-                showToast('✨ 扉门大启，伴风而行 ✨', 'fa-moon');
-            }, 1500);
-        }
-
-        // Custom Toast system
-        function showToast(message, iconName = 'fa-feather') {
-            const toast = document.getElementById('toast');
-            const text = document.getElementById('toast-text');
-            const icon = document.getElementById('toast-icon');
-            
-            text.innerText = message;
-            icon.className = `fas ${iconName} text-yard-wood`;
-            
-            toast.style.opacity = '1';
-            toast.style.transform = 'translate(-50%, -12px)';
-            
-            setTimeout(() => {
-                toast.style.opacity = '0';
-                toast.style.transform = 'translate(-50%, 0)';
-            }, 2500);
-        }
-
-        // Timeline dataset
-        const timelineData = [
-            {
-                date: '2025年7月7日 · 临沂平邑',
-                title: '第一所文艺小院落地 🏡',
-                desc: '落子沂蒙山村。师生利用当地自然黏土材料，现场雕砌具有山乡气度的艺术创客工作室，启动首个非遗美育与大地写生夏令营。艺术不再只是宣纸上的笔墨，更是与土地并肩呼吸的温度。',
-                img: 'https://placehold.co/600x400/F0E9DF/2C5E43?text=Pingyi+Artistic+Courtyard'
-            },
-            {
-                date: '2025年7月8日 · 菏泽定陶',
-                title: '第二所文艺小院落地 🎨',
-                desc: '在牡丹深处探寻齐鲁民俗气脉。结合定陶鲁西南剪纸、非物质陶艺工艺，师生协力开辟少儿公益第二课堂，为乡村孩子建造了一所“没有围墙的自然美术院落”，将大山黄土浸润斑斓创意。',
-                img: 'https://placehold.co/600x400/F0E9DF/2C5E43?text=Dingtao+Artistic+Courtyard'
-            },
-            {
-                date: '2026年4月1日 · 长清双泉',
-                title: '第三所文艺小院落地 🌸',
-                desc: '水波激荡处，樱花正怒放。长清双泉小院定位为“写生孵化与生态文旅实践地”。驻院艺术家以此山野为纸，引风拨弹琴弦，构建诗意美学研学环带，将田间闲置民居化作新中式精神桃花坞。',
-                img: 'https://placehold.co/600x400/F0E9DF/2C5E43?text=Shuangquan+Artistic+Courtyard'
-            },
-            {
-                date: '2026年4月17日 · 山东省青少年宫',
-                title: '文艺小院再添新阵地 🏛️',
-                desc: '山艺文艺风采进驻少年宫，共同孵化“大美育少儿先锋合唱基地”。在这里，老中青艺术家代际相传，举行常态化周末草坪合唱会和陶塑文创实践节，打造触手可及的都市美学温室。',
-                img: 'https://placehold.co/600x400/F0E9DF/2C5E43?text=Youth+Palace+Courtyard'
-            },
-            {
-                date: '2026年5月27日 · 长清大学城实验学校',
-                title: '第四所文艺小院落地 🏫',
-                desc: '携手构建高品质大学实验美育新校落。通过非遗文化互动展览、乐器现场演出及先锋绘画涂鸦，实现大、中、小学一体融合。将艺术的火种播种给未来之树，在校园激发起艺术浪漫狂想。',
-                img: 'https://placehold.co/600x400/F0E9DF/2C5E43?text=University+Artistic+Courtyard'
-            }
-        ];
-
-        function openTimelineModal(index) {
-            const data = timelineData[index];
-            document.getElementById('modal-date').innerText = data.date;
-            document.getElementById('modal-title').innerText = data.title;
-            document.getElementById('modal-desc').innerText = data.desc;
-            document.getElementById('modal-image').style.backgroundImage = `url('${data.img}')`;
-            
-            const modal = document.getElementById('timeline-modal');
-            const inner = modal.querySelector('div');
-            
-            modal.classList.remove('pointer-events-none');
-            modal.classList.add('opacity-100');
-            inner.classList.remove('scale-90');
-            inner.classList.add('scale-100');
-        }
-
-        function closeTimelineModal() {
-            const modal = document.getElementById('timeline-modal');
-            const inner = modal.querySelector('div');
-            
-            modal.classList.add('pointer-events-none');
-            modal.classList.remove('opacity-100');
-            inner.classList.add('scale-90');
-            inner.classList.remove('scale-100');
-        }
-
-        // Polaroid card deck transformations
-        const polaroids = document.querySelectorAll('.polaroid-card');
-        
-        function updatePolaroidStack() {
-            polaroids.forEach((card, i) => {
-                let offset = i - currentPhotoIndex;
-                if (offset < 0) {
-                    offset += polaroids.length;
-                }
-                
-                if (offset === 0) {
-                    card.style.transform = 'translate3d(0, 0, 0) rotate(1deg) scale(1)';
-                    card.style.opacity = '1';
-                    card.style.zIndex = '30';
-                } else if (offset === 1) {
-                    card.style.transform = 'translate3d(14px, 10px, 0) rotate(-5deg) scale(0.95)';
-                    card.style.opacity = '0.85';
-                    card.style.zIndex = '20';
-                } else {
-                    card.style.transform = 'translate3d(-12px, 14px, 0) rotate(4deg) scale(0.9)';
-                    card.style.opacity = '0.7';
-                    card.style.zIndex = '10';
-                }
-            });
-        }
-
-        function nextPhoto() {
-            currentPhotoIndex = (currentPhotoIndex + 1) % polaroids.length;
-            updatePolaroidStack();
-        }
-
-        function prevPhoto() {
-            currentPhotoIndex = (currentPhotoIndex - 1 + polaroids.length) % polaroids.length;
-            updatePolaroidStack();
-        }
-
-        function initPolaroidSwipe() {
-            const deck = document.getElementById('photo-deck');
-            let startX = 0;
-            let currentX = 0;
-
-            deck.addEventListener('touchstart', (e) => {
-                startX = e.touches[0].clientX;
-            }, {passive: true});
-
-            deck.addEventListener('touchmove', (e) => {
-                currentX = e.touches[0].clientX;
-            }, {passive: true});
-
-            deck.addEventListener('touchend', () => {
-                const diff = startX - currentX;
-                if (Math.abs(diff) > 40) {
-                    if (diff > 0) nextPhoto();
-                    else prevPhoto();
-                }
-                startX = 0;
-                currentX = 0;
-            });
-            
-            updatePolaroidStack();
-        }
-
-        // Ambient sound synthesiser engine (With built-in Delay Feedback Loop for huge spatial resonance)
-        const poemLines = [
-            '"山前微风起，我们在文艺小院等你"',
-            '"竹影扫阶尘不动，心弦一抚曲自生"',
-            '"在大地写就诗行，用笔尖温润这山河风貌"',
-            '"暮钟敲碎林梢，看落日余晖点燃金色琴键"',
-            '"泉声漫进轩窗，弹奏出美院少年独有的梦"'
-        ];
-        let poemIndex = 0;
-
-        function toggleSynthMusic() {
-            if (isMusicPlaying) {
-                stopAmbientMusic();
-            } else {
-                startAmbientMusic();
-            }
-        }
-
-        function startAmbientMusic() {
-            try {
-                if (!audioContext) {
-                    audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                }
-                
-                if (audioContext.state === 'suspended') {
-                    audioContext.resume();
-                }
-                
-                isMusicPlaying = true;
-                document.getElementById('play-icon').className = "fas fa-pause text-xs text-yard-wood";
-                document.getElementById('player-indicator').classList.remove('opacity-0');
-                document.getElementById('player-indicator').classList.add('opacity-100');
-                document.getElementById('track-title').innerText = "🔊 治愈风雅和弦 · 空灵声学播放中";
-                
-                // Traditional Pentatonic Scale chords (C G C E / A E A C / F C F A / G D G B)
-                const chordProgression = [
-                    [130.81, 196.00, 261.63, 329.63], 
-                    [110.00, 164.81, 220.00, 261.63], 
-                    [87.31, 130.81, 174.61, 220.00],  
-                    [98.00, 146.83, 196.00, 246.94]   
-                ];
-                let chordStep = 0;
-
-                // Create feedback delay system for spacious wabi-sabi echo
-                const mainDelay = audioContext.createDelay(1.0);
-                mainDelay.delayTime.setValueAtTime(0.45, audioContext.currentTime);
-
-                const delayFeedback = audioContext.createGain();
-                delayFeedback.gain.setValueAtTime(0.4, audioContext.currentTime);
-
-                mainDelay.connect(delayFeedback);
-                delayFeedback.connect(mainDelay); // closed feedback loop
-                
-                const delayGain = audioContext.createGain();
-                delayGain.gain.setValueAtTime(0.08, audioContext.currentTime);
-                mainDelay.connect(delayGain);
-                delayGain.connect(audioContext.destination);
-
-                function playWarmPluck(freq, delaySec, duration = 3.5) {
-                    const osc = audioContext.createOscillator();
-                    const gainNode = audioContext.createGain();
-                    
-                    osc.type = 'triangle';
-                    osc.frequency.setValueAtTime(freq, audioContext.currentTime + delaySec);
-                    
-                    // Gentle envelope curve
-                    gainNode.gain.setValueAtTime(0, audioContext.currentTime + delaySec);
-                    gainNode.gain.linearRampToValueAtTime(0.07, audioContext.currentTime + delaySec + 0.12);
-                    gainNode.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + delaySec + duration);
-                    
-                    // Warm lowpass filter to emulate wood instrument resonate
-                    const filter = audioContext.createBiquadFilter();
-                    filter.type = 'lowpass';
-                    filter.frequency.setValueAtTime(550, audioContext.currentTime + delaySec);
-                    
-                    osc.connect(filter);
-                    filter.connect(gainNode);
-                    
-                    // Direct to out & feedback line
-                    gainNode.connect(audioContext.destination);
-                    gainNode.connect(mainDelay);
-                    
-                    osc.start(audioContext.currentTime + delaySec);
-                    osc.stop(audioContext.currentTime + delaySec + duration + 0.5);
-                }
-
-                function playWindChime() {
-                    const randomFreq = 950 + Math.random() * 1100;
-                    const delay = Math.random() * 3.2;
-                    
-                    const osc = audioContext.createOscillator();
-                    const gainNode = audioContext.createGain();
-                    
-                    osc.type = 'sine';
-                    osc.frequency.setValueAtTime(randomFreq, audioContext.currentTime + delay);
-                    
-                    gainNode.gain.setValueAtTime(0, audioContext.currentTime + delay);
-                    gainNode.gain.linearRampToValueAtTime(0.02, audioContext.currentTime + delay + 0.05);
-                    gainNode.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + delay + 1.6);
-                    
-                    osc.connect(gainNode);
-                    gainNode.connect(audioContext.destination);
-                    gainNode.connect(mainDelay);
-                    
-                    osc.start(audioContext.currentTime + delay);
-                    osc.stop(audioContext.currentTime + delay + 2.0);
-                }
-
-                // 4 seconds interval step sequencer
-                function tickMusic() {
-                    const chord = chordProgression[chordStep];
-                    chord.forEach((freq, idx) => {
-                        // Spread notes for arpeggio warmth
-                        playWarmPluck(freq, idx * 0.18);
-                    });
-                    
-                    playWindChime();
-                    if(Math.random() > 0.45) playWindChime();
-                    
-                    chordStep = (chordStep + 1) % chordProgression.length;
-
-                    // Poem subtitle rotation
-                    poemIndex = (poemIndex + 1) % poemLines.length;
-                    const scrollingPoem = document.getElementById('scrolling-poem');
-                    scrollingPoem.style.transform = 'translateY(-20px)';
-                    scrollingPoem.style.opacity = '0';
-                    setTimeout(() => {
-                        scrollingPoem.innerText = poemLines[poemIndex];
-                        scrollingPoem.style.transform = 'translateY(20px)';
-                        setTimeout(() => {
-                            scrollingPoem.style.transform = 'translateY(0)';
-                            scrollingPoem.style.opacity = '1';
-                        }, 50);
-                    }, 400);
-                }
-
-                tickMusic();
-                synthInterval = setInterval(tickMusic, 4200);
-                showToast('🎻 竹风和弦电台开始低吟...', 'fa-music');
-                
-            } catch(e) {
-                console.warn(e);
-                showToast('设备不支持原生声学合成器', 'fa-volume-mute');
-            }
-        }
-
-        function stopAmbientMusic() {
-            isMusicPlaying = false;
-            if (synthInterval) clearInterval(synthInterval);
-            document.getElementById('play-icon').className = "fas fa-play text-xs translate-x-0.5 text-yard-wood";
-            document.getElementById('player-indicator').classList.remove('opacity-100');
-            document.getElementById('player-indicator').classList.add('opacity-0');
-            document.getElementById('track-title').innerText = "山前微风吟 · 自然和弦 (已暂停)";
-            showToast('🎵 电台已合弦收回', 'fa-volume-mute');
-        }
-
-        // Identity Selector Highlight
-        function selectIdentity(identityName) {
-            activeIdentity = identityName;
-            
-            const tags = document.querySelectorAll('.identity-tag');
-            tags.forEach(tag => {
-                if (tag.innerText.trim() === identityName) {
-                    tag.classList.add('bg-yard-darkGreen', 'text-yard-cream', 'border-transparent');
-                    tag.classList.remove('bg-yard-cream', 'text-yard-charcoal/80', 'border-yard-wood/40');
-                } else {
-                    tag.classList.remove('bg-yard-darkGreen', 'text-yard-cream', 'border-transparent');
-                    tag.classList.add('bg-yard-cream', 'text-yard-charcoal/80', 'border-yard-wood/40');
-                }
-            });
-        }
-
-        // Bullet Wall scroller
-        function startMockBulletFlow() {
-            const scroller = document.getElementById('bullet-scroller');
-            const additionalBullets = [
-                { id: '26级萌新', text: '“平邑文艺小院听说都是葵花，好想带个速写本画上一整天！”' },
-                { id: '知心学姐', text: '“这里的落日跟手冲茶极配，你会爱上山艺的静谧时光。”' },
-                { id: '驻院艺术家', text: '“泥土与星空才是真正的画布，在这里，我们离自由很近。”' },
-                { id: '温暖学长', text: '“别担心开学。小院里的风，早已吹暖了你前行的路。”' }
-            ];
-            
-            let bulletIndex = 0;
-            setInterval(() => {
-                const bullet = additionalBullets[bulletIndex];
-                
-                const div = document.createElement('div');
-                div.className = "bullet-item text-[11px] bg-white/70 p-3 rounded-xl border border-yard-lightGreen/30 shadow-xs text-yard-charcoal/90 leading-relaxed tracking-wider transition-all opacity-0 -translate-y-2";
-                
-                const isNeon = bullet.id.includes('萌新');
-                const tagColorClass = isNeon ? 'text-yard-terracotta' : (bullet.id.includes('学长') || bullet.id.includes('学姐') ? 'text-yard-darkGreen' : 'text-yard-wood');
-                
-                div.innerHTML = `<span class="font-bold ${tagColorClass}">#${bullet.id}</span> ${bullet.text}`;
-                
-                scroller.appendChild(div);
-                
-                setTimeout(() => {
-                    div.classList.remove('opacity-0', '-translate-y-2');
-                    div.classList.add('opacity-100', 'translate-y-0');
-                }, 10);
-                
-                scroller.scrollTop = scroller.scrollHeight;
-                
-                if(scroller.children.length > 5) {
-                    scroller.children[0].remove();
-                }
-                
-                bulletIndex = (bulletIndex + 1) % additionalBullets.length;
-            }, 3800);
-        }
-
-        function escapeHtml(value) {
-            return String(value || '').replace(/[&<>"']/g, (char) => ({
-                '&': '&amp;',
-                '<': '&lt;',
-                '>': '&gt;',
-                '"': '&quot;',
-                "'": '&#39;'
-            }[char]));
-        }
-
-        function renderMessageItem(message, options = {}) {
-            const scroller = document.getElementById('bullet-scroller');
-            const div = document.createElement('div');
-            div.className = "bullet-item text-[11px] bg-white/70 p-3 rounded-xl border border-yard-lightGreen/30 shadow-xs text-yard-charcoal/90 leading-relaxed tracking-wider transition-all opacity-0 scale-95";
-
-            const name = message.name || '26级萌新';
-            const content = message.content || '';
-            const isNeon = name.includes('萌新');
-            const tagColorClass = isNeon ? 'text-yard-terracotta' : (name.includes('学长') || name.includes('学姐') ? 'text-yard-darkGreen' : 'text-yard-wood');
-            const suffix = options.justNow ? '<span class="text-yard-terracotta text-[9px] ml-1.5 font-bold">刚刚发布</span>' : '';
-
-            div.innerHTML = `<span class="font-bold ${tagColorClass}">#${escapeHtml(name)}</span> “${escapeHtml(content)}” ${suffix}`;
-            scroller.appendChild(div);
-
-            requestAnimationFrame(() => {
-                div.classList.remove('opacity-0', 'scale-95');
-                div.classList.add('opacity-100', 'scale-100');
-                scroller.scrollTop = scroller.scrollHeight;
-            });
-
-            while (scroller.children.length > 30) {
-                scroller.children[0].remove();
-            }
-        }
-
-        async function loadMessages() {
-            try {
-                const response = await fetch('/api/messages?limit=30', {
-                    headers: { 'accept': 'application/json' }
-                });
-                if (!response.ok) return;
-
-                const data = await response.json();
-                const messages = Array.isArray(data.messages) ? data.messages : [];
-                if (!messages.length) return;
-
-                const scroller = document.getElementById('bullet-scroller');
-                scroller.innerHTML = '';
-                messages.forEach((message) => renderMessageItem(message));
-            } catch (error) {
-                console.warn('Failed to load messages', error);
-            }
-        }
-
-        function initTurnstile() {
-            const siteKey = document.querySelector('meta[name="turnstile-site-key"]')?.content?.trim();
-            const widget = document.getElementById('turnstile-widget');
-            if (!siteKey || !widget) return;
-
-            const render = () => {
-                if (!window.turnstile || turnstileWidgetId !== null) return;
-                turnstileWidgetId = window.turnstile.render(widget, {
-                    sitekey: siteKey,
-                    size: 'compact'
-                });
-            };
-
-            if (window.turnstile) {
-                render();
-            } else {
-                window.addEventListener('load', render, { once: true });
-                setTimeout(render, 1200);
-            }
-        }
-
-        function getTurnstileToken() {
-            const siteKey = document.querySelector('meta[name="turnstile-site-key"]')?.content?.trim();
-            if (!siteKey) return '';
-            if (!window.turnstile || turnstileWidgetId === null) return '';
-            return window.turnstile.getResponse(turnstileWidgetId);
-        }
-
-        function resetTurnstile() {
-            if (window.turnstile && turnstileWidgetId !== null) {
-                window.turnstile.reset(turnstileWidgetId);
-            }
-        }
-
-        async function submitMessage() {
-            if (isSubmittingMessage) return;
-
-            const textarea = document.getElementById('message-input');
-            const message = textarea.value.trim();
-            if (!message) {
-                showToast('写下你的短笺后再发布吧', 'fa-pen-fancy');
-                return;
-            }
-
-            const siteKey = document.querySelector('meta[name="turnstile-site-key"]')?.content?.trim();
-            const turnstileToken = getTurnstileToken();
-            if (siteKey && !turnstileToken) {
-                showToast('请先完成人机验证', 'fa-shield-halved');
-                return;
-            }
-
-            const submitButton = document.getElementById('submit-message-btn');
-            isSubmittingMessage = true;
-            submitButton?.classList.add('opacity-70', 'pointer-events-none');
-
-            try {
-                const response = await fetch('/api/messages', {
-                    method: 'POST',
-                    headers: {
-                        'content-type': 'application/json',
-                        'accept': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        name: activeIdentity,
-                        content: message,
-                        turnstileToken
-                    })
-                });
-
-                const data = await response.json().catch(() => ({}));
-                if (!response.ok) {
-                    throw new Error(data.error || '留言发布失败');
-                }
-
-                renderMessageItem(data.message || { name: activeIdentity, content: message }, { justNow: true });
-                generatePostcard();
-                textarea.value = '';
-                resetTurnstile();
-            } catch (error) {
-                showToast(error.message || '留言发布失败，请稍后再试', 'fa-circle-exclamation');
-                resetTurnstile();
-            } finally {
-                isSubmittingMessage = false;
-                submitButton?.classList.remove('opacity-70', 'pointer-events-none');
-            }
-        }
-
-        // Elegant flowing petal generator for background visual depth
-        function spawnPetalsLoop() {
-            const container = document.getElementById('petal-container');
-            const maxPetals = 8;
-            
-            function createPetal() {
-                if(container.children.length >= maxPetals) return;
-                
-                const petal = document.createElement('div');
-                petal.className = 'petal';
-                
-                // Random position & speed
-                petal.style.left = Math.random() * 90 + '%';
-                petal.style.width = Math.random() * 8 + 6 + 'px';
-                petal.style.height = Math.random() * 12 + 8 + 'px';
-                
-                const duration = Math.random() * 10 + 8;
-                petal.style.animationDuration = duration + 's';
-                
-                container.appendChild(petal);
-                
-                setTimeout(() => {
-                    petal.remove();
-                }, duration * 1000);
-            }
-            
-            // Continuous spawn
-            setInterval(createPetal, 2000);
-        }
-
-        // MUSEUM-LEVEL WATERCOLOUR POSTCARD COMPOSER (宣纸质感墨韵明信片)
-        function generatePostcard() {
-            const message = document.getElementById('message-input').value.trim();
-            if(!message) {
-                showToast('📝 写下一两句期待再雕缕吧！', 'fa-pen-fancy');
-                return;
-            }
-
-            const canvas = document.getElementById('postcard-canvas');
-            const ctx = canvas.getContext('2d');
-
-            // High resolution output layout
-            const exportWidth = 800;
-            const exportHeight = 1000;
-            canvas.width = exportWidth;
-            canvas.height = exportHeight;
-
-            showToast('🎨 宣纸泼墨中，请稍候...', 'fa-magic');
-
-            // 1. Draw elegant Rice Paper textured base (凝脂仿古纸张色)
-            ctx.fillStyle = '#FCFAF2';
-            ctx.fillRect(0, 0, exportWidth, exportHeight);
-
-            // 2. Generate exquisite mist green watercolor gradient wash
-            const washGrad = ctx.createLinearGradient(0, 0, 0, exportHeight * 0.85);
-            washGrad.addColorStop(0, '#EAEFE9');
-            washGrad.addColorStop(0.3, '#FAF7F2');
-            washGrad.addColorStop(0.75, '#FDFCF7');
-            washGrad.addColorStop(1, '#EBF0EB');
-            ctx.fillStyle = washGrad;
-            ctx.fillRect(0, 0, exportWidth, exportHeight);
-
-            // 3. Superimpose highly optimized paper fiber noise (模拟磨砂纸纹理)
-            ctx.fillStyle = 'rgba(195, 161, 121, 0.04)';
-            for (let i = 0; i < 450; i++) {
-                const rx = Math.random() * exportWidth;
-                const ry = Math.random() * exportHeight;
-                const rLength = Math.random() * 15 + 4;
-                const rThick = Math.random() * 1.5 + 0.3;
-                ctx.lineWidth = rThick;
-                ctx.strokeStyle = 'rgba(195,161,121,0.12)';
-                ctx.beginPath();
-                ctx.moveTo(rx, ry);
-                ctx.lineTo(rx + rLength * Math.cos(Math.random() * Math.PI), ry + rLength * Math.sin(Math.random() * Math.PI));
-                ctx.stroke();
-            }
-
-            // Outer Classic Wooden Borders
-            ctx.strokeStyle = '#1F3E29';
-            ctx.lineWidth = 15;
-            ctx.strokeRect(30, 30, exportWidth - 60, exportHeight - 60);
-
-            ctx.strokeStyle = '#CBB191';
-            ctx.lineWidth = 2;
-            ctx.strokeRect(45, 45, exportWidth - 90, exportHeight - 90);
-
-            // 4. Draw Zen Hand-Drawn Bamboo Wash Silhouette (水墨竹影背景)
-            ctx.strokeStyle = 'rgba(31, 62, 41, 0.05)';
-            ctx.lineWidth = 8;
-            ctx.beginPath();
-            ctx.moveTo(110, 800);
-            ctx.quadraticCurveTo(130, 600, 105, 400);
-            ctx.quadraticCurveTo(80, 250, 115, 100);
-            ctx.stroke();
-
-            // Draw dainty hand stroke leaves along stem
-            function drawBambooLeaf(lx, ly, isLeft = true) {
-                ctx.fillStyle = 'rgba(31, 62, 41, 0.06)';
-                ctx.beginPath();
-                if(isLeft) {
-                    ctx.moveTo(lx, ly);
-                    ctx.quadraticCurveTo(lx - 40, ly - 10, lx - 70, ly - 5);
-                    ctx.quadraticCurveTo(lx - 35, ly + 8, lx, ly);
-                } else {
-                    ctx.moveTo(lx, ly);
-                    ctx.quadraticCurveTo(lx + 40, ly - 15, lx + 75, ly - 8);
-                    ctx.quadraticCurveTo(lx + 35, ly + 6, lx, ly);
-                }
-                ctx.fill();
-            }
-            drawBambooLeaf(120, 500, true);
-            drawBambooLeaf(115, 380, false);
-            drawBambooLeaf(100, 220, true);
-            drawBambooLeaf(112, 160, false);
-
-            // 5. Classic Engraved Post stamp (古典复古邮票)
-            ctx.fillStyle = '#FFFFFF';
-            ctx.fillRect(570, 80, 150, 180);
-            ctx.strokeStyle = '#1F3E29';
-            ctx.lineWidth = 2.5;
-            ctx.strokeRect(570, 80, 150, 180);
-            
-            // Stamp mini art
-            ctx.fillStyle = '#E6ECE8';
-            ctx.fillRect(580, 90, 130, 160);
-            ctx.fillStyle = '#1F3E29';
-            ctx.font = 'bold 36px "Noto Serif SC", serif';
-            ctx.fillText('山艺', 615, 155);
-            ctx.font = '13px "Cinzel", sans-serif';
-            ctx.fillStyle = '#CBB191';
-            ctx.fillText('COZY YARD 2026', 594, 215);
-
-            // Cinnabar red postmark cancel stamp (朱砂复古日戳)
-            ctx.strokeStyle = 'rgba(184, 92, 72, 0.65)';
-            ctx.lineWidth = 3;
-            ctx.beginPath();
-            ctx.arc(560, 240, 52, 0, Math.PI * 2);
-            ctx.stroke();
-            ctx.beginPath();
-            ctx.arc(560, 240, 44, 0, Math.PI * 2);
-            ctx.stroke();
-            ctx.fillStyle = 'rgba(184, 92, 72, 0.65)';
-            ctx.font = 'bold 11px sans-serif';
-            ctx.fillText('SHANDONG ART', 522, 238);
-            ctx.fillText('YARD M.Y.', 534, 256);
-
-            // 6. Header Typography
-            ctx.fillStyle = '#1F3E29';
-            ctx.font = 'bold 44px "Noto Serif SC", serif';
-            ctx.fillText('山艺文艺小院', 85, 130);
-            ctx.font = 'bold 19px "Cinzel", serif';
-            ctx.fillStyle = '#CBB191';
-            ctx.fillText('COZY ARTISTIC SANCTUARY FROM SHANDONG', 85, 170);
-
-            // Golden Divider
-            ctx.strokeStyle = '#CBB191';
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-            ctx.moveTo(85, 195);
-            ctx.lineTo(520, 195);
-            ctx.stroke();
-
-            // 7. Core content text (仿墨迹柔顺排版)
-            ctx.fillStyle = '#2F3431';
-            ctx.font = '32px "Noto Serif SC", "Microsoft Yahei", serif';
-            
-            const lineGap = 68;
-            const startY = 320;
-            const textLines = splitTextIntoLines(ctx, message, 630);
-            
-            textLines.forEach((line, index) => {
-                if (index < 6) { 
-                    ctx.fillText(line, 85, startY + (index * lineGap));
-                    // Dynamic faint ink guides
-                    ctx.strokeStyle = 'rgba(195, 161, 121, 0.28)';
-                    ctx.lineWidth = 1;
-                    ctx.beginPath();
-                    ctx.moveTo(85, startY + (index * lineGap) + 18);
-                    ctx.lineTo(715, startY + (index * lineGap) + 18);
-                    ctx.stroke();
-                }
-            });
-
-            // 8. Signatures & Identity Seal (朱砂篆印)
-            const signatureY = 750;
-            ctx.fillStyle = '#1F3E29';
-            ctx.font = 'bold 28px "Noto Serif SC", serif';
-            ctx.fillText(`寄信人：${activeIdentity}`, 430, signatureY);
-
-            const today = new Date();
-            const yearStr = today.getFullYear();
-            const monthStr = String(today.getMonth() + 1).padStart(2, '0');
-            const dayStr = String(today.getDate()).padStart(2, '0');
-            ctx.fillStyle = '#2F3431';
-            ctx.font = '22px "ZCOOL XiaoWei", serif';
-            ctx.fillText(`公元 ${yearStr} 年 ${monthStr} 月 ${dayStr} 日`, 430, signatureY + 45);
-
-            // Cinnabar Seal Block (红泥印记)
-            ctx.fillStyle = '#B85C48';
-            ctx.fillRect(660, signatureY - 20, 55, 55);
-            ctx.strokeStyle = '#B85C48';
-            ctx.strokeRect(658, signatureY - 22, 59, 59);
-            ctx.fillStyle = '#FFFFFF';
-            ctx.font = 'bold 18px "Ma Shan Zheng", cursive';
-            ctx.fillText('山艺', 671, signatureY + 12);
-            ctx.fillText('雅印', 671, signatureY + 34);
-
-            // Bottom Classic Slogan
-            ctx.fillStyle = '#1F3E29';
-            ctx.fillRect(80, 840, 640, 80);
-            ctx.fillStyle = '#FAF7F2';
-            ctx.font = 'italic 21px "Noto Serif SC", serif';
-            ctx.fillText('“推开文艺小院的门，开启云端漫游，遇见你的大学时光”', 122, 888);
-
-            // Unique serial code
-            ctx.fillStyle = '#2F3431';
-            ctx.font = '15px monospace';
-            const rndNum = Math.floor(100 + Math.random() * 900);
-            ctx.fillText(`CARD NO: ${yearStr}${monthStr}${dayStr}-${rndNum}`, 80, 825);
-
-            // Trigger postcard view popup
-            const postcardModal = document.getElementById('postcard-modal');
-            const inner = postcardModal.querySelector('div');
-            
-            postcardModal.classList.remove('pointer-events-none');
-            postcardModal.classList.add('opacity-100');
-            inner.classList.remove('scale-90');
-            inner.classList.add('scale-100');
-
-        }
-
-        // Split text helper
-        function splitTextIntoLines(ctx, text, maxWidth) {
-            let words = text.split('');
-            let lines = [];
-            let currentLine = words[0] || '';
-
-            for (let i = 1; i < words.length; i++) {
-                let word = words[i];
-                let width = ctx.measureText(currentLine + word).width;
-                if (width < maxWidth) {
-                    currentLine += word;
-                } else {
-                    lines.push(currentLine);
-                    currentLine = word;
-                }
-            }
-            lines.push(currentLine);
-            return lines;
-        }
-
-        // Postcard Modal controller
-        function closePostcardModal() {
-            const postcardModal = document.getElementById('postcard-modal');
-            const inner = postcardModal.querySelector('div');
-            
-            postcardModal.classList.add('pointer-events-none');
-            postcardModal.classList.remove('opacity-100');
-            inner.classList.add('scale-90');
-            inner.classList.remove('scale-100');
-        }
-
-        function downloadPostcard() {
-            const canvas = document.getElementById('postcard-canvas');
-            try {
-                const image = canvas.toDataURL("image/png");
-                const link = document.createElement('a');
-                link.download = `山艺小院风华明信片_${Date.now()}.png`;
-                link.href = image;
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                showToast('💾 墨宝已存入行囊，请查看系统下载', 'fa-save');
-            } catch(e) {
-                showToast('🌐 触屏长按画卷可将明信片存入相册', 'fa-exclamation-triangle');
-            }
-        }
-    </script>
+    <script src="./assets/app.js"></script>
 </body>
 </html>
