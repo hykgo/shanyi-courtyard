@@ -15,8 +15,8 @@ html {
 
         .mist-gate {
             background:
-                radial-gradient(circle at 50% 38%, rgba(255, 255, 255, 0.88), rgba(250, 247, 242, 0.42) 34%, rgba(230, 236, 232, 0.76) 74%),
-                linear-gradient(180deg, rgba(250, 247, 242, 0.96), rgba(230, 236, 232, 0.9));
+                radial-gradient(circle at 50% 38%, rgba(245, 239, 222, 0.3), rgba(31, 62, 41, 0.24) 36%, rgba(18, 49, 34, 0.88) 76%),
+                linear-gradient(180deg, #203f2f 0%, #173523 48%, #10291b 100%);
         }
 
         .mist-gate::before,
@@ -27,9 +27,9 @@ html {
             pointer-events: none;
             z-index: 2;
             background:
-                radial-gradient(circle at 24% 28%, rgba(255, 255, 255, 0.78), transparent 26%),
-                radial-gradient(circle at 78% 22%, rgba(255, 255, 255, 0.6), transparent 25%),
-                radial-gradient(circle at 50% 72%, rgba(203, 177, 145, 0.16), transparent 34%);
+                radial-gradient(circle at 24% 28%, rgba(250, 247, 242, 0.34), transparent 26%),
+                radial-gradient(circle at 78% 22%, rgba(250, 247, 242, 0.26), transparent 25%),
+                radial-gradient(circle at 50% 72%, rgba(195, 161, 121, 0.18), transparent 34%);
             filter: blur(18px);
             opacity: 0.85;
             animation: mistDrift 8s ease-in-out infinite alternate;
@@ -38,7 +38,7 @@ html {
         .mist-gate::after {
             inset: 0;
             z-index: 1;
-            background-image: radial-gradient(rgba(31, 62, 41, 0.05) 1px, transparent 1px);
+            background-image: radial-gradient(rgba(250, 247, 242, 0.08) 1px, transparent 1px);
             background-size: 18px 18px;
             filter: none;
             opacity: 0.35;
@@ -47,22 +47,22 @@ html {
 
         .mist-door {
             background:
-                linear-gradient(90deg, rgba(255, 255, 255, 0.42), rgba(250, 247, 242, 0.78)),
-                linear-gradient(180deg, rgba(230, 236, 232, 0.86), rgba(250, 247, 242, 0.92));
-            box-shadow: inset 0 0 46px rgba(31, 62, 41, 0.08), 0 0 50px rgba(255, 255, 255, 0.28);
-            backdrop-filter: blur(10px);
+                linear-gradient(90deg, rgba(250, 247, 242, 0.08), rgba(255, 255, 255, 0.03)),
+                linear-gradient(180deg, #244b37 0%, #1d3d2d 50%, #143220 100%);
+            box-shadow: inset 0 0 54px rgba(5, 18, 10, 0.34), 0 0 46px rgba(250, 247, 242, 0.12);
+            backdrop-filter: blur(4px);
         }
 
         .mist-door-left {
             background:
-                linear-gradient(90deg, rgba(230, 236, 232, 0.72), rgba(255, 255, 255, 0.78)),
-                linear-gradient(180deg, rgba(250, 247, 242, 0.95), rgba(230, 236, 232, 0.82));
+                linear-gradient(90deg, rgba(13, 38, 24, 0.92), rgba(35, 75, 52, 0.96)),
+                linear-gradient(180deg, #28533d 0%, #1f432f 48%, #143220 100%);
         }
 
         .mist-door-right {
             background:
-                linear-gradient(270deg, rgba(230, 236, 232, 0.72), rgba(255, 255, 255, 0.78)),
-                linear-gradient(180deg, rgba(250, 247, 242, 0.95), rgba(230, 236, 232, 0.82));
+                linear-gradient(270deg, rgba(13, 38, 24, 0.92), rgba(35, 75, 52, 0.96)),
+                linear-gradient(180deg, #28533d 0%, #1f432f 48%, #143220 100%);
         }
 
         .mist-gate-opening {
