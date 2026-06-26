@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="turnstile-site-key" content="0x4AAAAAADrUsf1XouGuBmAW">
     <title>文艺小院 · 云端漫游</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -13,7 +12,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@300;400;600;900&family=ZCOOL+XiaoWei&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" defer></script>
     
     <script>
         tailwind.config = {
@@ -562,7 +560,6 @@
                 </div>
 
                 <!-- Custom styled premium button with golden shifting gradients -->
-                <div id="turnstile-widget" class="flex justify-center min-h-[1px]"></div>
 
                 <button id="submit-message-btn" onclick="submitMessage()" class="w-full py-4 gold-gradient-btn text-yard-cream rounded-2xl font-bold tracking-[0.2em] shadow-lg hover:brightness-105 active:scale-[0.98] transition-all flex items-center justify-center space-x-2 text-xs">
                     <i class="fas fa-feather-alt text-[10px]"></i>
@@ -647,7 +644,6 @@
         let audioContext = null;
         let synthInterval = null;
         let isMusicPlaying = false;
-        let turnstileWidgetId = null;
         let isSubmittingMessage = false;
         
         // Window on-load
@@ -659,7 +655,6 @@
             selectIdentity('26级萌新');
             startMockBulletFlow();
             loadMessages();
-            initTurnstile();
             
             // Initiate polaroid swipe listeners
             initPolaroidSwipe();
@@ -1072,7 +1067,6 @@
                 scroller.children[0].remove();
             }
         }
-
         async function loadMessages() {
             try {
                 const response = await fetch('/api/messages?limit=30', {
@@ -1092,39 +1086,6 @@
             }
         }
 
-        function initTurnstile() {
-            const siteKey = document.querySelector('meta[name="turnstile-site-key"]')?.content?.trim();
-            const widget = document.getElementById('turnstile-widget');
-            if (!siteKey || !widget) return;
-
-            const render = () => {
-                if (!window.turnstile || turnstileWidgetId !== null) return;
-                turnstileWidgetId = window.turnstile.render(widget, {
-                    sitekey: siteKey,
-                    size: 'compact'
-                });
-            };
-
-            if (window.turnstile) {
-                render();
-            } else {
-                window.addEventListener('load', render, { once: true });
-                setTimeout(render, 1200);
-            }
-        }
-
-        function getTurnstileToken() {
-            const siteKey = document.querySelector('meta[name="turnstile-site-key"]')?.content?.trim();
-            if (!siteKey) return '';
-            if (!window.turnstile || turnstileWidgetId === null) return '';
-            return window.turnstile.getResponse(turnstileWidgetId);
-        }
-
-        function resetTurnstile() {
-            if (window.turnstile && turnstileWidgetId !== null) {
-                window.turnstile.reset(turnstileWidgetId);
-            }
-        }
 
         async function submitMessage() {
             if (isSubmittingMessage) return;
@@ -1133,13 +1094,6 @@
             const message = textarea.value.trim();
             if (!message) {
                 showToast('写下你的短笺后再发布吧', 'fa-pen-fancy');
-                return;
-            }
-
-            const siteKey = document.querySelector('meta[name="turnstile-site-key"]')?.content?.trim();
-            const turnstileToken = getTurnstileToken();
-            if (siteKey && !turnstileToken) {
-                showToast('请先完成人机验证', 'fa-shield-halved');
                 return;
             }
 
@@ -1156,8 +1110,7 @@
                     },
                     body: JSON.stringify({
                         name: activeIdentity,
-                        content: message,
-                        turnstileToken
+                        content: message
                     })
                 });
 
@@ -1169,10 +1122,8 @@
                 renderMessageItem(data.message || { name: activeIdentity, content: message }, { justNow: true });
                 generatePostcard();
                 textarea.value = '';
-                resetTurnstile();
             } catch (error) {
                 showToast(error.message || '留言发布失败，请稍后再试', 'fa-circle-exclamation');
-                resetTurnstile();
             } finally {
                 isSubmittingMessage = false;
                 submitButton?.classList.remove('opacity-70', 'pointer-events-none');
