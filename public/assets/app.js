@@ -1,6 +1,7 @@
 /* GLOBAL SYSTEM STATE */
         let activeIdentity = '26级萌新';
         let currentPhotoIndex = 0;
+        let galleryUpdateToken = 0;
         const galleryPhotos = Array.from({ length: 102 }, (_, index) => {
             const number = String(index + 1).padStart(3, '0');
             return {
@@ -240,19 +241,67 @@
             const deck = document.getElementById('photo-deck');
             if (!deck || !galleryPhotos.length) return;
 
-            deck.innerHTML = getVisibleGalleryItems().map((photo, stackIndex) => `
-                <div class="polaroid-card absolute inset-0 bg-[#FAF7F2] p-2.5 shadow-xl rounded-md border border-gray-100 flex flex-col justify-between" data-stack-index="${stackIndex}">
-                    <img src="${photo.src}" alt="${photo.caption}" loading="${stackIndex === 0 ? 'eager' : 'lazy'}" class="w-full h-40 object-cover rounded-sm bg-gray-50 border border-gray-200/20">
-                    <div class="text-center font-brush text-base text-yard-darkGreen/90 py-1.5 tracking-wider">
-                        ${photo.caption}
+            if (!deck.dataset.ready) {
+                deck.innerHTML = getVisibleGalleryItems().map((photo, stackIndex) => `
+                    <div class="polaroid-card absolute inset-0 bg-[#FAF7F2] p-2.5 shadow-xl rounded-md border border-gray-100 flex flex-col justify-between" data-stack-index="${stackIndex}">
+                        <img src="${photo.src}" alt="${photo.caption}" loading="${stackIndex === 0 ? 'eager' : 'lazy'}" class="w-full h-40 object-cover rounded-sm bg-gray-50 border border-gray-200/20">
+                        <div class="text-center font-brush text-base text-yard-darkGreen/90 py-1.5 tracking-wider">
+                            ${photo.caption}
+                        </div>
                     </div>
-                </div>
-            `).join('');
+                `).join('');
+                deck.dataset.ready = '1';
+            }
+
+            syncPolaroidDeck();
 
             const counter = document.getElementById('photo-counter');
             if (counter) {
                 counter.textContent = `${currentPhotoIndex + 1} / ${galleryPhotos.length}`;
             }
+        }
+
+        function syncPolaroidDeck() {
+            const deck = document.getElementById('photo-deck');
+            if (!deck || !galleryPhotos.length) return;
+
+            const cards = Array.from(deck.querySelectorAll('.polaroid-card'));
+            const items = getVisibleGalleryItems();
+            const updateToken = ++galleryUpdateToken;
+
+            items.forEach((photo, index) => {
+                const card = cards[index];
+                if (!card) return;
+                const img = card.querySelector('img');
+                const label = card.querySelector('div');
+                const loader = new Image();
+
+                loader.onload = () => {
+                    if (updateToken !== galleryUpdateToken) return;
+                    if (img) {
+                        img.src = photo.src;
+                        img.alt = photo.caption;
+                    }
+                    if (label) {
+                        label.textContent = photo.caption;
+                    }
+                };
+
+                loader.onerror = () => {
+                    if (updateToken !== galleryUpdateToken) return;
+                    if (img) {
+                        img.src = photo.src;
+                        img.alt = photo.caption;
+                    }
+                    if (label) {
+                        label.textContent = photo.caption;
+                    }
+                };
+
+                loader.src = photo.src;
+            });
+
+            updatePolaroidStack();
         }
 
         function updatePolaroidStack() {
@@ -277,13 +326,11 @@
         function nextPhoto() {
             currentPhotoIndex = (currentPhotoIndex + 1) % galleryPhotos.length;
             renderPolaroidDeck();
-            updatePolaroidStack();
         }
 
         function prevPhoto() {
             currentPhotoIndex = (currentPhotoIndex - 1 + galleryPhotos.length) % galleryPhotos.length;
             renderPolaroidDeck();
-            updatePolaroidStack();
         }
 
         function initPolaroidSwipe() {
@@ -369,7 +416,7 @@
                 isMusicPlaying = true;
                 updateGateMusicUI(true);
                 if (!options.silentToast) {
-                    showToast('?? ???????', 'fa-music');
+                    showToast('???????', 'fa-music');
                 }
             } catch (e) {
                 console.warn(e);
@@ -386,7 +433,7 @@
             audio.currentTime = 0;
             isMusicPlaying = false;
             updateGateMusicUI(false);
-            showToast('?? ?????', 'fa-volume-mute');
+            showToast('?????', 'fa-volume-mute');
         }
 
         function updateGateMusicUI(playing) {
