@@ -249,12 +249,8 @@
 
             if (!deck.dataset.ready) {
                 deck.innerHTML = `
-                    <div class="absolute inset-0 pointer-events-none">
-                        <div class="showcase-side-show showcase-side-left"></div>
-                        <div class="showcase-side-show showcase-side-right"></div>
-                    </div>
                     <div class="relative z-10 h-full flex flex-col gap-2.5 md:gap-3">
-                        <div class="relative flex-[0.92] min-h-0 rounded-[1.4rem] overflow-hidden bg-white/55 border border-white/60 shadow-[0_20px_60px_rgba(39,51,43,0.12)]">
+                        <div class="relative flex-none h-[16.75rem] md:h-[18rem] rounded-[1.4rem] overflow-hidden bg-white/55 border border-white/60 shadow-[0_20px_60px_rgba(39,51,43,0.12)]">
                             <img id="gallery-main-image" src="" alt="" class="w-full h-full object-cover">
                             <div class="absolute inset-x-0 bottom-0 p-3.5 md:p-4 bg-gradient-to-t from-[rgba(23,61,37,0.72)] via-[rgba(23,61,37,0.18)] to-transparent">
                                 <div id="gallery-main-caption" class="text-yard-cream font-brush text-lg md:text-xl leading-tight tracking-wider"></div>
@@ -307,39 +303,6 @@
                 `).join('');
             }
 
-            updatePolaroidStack();
-        }
-
-        function updatePolaroidStack() {
-            const deck = document.getElementById('photo-deck');
-            if (!deck || !galleryPhotos.length) return;
-
-            const window = getGalleryWindow();
-            const left = deck.querySelector('.showcase-side-left');
-            const right = deck.querySelector('.showcase-side-right');
-            const updates = [
-                [left, window.prev],
-                [right, window.next],
-            ];
-
-            updates.forEach(([node, photo]) => {
-                if (!node || !photo) return;
-                node.style.backgroundImage = `url('${photo.src}')`;
-                node.style.backgroundSize = 'cover';
-                node.style.backgroundPosition = 'center';
-                node.style.width = '4.5rem';
-                node.style.height = '10rem';
-                node.style.borderRadius = '1.05rem';
-                node.style.opacity = '0.16';
-                node.style.filter = 'blur(0.15px) saturate(0.88)';
-                node.style.boxShadow = '0 12px 24px rgba(23,61,37,0.08)';
-                node.style.position = 'absolute';
-                node.style.top = '50%';
-                node.style.transform = 'translateY(-50%)';
-            });
-
-            if (left) left.style.left = '0.55rem';
-            if (right) right.style.right = '0.55rem';
         }
 
         function nextPhoto() {
@@ -380,9 +343,8 @@
                 startX = 0;
                 currentX = 0;
             });
-            
+
             renderPolaroidDeck();
-            updatePolaroidStack();
         }
 
         // Local gate music player
