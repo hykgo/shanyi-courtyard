@@ -22,8 +22,9 @@ html {
 
         .mist-gate {
             background:
-                radial-gradient(circle at 50% 36%, rgba(210, 181, 143, 0.08), rgba(27, 68, 42, 0.22) 36%, rgba(19, 57, 34, 0.9) 76%),
-                linear-gradient(180deg, #1b442a 0%, #173d25 48%, #133720 100%);
+                linear-gradient(90deg, rgba(11, 35, 20, 0.28) 0 49.85%, rgba(213, 181, 136, 0.18) 49.9% 50.1%, rgba(8, 28, 16, 0.34) 50.15% 100%),
+                radial-gradient(circle at 50% 44%, rgba(213, 181, 136, 0.1), rgba(24, 65, 39, 0.18) 30%, rgba(16, 49, 29, 0.82) 70%),
+                linear-gradient(180deg, #173f27 0%, #153a24 48%, #12331f 100%);
         }
 
         .mist-gate::before,
@@ -34,42 +35,45 @@ html {
             pointer-events: none;
             z-index: 2;
             background:
-                radial-gradient(circle at 24% 28%, rgba(246, 239, 222, 0.1), transparent 26%),
-                radial-gradient(circle at 78% 22%, rgba(210, 181, 143, 0.08), transparent 25%),
-                radial-gradient(circle at 50% 72%, rgba(210, 181, 143, 0.12), transparent 34%);
-            filter: blur(18px);
-            opacity: 0.62;
+                radial-gradient(circle at 50% 43%, rgba(246, 239, 222, 0.08), transparent 24%),
+                radial-gradient(circle at 34% 32%, rgba(213, 181, 136, 0.06), transparent 26%),
+                radial-gradient(circle at 68% 30%, rgba(213, 181, 136, 0.05), transparent 25%);
+            filter: blur(20px);
+            opacity: 0.5;
             animation: mistDrift 8s ease-in-out infinite alternate;
         }
 
         .mist-gate::after {
             inset: 0;
             z-index: 1;
-            background-image: radial-gradient(rgba(246, 239, 222, 0.04) 1px, transparent 1px);
-            background-size: 18px 18px;
+            background-image:
+                linear-gradient(90deg, transparent 0 49.8%, rgba(213, 181, 136, 0.25) 49.9% 50.1%, transparent 50.2%),
+                radial-gradient(rgba(246, 239, 222, 0.025) 1px, transparent 1px);
+            background-size: 100% 100%, 22px 22px;
             filter: none;
-            opacity: 0.35;
+            opacity: 0.38;
             animation: none;
         }
 
         .mist-door {
             background:
-                linear-gradient(90deg, rgba(210, 181, 143, 0.04), rgba(246, 239, 222, 0.02)),
-                linear-gradient(180deg, #1b442a 0%, #173d25 48%, #12351f 100%);
-            box-shadow: inset 0 0 50px rgba(8, 28, 16, 0.32), 0 0 40px rgba(210, 181, 143, 0.08);
-            backdrop-filter: blur(4px);
+                linear-gradient(90deg, rgba(213, 181, 136, 0.035), rgba(246, 239, 222, 0.012)),
+                linear-gradient(180deg, #174026 0%, #153a23 50%, #11331e 100%);
+            box-shadow: inset 0 0 56px rgba(6, 24, 13, 0.36), 0 0 36px rgba(213, 181, 136, 0.06);
+            backdrop-filter: blur(2px);
+            border-color: rgba(213, 181, 136, 0.18) !important;
         }
 
         .mist-door-left {
             background:
-                linear-gradient(90deg, rgba(18, 53, 31, 0.96), rgba(28, 70, 43, 0.98)),
-                linear-gradient(180deg, #1c472c 0%, #173d25 48%, #12351f 100%);
+                linear-gradient(90deg, rgba(14, 43, 25, 0.98), rgba(25, 65, 39, 0.98)),
+                linear-gradient(180deg, #19452a 0%, #153a23 50%, #10301c 100%);
         }
 
         .mist-door-right {
             background:
-                linear-gradient(270deg, rgba(18, 53, 31, 0.96), rgba(28, 70, 43, 0.98)),
-                linear-gradient(180deg, #1c472c 0%, #173d25 48%, #12351f 100%);
+                linear-gradient(270deg, rgba(14, 43, 25, 0.98), rgba(25, 65, 39, 0.98)),
+                linear-gradient(180deg, #19452a 0%, #153a23 50%, #10301c 100%);
         }
 
         .mist-gate-opening {
@@ -136,12 +140,12 @@ html {
         }
 
         @keyframes breatheGlow {
-            0%, 100% { 
-                box-shadow: 0 0 0 0 rgba(210, 181, 143, 0.3); 
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(213, 181, 136, 0.34);
                 transform: scale(1);
             }
-            50% { 
-                box-shadow: 0 0 20px 6px rgba(210, 181, 143, 0.15); 
+            50% {
+                box-shadow: 0 0 24px 7px rgba(213, 181, 136, 0.18);
                 transform: scale(1.02);
             }
         }
