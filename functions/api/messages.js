@@ -1,6 +1,9 @@
 const MAX_CONTENT_LENGTH = 100;
 const MAX_NAME_LENGTH = 12;
 const DEFAULT_LIMIT = 50;
+const RATE_LIMIT_WINDOW_MINUTES = 10;
+const RATE_LIMIT_MAX_MESSAGES = 3;
+const DUPLICATE_WINDOW_HOURS = 24;
 
 function json(data, init = {}) {
   return new Response(JSON.stringify(data), {
@@ -21,8 +24,9 @@ function sanitizeText(value, maxLength) {
 }
 
 async function hashIp(ip, salt) {
-  if (!ip || !salt) return null;
-  const bytes = new TextEncoder().encode(`${salt}:${ip}`);
+  if (!ip) return null;
+  const safeSalt = salt || "shanyi-default-ip-salt";
+  const bytes = new TextEncoder().encode(`${safeSalt}:${ip}`);
   const digest = await crypto.subtle.digest("SHA-256", bytes);
   return [...new Uint8Array(digest)]
     .map((byte) => byte.toString(16).padStart(2, "0"))
@@ -69,6 +73,38 @@ export async function onRequestPost(context) {
   const ip = request.headers.get("CF-Connecting-IP") || "";
   const ipHash = await hashIp(ip, env.IP_HASH_SALT || "");
   const now = new Date().toISOString();
+
+  if (ipHash) {
+    const rateLimitSince = new Date(Date.now() - RATE_LIMIT_WINDOW_MINUTES * 60 * 1000).toISOString();
+    const recent = await env.DB.prepare(
+      `SELECT COUNT(*) AS count
+       FROM messages
+       WHERE ip_hash = ? AND created_at >= ?`
+    )
+      .bind(ipHash, rateLimitSince)
+      .first();
+
+    if ((recent?.count || 0) >= RATE_LIMIT_MAX_MESSAGES) {
+      return json(
+        { error: `留言太热烈啦，请 ${RATE_LIMIT_WINDOW_MINUTES} 分钟后再试` },
+        { status: 429 }
+      );
+    }
+
+    const duplicateSince = new Date(Date.now() - DUPLICATE_WINDOW_HOURS * 60 * 60 * 1000).toISOString();
+    const duplicate = await env.DB.prepare(
+      `SELECT id
+       FROM messages
+       WHERE ip_hash = ? AND content = ? AND created_at >= ?
+       LIMIT 1`
+    )
+      .bind(ipHash, content, duplicateSince)
+      .first();
+
+    if (duplicate) {
+      return json({ error: "这封短笺刚刚已经送达啦" }, { status: 409 });
+    }
+  }
 
   const result = await env.DB.prepare(
     `INSERT INTO messages (name, content, ip_hash, approved, created_at)

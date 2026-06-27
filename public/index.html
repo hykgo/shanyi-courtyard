@@ -4,41 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>文艺小院 · 云端漫游</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts - Literary Serifs & Calligraphy -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@300;400;600;900&family=ZCOOL+XiaoWei&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        yard: {
-                            // Traditional Chinese Colors Palette
-                            cream: '#F6EFDE',       // 纸本米白
-                            darkGreen: '#173D25',   // 墨绿院门
-                            lightGreen: '#E3D8C2',  // 暖灰宣纸
-                            wood: '#D2B58F',        // 低饱和暖金
-                            charcoal: '#29332B',    // 墨色
-                            terracotta: '#8F5D49',  // 暗陶朱
-                            softRose: '#EFE3D7'     // 浅陶粉
-                        }
-                    },
-                    fontFamily: {
-                        serif: ['"Noto Serif SC"', 'serif'],
-                        brush: ['"Ma Shan Zheng"', 'cursive'],
-                        accent: ['"ZCOOL XiaoWei"', 'serif'],
-                        roman: ['"Cinzel"', 'serif']
-                    }
-                }
-            }
-        }
-    </script>
+    <link rel="stylesheet" href="./assets/vendor/tailwind.css">
+    <link rel="stylesheet" href="./assets/vendor/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="./assets/styles.css">
 </head>
 <body class="font-serif text-yard-charcoal overflow-x-hidden min-h-screen">
@@ -143,7 +110,7 @@
             <!-- Ink & Line-art Traditional House & Nature SVG -->
             <div class="w-full h-56 bg-yard-cream/75 rounded-3xl relative mb-10 overflow-hidden shadow-sm flex items-center justify-center border border-yard-wood/35">
                 <!-- Textured Background Layer -->
-                <div class="absolute inset-0 bg-cover bg-center opacity-5" style="background-image: url('https://placehold.co/400x300/e2ece9/2c5e43?text=WabiSabiTexture');"></div>
+                <div class="absolute inset-0 opacity-10 paper-texture"></div>
                 
                 <!-- Highly Artistic Traditional Shaded Vector Courtyard -->
                 <svg viewBox="0 0 200 120" class="w-11/12 h-11/12 text-yard-darkGreen">

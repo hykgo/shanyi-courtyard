@@ -3,12 +3,15 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "build:css": "tailwindcss -c tailwind.config.cjs -i public/assets/tailwind-input.css -o public/assets/vendor/tailwind.css --minify",
     "dev": "wrangler pages dev public --d1 DB=shanyi_messages",
     "deploy": "wrangler pages deploy public",
     "db:migrate:local": "wrangler d1 migrations apply shanyi_messages --local",
     "db:migrate:remote": "wrangler d1 migrations apply shanyi_messages --remote"
   },
   "devDependencies": {
+    "@fortawesome/fontawesome-free": "^7.3.0",
+    "tailwindcss": "3.4.17",
     "wrangler": "^4.0.0"
   }
 }
