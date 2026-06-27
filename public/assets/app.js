@@ -60,10 +60,9 @@
             if (!isMusicPlaying) {
                 startAmbientMusic({ silentToast: true });
             }
-            
+
             setTimeout(() => {
                 gateOverlay.style.display = 'none';
-                showToast('✨ 扉门大启，伴风而行 ✨', 'fa-moon');
             }, 1500);
         }
 
@@ -218,13 +217,18 @@
             inner.classList.remove('scale-100');
         }
 
-        // Polaroid card deck transformations
-        function getVisibleGalleryItems() {
+        // Gallery showcase transformations
+        function getGalleryWindow() {
             const total = galleryPhotos.length;
-            return [0, 1, 2].map((offset) => {
-                const index = (currentPhotoIndex + offset) % total;
-                return { ...galleryPhotos[index], index };
-            });
+            return {
+                prev: galleryPhotos[(currentPhotoIndex - 1 + total) % total],
+                current: galleryPhotos[currentPhotoIndex % total],
+                next: galleryPhotos[(currentPhotoIndex + 1) % total],
+                strip: [0, 1, 2, 3, 4].map((offset) => {
+                    const index = (currentPhotoIndex + offset) % total;
+                    return { ...galleryPhotos[index], index };
+                })
+            };
         }
 
         function warmGalleryImages() {
@@ -242,14 +246,23 @@
             if (!deck || !galleryPhotos.length) return;
 
             if (!deck.dataset.ready) {
-                deck.innerHTML = getVisibleGalleryItems().map((photo, stackIndex) => `
-                    <div class="polaroid-card absolute inset-0 bg-[#FAF7F2] p-2.5 shadow-xl rounded-md border border-gray-100 flex flex-col justify-between" data-stack-index="${stackIndex}">
-                        <img src="${photo.src}" alt="${photo.caption}" loading="${stackIndex === 0 ? 'eager' : 'lazy'}" class="w-full h-40 object-cover rounded-sm bg-gray-50 border border-gray-200/20">
-                        <div class="text-center font-brush text-base text-yard-darkGreen/90 py-1.5 tracking-wider">
-                            ${photo.caption}
+                deck.innerHTML = `
+                    <div class="absolute inset-0 pointer-events-none">
+                        <div class="showcase-side-show showcase-side-left"></div>
+                        <div class="showcase-side-show showcase-side-right"></div>
+                    </div>
+                    <div class="relative z-10 h-full flex flex-col gap-2.5 md:gap-3">
+                        <div class="relative flex-[0.92] min-h-0 rounded-[1.4rem] overflow-hidden bg-white/55 border border-white/60 shadow-[0_20px_60px_rgba(39,51,43,0.12)]">
+                            <img id="gallery-main-image" src="" alt="" class="w-full h-full object-cover">
+                            <div class="absolute inset-x-0 bottom-0 p-3.5 md:p-4 bg-gradient-to-t from-[rgba(23,61,37,0.72)] via-[rgba(23,61,37,0.18)] to-transparent">
+                                <div id="gallery-main-caption" class="text-yard-cream font-brush text-lg md:text-xl leading-tight tracking-wider"></div>
+                            </div>
+                        </div>
+                        <div class="rounded-[1rem] bg-white/30 border border-white/55 p-1.5 md:p-2 shadow-sm">
+                            <div id="gallery-strip" class="flex gap-2 overflow-hidden"></div>
                         </div>
                     </div>
-                `).join('');
+                `;
                 deck.dataset.ready = '1';
             }
 
@@ -265,62 +278,71 @@
             const deck = document.getElementById('photo-deck');
             if (!deck || !galleryPhotos.length) return;
 
-            const cards = Array.from(deck.querySelectorAll('.polaroid-card'));
-            const items = getVisibleGalleryItems();
+            const window = getGalleryWindow();
+            const mainImage = document.getElementById('gallery-main-image');
+            const mainCaption = document.getElementById('gallery-main-caption');
+            const strip = document.getElementById('gallery-strip');
             const updateToken = ++galleryUpdateToken;
 
-            items.forEach((photo, index) => {
-                const card = cards[index];
-                if (!card) return;
-                const img = card.querySelector('img');
-                const label = card.querySelector('div');
+            const setMain = (photo) => {
                 const loader = new Image();
-
                 loader.onload = () => {
                     if (updateToken !== galleryUpdateToken) return;
-                    if (img) {
-                        img.src = photo.src;
-                        img.alt = photo.caption;
+                    if (mainImage) {
+                        mainImage.src = photo.src;
+                        mainImage.alt = photo.caption;
                     }
-                    if (label) {
-                        label.textContent = photo.caption;
-                    }
-                };
-
-                loader.onerror = () => {
-                    if (updateToken !== galleryUpdateToken) return;
-                    if (img) {
-                        img.src = photo.src;
-                        img.alt = photo.caption;
-                    }
-                    if (label) {
-                        label.textContent = photo.caption;
+                    if (mainCaption) {
+                        mainCaption.textContent = photo.caption;
                     }
                 };
-
+                loader.onerror = loader.onload;
                 loader.src = photo.src;
-            });
+            };
+
+            setMain(window.current);
+
+            if (strip) {
+                strip.innerHTML = window.strip.map((photo, index) => `
+                    <button class="group relative flex-1 min-w-0 overflow-hidden rounded-xl border transition-all duration-300 ${index === 0 ? 'border-yard-darkGreen/40 ring-1 ring-yard-darkGreen/20' : 'border-white/45 opacity-75'}" aria-label="${photo.caption}">
+                        <img src="${photo.src}" alt="${photo.caption}" class="w-full h-14 md:h-16 object-cover">
+                    </button>
+                `).join('');
+            }
 
             updatePolaroidStack();
         }
 
         function updatePolaroidStack() {
-            const polaroids = document.querySelectorAll('.polaroid-card');
-            polaroids.forEach((card, i) => {
-                if (i === 0) {
-                    card.style.transform = 'translate3d(0, 0, 0) rotate(1deg) scale(1)';
-                    card.style.opacity = '1';
-                    card.style.zIndex = '30';
-                } else if (i === 1) {
-                    card.style.transform = 'translate3d(14px, 10px, 0) rotate(-5deg) scale(0.95)';
-                    card.style.opacity = '0.85';
-                    card.style.zIndex = '20';
-                } else {
-                    card.style.transform = 'translate3d(-12px, 14px, 0) rotate(4deg) scale(0.9)';
-                    card.style.opacity = '0.7';
-                    card.style.zIndex = '10';
-                }
+            const deck = document.getElementById('photo-deck');
+            if (!deck || !galleryPhotos.length) return;
+
+            const window = getGalleryWindow();
+            const left = deck.querySelector('.showcase-side-left');
+            const right = deck.querySelector('.showcase-side-right');
+            const updates = [
+                [left, window.prev],
+                [right, window.next],
+            ];
+
+            updates.forEach(([node, photo]) => {
+                if (!node || !photo) return;
+                node.style.backgroundImage = `url('${photo.src}')`;
+                node.style.backgroundSize = 'cover';
+                node.style.backgroundPosition = 'center';
+                node.style.width = '4.5rem';
+                node.style.height = '10rem';
+                node.style.borderRadius = '1.05rem';
+                node.style.opacity = '0.16';
+                node.style.filter = 'blur(0.15px) saturate(0.88)';
+                node.style.boxShadow = '0 12px 24px rgba(23,61,37,0.08)';
+                node.style.position = 'absolute';
+                node.style.top = '50%';
+                node.style.transform = 'translateY(-50%)';
             });
+
+            if (left) left.style.left = '0.55rem';
+            if (right) right.style.right = '0.55rem';
         }
 
         function nextPhoto() {
@@ -415,14 +437,10 @@
                 await audio.play();
                 isMusicPlaying = true;
                 updateGateMusicUI(true);
-                if (!options.silentToast) {
-                    showToast('???????', 'fa-music');
-                }
             } catch (e) {
                 console.warn(e);
                 isMusicPlaying = false;
                 updateGateMusicUI(false);
-                showToast('??????????????', 'fa-volume-mute');
             }
         }
 
@@ -433,7 +451,6 @@
             audio.currentTime = 0;
             isMusicPlaying = false;
             updateGateMusicUI(false);
-            showToast('?????', 'fa-volume-mute');
         }
 
         function updateGateMusicUI(playing) {

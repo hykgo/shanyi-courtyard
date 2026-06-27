@@ -130,6 +130,11 @@ html {
             transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
+        .showcase-side-show {
+            box-shadow: 0 12px 24px rgba(23, 61, 37, 0.08);
+            background-color: rgba(255, 255, 255, 0.4);
+        }
+
         /* Flowing premium golden gradient for primary buttons */
         .gold-gradient-btn {
             background: linear-gradient(135deg, #173D25, #21492E, #D2B58F, #173D25);

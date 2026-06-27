@@ -105,46 +105,10 @@
                 </button>
             </div>
 
-            <!-- Ink & Line-art Traditional House & Nature SVG -->
+            <!-- Hero Illustration -->
             <div class="w-full h-56 bg-yard-cream/75 rounded-3xl relative mb-10 overflow-hidden shadow-sm flex items-center justify-center border border-yard-wood/35">
-                <!-- Textured Background Layer -->
                 <div class="absolute inset-0 opacity-10 paper-texture"></div>
-                
-                <!-- Highly Artistic Traditional Shaded Vector Courtyard -->
-                <svg viewBox="0 0 200 120" class="w-11/12 h-11/12 text-yard-darkGreen">
-                    <!-- Curved Mountain Silhouettes -->
-                    <path d="M10,105 Q60,75 110,105 Q150,85 190,105" fill="none" stroke="rgba(195, 161, 121, 0.3)" stroke-width="1.5" />
-                    <path d="M40,105 Q100,55 160,105" fill="none" stroke="rgba(195, 161, 121, 0.15)" stroke-width="1" />
-                    
-                    <!-- Ground/Floor Line -->
-                    <path d="M5,105 L195,105" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-                    
-                    <!-- Classic Chinese Courtyard Pavilion Roof and Pillar -->
-                    <path d="M25,105 L25,65 M65,105 L65,65" stroke="currentColor" stroke-width="1.2" />
-                    <path d="M20,65 Q45,52 70,65 Q45,45 20,65 Z" fill="currentColor" opacity="0.9" />
-                    
-                    <!-- Circular Garden window behind -->
-                    <circle cx="115" cy="72" r="24" fill="none" stroke="currentColor" stroke-width="0.8" stroke-dasharray="3,3" />
-                    <!-- Delicate Bamboo branches creeping inside circle -->
-                    <path d="M125,92 C125,76 112,65 118,52" fill="none" stroke="currentColor" stroke-width="1" />
-                    <path d="M118,52 L112,50 M118,52 L124,49 M125,70 L131,67 M123,80 L117,79" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
-                    
-                    <!-- Tall elegant tree on the right -->
-                    <path d="M165,105 Q160,70 170,45" fill="none" stroke="currentColor" stroke-width="1.5" />
-                    <circle cx="170" cy="42" r="14" fill="#E3D8C2" stroke="currentColor" stroke-width="0.8" />
-                    <circle cx="160" cy="36" r="9" fill="#E3D8C2" stroke="currentColor" stroke-width="0.6" />
-                    <circle cx="178" cy="48" r="11" fill="#E3D8C2" stroke="currentColor" stroke-width="0.6" />
-                    
-                    <!-- Warm rising terracotta sun -->
-                    <circle cx="148" cy="28" r="9" fill="#EFE3D7" stroke="#8F5D49" stroke-width="0.8" />
-                    <!-- Flying Zen Cranes -->
-                    <path d="M75,32 Q80,28 85,32 Q81,25 75,32 Z" fill="currentColor" opacity="0.6" />
-                    <path d="M92,26 Q95,23 98,26 Q94,20 92,26 Z" fill="currentColor" opacity="0.6" />
-                </svg>
-                
-                <!-- Gentle Floating Wind Chime/Lantern indicator -->
-                <span class="absolute top-4 left-6 text-sm animate-pulse opacity-40">🎐</span>
-                <span class="absolute bottom-5 right-6 text-sm animate-bounce opacity-55">🌸</span>
+                <img src="./assets/hero-courtyard.png" alt="文艺小院插画" class="w-full h-full object-cover">
             </div>
 
             <!-- Deeply Sincere Slogans -->
@@ -356,18 +320,16 @@
                     <span id="photo-counter" class="text-[9px] text-yard-charcoal/40 tracking-widest">1 / 102</span>
                 </div>
                 
-                <!-- Polaroid Canvas Container -->
-                <div class="relative h-72 flex justify-center items-center overflow-hidden bg-yard-cream/45 rounded-3xl border border-yard-wood/25 py-3 shadow-inner">
-                    <div id="photo-deck" class="relative w-48 h-60">
-                    </div>
-                    
-                    <!-- Beautiful Mini Arrow Toggles -->
-                    <div class="absolute bottom-3 inset-x-0 flex justify-between px-8 pointer-events-none">
-                        <button onclick="prevPhoto()" class="pointer-events-auto w-7 h-7 rounded-full bg-yard-cream/95 text-yard-darkGreen border border-yard-wood/40 flex items-center justify-center shadow-sm active:scale-90 transition-transform">
-                            <i class="fas fa-chevron-left text-[10px]"></i>
+                <!-- Gallery Showcase Container -->
+                <div class="relative h-[24rem] md:h-[26rem] overflow-hidden rounded-[1.75rem] border border-yard-wood/25 bg-[#F7F1E4]/75 shadow-inner">
+                    <div id="photo-deck" class="relative h-full w-full p-4"></div>
+
+                    <div class="absolute inset-y-0 inset-x-0 flex items-center justify-between px-3 md:px-4 pointer-events-none z-20">
+                        <button onclick="prevPhoto()" aria-label="上一张" class="pointer-events-auto w-10 h-10 md:w-11 md:h-11 rounded-full bg-yard-cream/96 text-yard-darkGreen border border-yard-wood/50 flex items-center justify-center shadow-lg shadow-yard-darkGreen/10 active:scale-90 transition-all backdrop-blur-sm">
+                            <i class="fas fa-chevron-left text-[11px]"></i>
                         </button>
-                        <button onclick="nextPhoto()" class="pointer-events-auto w-7 h-7 rounded-full bg-yard-cream/95 text-yard-darkGreen border border-yard-wood/40 flex items-center justify-center shadow-sm active:scale-90 transition-transform">
-                            <i class="fas fa-chevron-right text-[10px]"></i>
+                        <button onclick="nextPhoto()" aria-label="下一张" class="pointer-events-auto w-10 h-10 md:w-11 md:h-11 rounded-full bg-yard-cream/96 text-yard-darkGreen border border-yard-wood/50 flex items-center justify-center shadow-lg shadow-yard-darkGreen/10 active:scale-90 transition-all backdrop-blur-sm">
+                            <i class="fas fa-chevron-right text-[11px]"></i>
                         </button>
                     </div>
                 </div>
