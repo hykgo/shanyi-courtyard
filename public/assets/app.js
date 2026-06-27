@@ -77,31 +77,93 @@
                 date: '临沂平邑',
                 title: '2025年7月7日，校团委与平邑县共建第一所文艺小院 🏡',
                 desc: '校团委与平邑县共建“文艺小院”，青年学子围绕音乐发声、戏曲传唱、舞蹈排演、小品制作等内容交流实践心得，在倾听基层声音中贡献艺术智慧，为乡村文化建设注入青春动能。',
-                img: './assets/story/image1.jpeg'
+                img: './assets/story/image1.jpeg',
+                links: [
+                    {
+                        label: '青春筑梦三下乡，艺启同行新征程',
+                        url: 'https://mp.weixin.qq.com/s/sxVRmmy4WpbdwSRZz3cZuw'
+                    }
+                ]
             },
             {
                 date: '菏泽定陶',
                 title: '2025年7月8日，校团委与定陶区半堤镇共建第二所文艺小院 🎨',
                 desc: '校团委与定陶区半堤镇共建“文艺小院”。实践团走进“红映半堤”党建综合阵地，参与乡村振兴定点帮扶座谈，把文艺志愿服务与基层发展需求连接起来。',
-                img: './assets/story/image2.jpeg'
+                img: './assets/story/image2.jpeg',
+                links: [
+                    {
+                        label: '青春筑梦三下乡，艺启同行新征程',
+                        url: 'https://mp.weixin.qq.com/s/sxVRmmy4WpbdwSRZz3cZuw'
+                    }
+                ]
             },
             {
                 date: '长清双泉',
                 title: '2026年4月1日，校团委与长清区双泉镇共建第三所文艺小院 🌸',
                 desc: '长清区双泉镇共建“文艺小院”在双泉中心小学挂牌。双方围绕艺术支教、社团共建、美育提质深入交流，依托戏剧、舞蹈、戏曲、书法等专业力量，共筑乡村美育实践新阵地。',
-                img: './assets/story/image9.jpeg'
+                img: './assets/story/image9.jpeg',
+                links: [
+                    {
+                        label: '挂牌！第三所“文艺小院”',
+                        url: 'https://mp.weixin.qq.com/s/gY9AGyGz2da-88MoDxrqYw'
+                    },
+                    {
+                        label: '双泉镇小学：“种下美好”第一课',
+                        url: 'https://mp.weixin.qq.com/s/sdTCQXtME-mRz73atsf3iA'
+                    },
+                    {
+                        label: '双泉镇小学2：共赴成长之约',
+                        url: 'https://mp.weixin.qq.com/s/6AFv0hcwMvxqGlrr82CTnA'
+                    },
+                    {
+                        label: '双泉镇小学：以艺扎根，奔赴成长山海',
+                        url: 'https://mp.weixin.qq.com/s/bjTQednm2mcvibp04pA51Q'
+                    },
+                    {
+                        label: '双泉镇小学5：大手拉小手，一起学民法典',
+                        url: 'https://mp.weixin.qq.com/s/t98l8imX3HBqL4WADRAiKg'
+                    },
+                    {
+                        label: '双泉镇小学：捕捉可爱瞬间',
+                        url: 'https://mp.weixin.qq.com/s/dRzaQ9Nqs4HmXjMth-xeUg'
+                    },
+                    {
+                        label: '双泉镇小学：生如夏花',
+                        url: 'https://mp.weixin.qq.com/s/lggYmHb6BqdwBLZCJKFP7A'
+                    },
+                    {
+                        label: '双泉镇小学：最后一课，不说再见',
+                        url: 'https://mp.weixin.qq.com/s/HMCNxSDlFi6TiQ3_LOUhgQ'
+                    }
+                ]
             },
             {
                 date: '山东省青少年宫',
                 title: '2026年4月17日，校团委与山东省青少年宫共建文艺小院新阵地 🏛️',
                 desc: '山东省青少年宫“文艺小院”共建揭牌。校团委一行走访教室、排练厅与活动场地，围绕美育支教、文艺志愿服务、非遗传承与美育共创，为后续合作铺开新的实践空间。',
-                img: './assets/story/image12.png'
+                img: './assets/story/image12.png',
+                links: [
+                    {
+                        label: '“文艺小院”再添新阵地',
+                        url: 'https://mp.weixin.qq.com/s/GjqEHuuhjlqg0mzheSCa8w'
+                    }
+                ]
             },
             {
                 date: '长清大学城实验学校',
                 title: '2026年5月27日，校团委与长清大学城实验学校共建第四所文艺小院 🏫',
                 desc: '校团委走进济南市长清大学城实验学校举行揭牌仪式。合唱、舞蹈、戏剧、管乐等社团成果与山艺专业资源相遇，围绕课程辅导、作品创排、社团共建展开“大手拉小手”的双向奔赴。',
-                img: './assets/story/image17.jpeg'
+                img: './assets/story/image17.jpeg',
+                links: [
+                    {
+                        label: '大手拉小手，第四所“文艺小院”落地',
+                        url: 'https://mp.weixin.qq.com/s/h3r1umtWv-b7zO5eOFG6qw'
+                    },
+                    {
+                        label: '大学城实验学校1：第一次见面',
+                        url: 'https://mp.weixin.qq.com/s/VWI2rEEakjOa4lcVconIqA'
+                    }
+                ]
             }
         ];
 
@@ -111,6 +173,17 @@
             document.getElementById('modal-title').innerText = data.title;
             document.getElementById('modal-desc').innerText = data.desc;
             document.getElementById('modal-image').style.backgroundImage = `url('${data.img}')`;
+            const linksContainer = document.getElementById('modal-links');
+            linksContainer.innerHTML = '';
+            (data.links || []).forEach((link, linkIndex) => {
+                const anchor = document.createElement('a');
+                anchor.href = link.url;
+                anchor.target = '_blank';
+                anchor.rel = 'noopener noreferrer';
+                anchor.className = 'px-3 py-2 rounded-xl bg-yard-darkGreen/10 text-yard-darkGreen text-[10px] font-bold tracking-widest flex items-center justify-between gap-3 active:scale-[0.99] transition-all';
+                anchor.innerHTML = `<span>公众号原文 ${linkIndex + 1}：${link.label}</span><i class="fas fa-up-right-from-square text-[8px] text-yard-wood"></i>`;
+                linksContainer.appendChild(anchor);
+            });
             
             const modal = document.getElementById('timeline-modal');
             const inner = modal.querySelector('div');
