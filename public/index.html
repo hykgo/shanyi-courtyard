@@ -406,14 +406,14 @@
     </div>
 
     <!-- TIMELINE DETAIL MODAL (极简东方微弱圆角弹窗) -->
-    <div id="timeline-modal" class="fixed inset-0 z-50 flex items-center justify-center p-6 bg-[#161B18]/70 opacity-0 pointer-events-none transition-opacity duration-500">
-        <div class="bg-yard-cream max-w-sm w-full rounded-3xl overflow-hidden shadow-2xl transform scale-90 transition-transform duration-500 relative border border-yard-wood/30 p-0">
+    <div id="timeline-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-6 bg-[#161B18]/70 opacity-0 pointer-events-none transition-opacity duration-500">
+        <div class="bg-yard-cream max-w-sm w-full max-h-[82vh] md:max-h-[86vh] rounded-3xl overflow-hidden shadow-2xl transform scale-90 transition-transform duration-500 relative border border-yard-wood/30 p-0 flex flex-col">
             <!-- Close cross button -->
             <button onclick="closeTimelineModal()" class="absolute right-4 top-4 w-7 h-7 rounded-full bg-white/70 backdrop-blur-sm text-yard-darkGreen hover:bg-white flex items-center justify-center shadow-xs focus:outline-none z-10 active:scale-90 transition-transform">
                 <i class="fas fa-times text-xs"></i>
             </button>
-            <div id="modal-image" class="w-full h-48 bg-cover bg-center bg-gray-100"></div>
-            <div class="p-6">
+            <div id="modal-image" class="w-full h-40 md:h-44 shrink-0 bg-cover bg-center bg-gray-100"></div>
+            <div class="p-5 md:p-6 overflow-y-auto">
                 <span id="modal-date" class="text-[9px] font-bold text-yard-wood tracking-[0.2em] font-roman block mb-1"></span>
                 <h4 id="modal-title" class="font-bold text-base text-yard-darkGreen mb-3 tracking-wide"></h4>
                 <p id="modal-desc" class="text-[11px] text-yard-charcoal/80 leading-relaxed font-light tracking-wide mb-5"></p>

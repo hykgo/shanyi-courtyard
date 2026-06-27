@@ -2,6 +2,7 @@
         let activeIdentity = '26级萌新';
         let currentPhotoIndex = 0;
         let galleryUpdateToken = 0;
+        const galleryImageCache = new Map();
         const galleryPhotos = Array.from({ length: 102 }, (_, index) => {
             const number = String(index + 1).padStart(3, '0');
             return {
@@ -27,15 +28,14 @@
             // Initiate polaroid swipe listeners
             initPolaroidSwipe();
 
+            warmGalleryImages();
             if ('requestIdleCallback' in window) {
                 requestIdleCallback(() => {
                     warmGateMusicAudio();
-                    warmGalleryImages();
                 }, { timeout: 2000 });
             } else {
                 setTimeout(() => {
                     warmGateMusicAudio();
-                    warmGalleryImages();
                 }, 1200);
             }
         };
@@ -232,12 +232,14 @@
         }
 
         function warmGalleryImages() {
-            const preloadCount = Math.min(24, galleryPhotos.length);
-            for (let i = 0; i < preloadCount; i += 1) {
+            for (let i = 0; i < galleryPhotos.length; i += 1) {
+                const photo = galleryPhotos[i];
+                if (galleryImageCache.has(photo.src)) continue;
                 const img = new Image();
                 img.decoding = 'async';
                 img.loading = 'eager';
-                img.src = galleryPhotos[i].src;
+                img.src = photo.src;
+                galleryImageCache.set(photo.src, img);
             }
         }
 
@@ -259,7 +261,7 @@
                             </div>
                         </div>
                         <div class="rounded-[1rem] bg-white/30 border border-white/55 p-1.5 md:p-2 shadow-sm">
-                            <div id="gallery-strip" class="flex gap-2 overflow-hidden"></div>
+                            <div id="gallery-strip" class="grid grid-cols-5 gap-2"></div>
                         </div>
                     </div>
                 `;
@@ -285,27 +287,22 @@
             const updateToken = ++galleryUpdateToken;
 
             const setMain = (photo) => {
-                const loader = new Image();
-                loader.onload = () => {
-                    if (updateToken !== galleryUpdateToken) return;
-                    if (mainImage) {
-                        mainImage.src = photo.src;
-                        mainImage.alt = photo.caption;
-                    }
-                    if (mainCaption) {
-                        mainCaption.textContent = photo.caption;
-                    }
-                };
-                loader.onerror = loader.onload;
-                loader.src = photo.src;
+                if (updateToken !== galleryUpdateToken) return;
+                if (mainImage) {
+                    mainImage.src = photo.src;
+                    mainImage.alt = photo.caption;
+                }
+                if (mainCaption) {
+                    mainCaption.textContent = photo.caption;
+                }
             };
 
             setMain(window.current);
 
             if (strip) {
                 strip.innerHTML = window.strip.map((photo, index) => `
-                    <button class="group relative flex-1 min-w-0 overflow-hidden rounded-xl border transition-all duration-300 ${index === 0 ? 'border-yard-darkGreen/40 ring-1 ring-yard-darkGreen/20' : 'border-white/45 opacity-75'}" aria-label="${photo.caption}">
-                        <img src="${photo.src}" alt="${photo.caption}" class="w-full h-14 md:h-16 object-cover">
+                    <button onclick="selectGalleryPhoto(${photo.index})" class="group relative aspect-[4/3] min-w-0 overflow-hidden rounded-xl border transition-all duration-300 ${index === 0 ? 'border-yard-darkGreen/40 ring-1 ring-yard-darkGreen/20' : 'border-white/45 opacity-75'}" aria-label="${photo.caption}">
+                        <img src="${photo.src}" alt="${photo.caption}" loading="eager" decoding="async" class="w-full h-full object-cover">
                     </button>
                 `).join('');
             }
@@ -352,6 +349,12 @@
 
         function prevPhoto() {
             currentPhotoIndex = (currentPhotoIndex - 1 + galleryPhotos.length) % galleryPhotos.length;
+            renderPolaroidDeck();
+        }
+
+        function selectGalleryPhoto(index) {
+            const total = galleryPhotos.length;
+            currentPhotoIndex = ((index % total) + total) % total;
             renderPolaroidDeck();
         }
 
