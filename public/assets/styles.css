@@ -22,9 +22,9 @@ html {
 
         .mist-gate {
             background:
-                linear-gradient(90deg, rgba(11, 35, 20, 0.28) 0 49.85%, rgba(213, 181, 136, 0.18) 49.9% 50.1%, rgba(8, 28, 16, 0.34) 50.15% 100%),
-                radial-gradient(circle at 50% 44%, rgba(213, 181, 136, 0.1), rgba(24, 65, 39, 0.18) 30%, rgba(16, 49, 29, 0.82) 70%),
-                linear-gradient(180deg, #173f27 0%, #153a24 48%, #12331f 100%);
+                linear-gradient(90deg, rgba(64, 111, 96, 0.16) 0 49.85%, rgba(209, 179, 135, 0.34) 49.9% 50.1%, rgba(42, 88, 76, 0.18) 50.15% 100%),
+                radial-gradient(circle at 50% 42%, rgba(238, 229, 207, 0.24), rgba(116, 154, 139, 0.26) 32%, rgba(73, 119, 102, 0.48) 72%),
+                linear-gradient(180deg, #87a998 0%, #6f9686 48%, #4f7f6d 100%);
         }
 
         .mist-gate::before,
@@ -35,11 +35,11 @@ html {
             pointer-events: none;
             z-index: 2;
             background:
-                radial-gradient(circle at 50% 43%, rgba(246, 239, 222, 0.08), transparent 24%),
-                radial-gradient(circle at 34% 32%, rgba(213, 181, 136, 0.06), transparent 26%),
-                radial-gradient(circle at 68% 30%, rgba(213, 181, 136, 0.05), transparent 25%);
-            filter: blur(20px);
-            opacity: 0.5;
+                radial-gradient(circle at 50% 43%, rgba(246, 239, 222, 0.22), transparent 24%),
+                radial-gradient(circle at 34% 32%, rgba(213, 181, 136, 0.12), transparent 26%),
+                radial-gradient(circle at 68% 30%, rgba(231, 241, 231, 0.12), transparent 25%);
+            filter: blur(22px);
+            opacity: 0.46;
             animation: mistDrift 8s ease-in-out infinite alternate;
         }
 
@@ -47,33 +47,33 @@ html {
             inset: 0;
             z-index: 1;
             background-image:
-                linear-gradient(90deg, transparent 0 49.8%, rgba(213, 181, 136, 0.25) 49.9% 50.1%, transparent 50.2%),
-                radial-gradient(rgba(246, 239, 222, 0.025) 1px, transparent 1px);
+                linear-gradient(90deg, transparent 0 49.8%, rgba(213, 181, 136, 0.34) 49.9% 50.1%, transparent 50.2%),
+                radial-gradient(rgba(246, 239, 222, 0.07) 1px, transparent 1px);
             background-size: 100% 100%, 22px 22px;
             filter: none;
-            opacity: 0.38;
+            opacity: 0.34;
             animation: none;
         }
 
         .mist-door {
             background:
-                linear-gradient(90deg, rgba(213, 181, 136, 0.035), rgba(246, 239, 222, 0.012)),
-                linear-gradient(180deg, #174026 0%, #153a23 50%, #11331e 100%);
-            box-shadow: inset 0 0 56px rgba(6, 24, 13, 0.36), 0 0 36px rgba(213, 181, 136, 0.06);
+                linear-gradient(90deg, rgba(246, 239, 222, 0.12), rgba(64, 111, 96, 0.08)),
+                linear-gradient(180deg, #8cae9d 0%, #6f9786 50%, #527f6f 100%);
+            box-shadow: inset 0 0 56px rgba(24, 69, 55, 0.22), 0 0 36px rgba(213, 181, 136, 0.08);
             backdrop-filter: blur(2px);
-            border-color: rgba(213, 181, 136, 0.18) !important;
+            border-color: rgba(213, 181, 136, 0.26) !important;
         }
 
         .mist-door-left {
             background:
-                linear-gradient(90deg, rgba(14, 43, 25, 0.98), rgba(25, 65, 39, 0.98)),
-                linear-gradient(180deg, #19452a 0%, #153a23 50%, #10301c 100%);
+                linear-gradient(90deg, rgba(74, 122, 105, 0.98), rgba(139, 173, 157, 0.96)),
+                linear-gradient(180deg, #91b3a2 0%, #729988 50%, #527f6f 100%);
         }
 
         .mist-door-right {
             background:
-                linear-gradient(270deg, rgba(14, 43, 25, 0.98), rgba(25, 65, 39, 0.98)),
-                linear-gradient(180deg, #19452a 0%, #153a23 50%, #10301c 100%);
+                linear-gradient(270deg, rgba(74, 122, 105, 0.98), rgba(139, 173, 157, 0.96)),
+                linear-gradient(180deg, #91b3a2 0%, #729988 50%, #527f6f 100%);
         }
 
         .mist-gate-opening {
