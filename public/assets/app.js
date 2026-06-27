@@ -27,9 +27,15 @@
             initPolaroidSwipe();
 
             if ('requestIdleCallback' in window) {
-                requestIdleCallback(warmGateMusicAudio, { timeout: 2000 });
+                requestIdleCallback(() => {
+                    warmGateMusicAudio();
+                    warmGalleryImages();
+                }, { timeout: 2000 });
             } else {
-                setTimeout(warmGateMusicAudio, 1200);
+                setTimeout(() => {
+                    warmGateMusicAudio();
+                    warmGalleryImages();
+                }, 1200);
             }
         };
 
@@ -220,6 +226,16 @@
             });
         }
 
+        function warmGalleryImages() {
+            const preloadCount = Math.min(12, galleryPhotos.length);
+            for (let i = 0; i < preloadCount; i += 1) {
+                const img = new Image();
+                img.decoding = 'async';
+                img.loading = 'eager';
+                img.src = galleryPhotos[i].src;
+            }
+        }
+
         function renderPolaroidDeck() {
             const deck = document.getElementById('photo-deck');
             if (!deck || !galleryPhotos.length) return;
@@ -298,7 +314,7 @@
         }
 
         // Local gate music player
-        const gateMusicSrc = './assets/audio/听见风的声音-96k.mp3';
+        const gateMusicSrc = './assets/audio/gate-music-96k.mp3';
         let gateMusicAudio = null;
 
         function ensureGateMusicAudio() {
