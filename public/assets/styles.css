@@ -135,6 +135,80 @@ html {
             background-color: rgba(255, 255, 255, 0.4);
         }
 
+        .gallery-stage {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            height: 100%;
+        }
+
+        .gallery-main-card {
+            position: relative;
+            flex: 0 0 auto;
+            height: 16.75rem;
+            border-radius: 1.4rem;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.55);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 20px 60px rgba(39, 51, 43, 0.12);
+        }
+
+        .gallery-main-caption {
+            position: absolute;
+            inset-inline: 0;
+            bottom: 0;
+            padding: 0.875rem 1rem 1rem;
+            background: linear-gradient(to top, rgba(23, 61, 37, 0.72), rgba(23, 61, 37, 0.18), transparent);
+        }
+
+        .gallery-strip-shell {
+            padding: 0.4rem;
+            border-radius: 1rem;
+            background: rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.55);
+            box-shadow: 0 8px 20px rgba(39, 51, 43, 0.06);
+        }
+
+        .gallery-strip-grid {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 0.5rem;
+        }
+
+        .gallery-thumb-card {
+            position: relative;
+            aspect-ratio: 4 / 3;
+            overflow: hidden;
+            min-width: 0;
+            border-radius: 0.85rem;
+            border: 1px solid rgba(255, 255, 255, 0.45);
+            opacity: 0.78;
+            transition: transform 0.22s ease, opacity 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+        }
+
+        .gallery-thumb-card.is-active {
+            opacity: 1;
+            border-color: rgba(23, 61, 37, 0.4);
+            box-shadow: 0 0 0 1px rgba(23, 61, 37, 0.2);
+        }
+
+        .gallery-thumb-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        @media (max-width: 640px) {
+            .gallery-main-card {
+                height: 15rem;
+            }
+
+            .gallery-strip-grid {
+                gap: 0.4rem;
+            }
+        }
+
         /* Flowing premium golden gradient for primary buttons */
         .gold-gradient-btn {
             background: linear-gradient(135deg, #173D25, #21492E, #D2B58F, #173D25);

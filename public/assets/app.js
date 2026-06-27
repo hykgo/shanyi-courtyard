@@ -7,7 +7,7 @@
             const number = String(index + 1).padStart(3, '0');
             return {
                 src: `./assets/gallery/photo-${number}.jpg`,
-                caption: `文艺小院影像 ${index + 1}`
+                caption: '文艺小院'
             };
         });
         let audioContext = null;
@@ -249,15 +249,15 @@
 
             if (!deck.dataset.ready) {
                 deck.innerHTML = `
-                    <div class="relative z-10 h-full flex flex-col gap-2.5 md:gap-3">
-                        <div class="relative flex-none h-[16.75rem] md:h-[18rem] rounded-[1.4rem] overflow-hidden bg-white/55 border border-white/60 shadow-[0_20px_60px_rgba(39,51,43,0.12)]">
+                    <div class="gallery-stage">
+                        <div class="gallery-main-card">
                             <img id="gallery-main-image" src="" alt="" class="w-full h-full object-cover">
-                            <div class="absolute inset-x-0 bottom-0 p-3.5 md:p-4 bg-gradient-to-t from-[rgba(23,61,37,0.72)] via-[rgba(23,61,37,0.18)] to-transparent">
+                            <div class="gallery-main-caption">
                                 <div id="gallery-main-caption" class="text-yard-cream font-brush text-lg md:text-xl leading-tight tracking-wider"></div>
                             </div>
                         </div>
-                        <div class="rounded-[1rem] bg-white/30 border border-white/55 p-1.5 md:p-2 shadow-sm">
-                            <div id="gallery-strip" class="grid grid-cols-5 gap-2"></div>
+                        <div class="gallery-strip-shell">
+                            <div id="gallery-strip" class="gallery-strip-grid"></div>
                         </div>
                     </div>
                 `;
@@ -297,8 +297,8 @@
 
             if (strip) {
                 strip.innerHTML = window.strip.map((photo, index) => `
-                    <button onclick="selectGalleryPhoto(${photo.index})" class="group relative aspect-[4/3] min-w-0 overflow-hidden rounded-xl border transition-all duration-300 ${index === 0 ? 'border-yard-darkGreen/40 ring-1 ring-yard-darkGreen/20' : 'border-white/45 opacity-75'}" aria-label="${photo.caption}">
-                        <img src="${photo.src}" alt="${photo.caption}" loading="eager" decoding="async" class="w-full h-full object-cover">
+                    <button onclick="selectGalleryPhoto(${photo.index})" class="gallery-thumb-card${index === 0 ? ' is-active' : ''}" aria-label="${photo.caption}">
+                        <img src="${photo.src}" alt="${photo.caption}" loading="eager" decoding="async" class="gallery-thumb-image">
                     </button>
                 `).join('');
             }
