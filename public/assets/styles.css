@@ -116,6 +116,15 @@ html {
             }
         }
 
+        .gate-music-spin {
+            animation: gateMusicSpin 1.2s linear infinite;
+        }
+
+        @keyframes gateMusicSpin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
         /* Polaroid Physics Wobble */
         .polaroid-card {
             transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);

@@ -9,8 +9,9 @@
             };
         });
         let audioContext = null;
-        let synthInterval = null;
         let isMusicPlaying = false;
+        let musicStepTimer = null;
+        let gateMusicPulse = null;
         let isSubmittingMessage = false;
         
         // Window on-load
@@ -291,15 +292,6 @@
         }
 
         // Ambient sound synthesiser engine (With built-in Delay Feedback Loop for huge spatial resonance)
-        const poemLines = [
-            '"山前微风起，我们在文艺小院等你"',
-            '"竹影扫阶尘不动，心弦一抚曲自生"',
-            '"在大地写就诗行，用笔尖温润这山河风貌"',
-            '"暮钟敲碎林梢，看落日余晖点燃金色琴键"',
-            '"泉声漫进轩窗，弹奏出美院少年独有的梦"'
-        ];
-        let poemIndex = 0;
-
         function toggleSynthMusic() {
             if (isMusicPlaying) {
                 stopAmbientMusic();
@@ -319,117 +311,10 @@
                 }
                 
                 isMusicPlaying = true;
-                document.getElementById('play-icon').className = "fas fa-pause text-xs text-yard-wood";
-                document.getElementById('player-indicator').classList.remove('opacity-0');
-                document.getElementById('player-indicator').classList.add('opacity-100');
-                document.getElementById('track-title').innerText = "🔊 治愈风雅和弦 · 空灵声学播放中";
-                
-                // Traditional Pentatonic Scale chords (C G C E / A E A C / F C F A / G D G B)
-                const chordProgression = [
-                    [130.81, 196.00, 261.63, 329.63], 
-                    [110.00, 164.81, 220.00, 261.63], 
-                    [87.31, 130.81, 174.61, 220.00],  
-                    [98.00, 146.83, 196.00, 246.94]   
-                ];
-                let chordStep = 0;
-
-                // Create feedback delay system for spacious wabi-sabi echo
-                const mainDelay = audioContext.createDelay(1.0);
-                mainDelay.delayTime.setValueAtTime(0.45, audioContext.currentTime);
-
-                const delayFeedback = audioContext.createGain();
-                delayFeedback.gain.setValueAtTime(0.4, audioContext.currentTime);
-
-                mainDelay.connect(delayFeedback);
-                delayFeedback.connect(mainDelay); // closed feedback loop
-                
-                const delayGain = audioContext.createGain();
-                delayGain.gain.setValueAtTime(0.08, audioContext.currentTime);
-                mainDelay.connect(delayGain);
-                delayGain.connect(audioContext.destination);
-
-                function playWarmPluck(freq, delaySec, duration = 3.5) {
-                    const osc = audioContext.createOscillator();
-                    const gainNode = audioContext.createGain();
-                    
-                    osc.type = 'triangle';
-                    osc.frequency.setValueAtTime(freq, audioContext.currentTime + delaySec);
-                    
-                    // Gentle envelope curve
-                    gainNode.gain.setValueAtTime(0, audioContext.currentTime + delaySec);
-                    gainNode.gain.linearRampToValueAtTime(0.07, audioContext.currentTime + delaySec + 0.12);
-                    gainNode.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + delaySec + duration);
-                    
-                    // Warm lowpass filter to emulate wood instrument resonate
-                    const filter = audioContext.createBiquadFilter();
-                    filter.type = 'lowpass';
-                    filter.frequency.setValueAtTime(550, audioContext.currentTime + delaySec);
-                    
-                    osc.connect(filter);
-                    filter.connect(gainNode);
-                    
-                    // Direct to out & feedback line
-                    gainNode.connect(audioContext.destination);
-                    gainNode.connect(mainDelay);
-                    
-                    osc.start(audioContext.currentTime + delaySec);
-                    osc.stop(audioContext.currentTime + delaySec + duration + 0.5);
-                }
-
-                function playWindChime() {
-                    const randomFreq = 950 + Math.random() * 1100;
-                    const delay = Math.random() * 3.2;
-                    
-                    const osc = audioContext.createOscillator();
-                    const gainNode = audioContext.createGain();
-                    
-                    osc.type = 'sine';
-                    osc.frequency.setValueAtTime(randomFreq, audioContext.currentTime + delay);
-                    
-                    gainNode.gain.setValueAtTime(0, audioContext.currentTime + delay);
-                    gainNode.gain.linearRampToValueAtTime(0.02, audioContext.currentTime + delay + 0.05);
-                    gainNode.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + delay + 1.6);
-                    
-                    osc.connect(gainNode);
-                    gainNode.connect(audioContext.destination);
-                    gainNode.connect(mainDelay);
-                    
-                    osc.start(audioContext.currentTime + delay);
-                    osc.stop(audioContext.currentTime + delay + 2.0);
-                }
-
-                // 4 seconds interval step sequencer
-                function tickMusic() {
-                    const chord = chordProgression[chordStep];
-                    chord.forEach((freq, idx) => {
-                        // Spread notes for arpeggio warmth
-                        playWarmPluck(freq, idx * 0.18);
-                    });
-                    
-                    playWindChime();
-                    if(Math.random() > 0.45) playWindChime();
-                    
-                    chordStep = (chordStep + 1) % chordProgression.length;
-
-                    // Poem subtitle rotation
-                    poemIndex = (poemIndex + 1) % poemLines.length;
-                    const scrollingPoem = document.getElementById('scrolling-poem');
-                    scrollingPoem.style.transform = 'translateY(-20px)';
-                    scrollingPoem.style.opacity = '0';
-                    setTimeout(() => {
-                        scrollingPoem.innerText = poemLines[poemIndex];
-                        scrollingPoem.style.transform = 'translateY(20px)';
-                        setTimeout(() => {
-                            scrollingPoem.style.transform = 'translateY(0)';
-                            scrollingPoem.style.opacity = '1';
-                        }, 50);
-                    }, 400);
-                }
-
-                tickMusic();
-                synthInterval = setInterval(tickMusic, 4200);
+                updateGateMusicUI(true);
+                startLightMusicLoop();
                 if (!options.silentToast) {
-                    showToast('🎻 竹风和弦电台开始低吟...', 'fa-music');
+                    showToast('🎵 小院轻曲已响起', 'fa-music');
                 }
                 
             } catch(e) {
@@ -440,12 +325,90 @@
 
         function stopAmbientMusic() {
             isMusicPlaying = false;
-            if (synthInterval) clearInterval(synthInterval);
-            document.getElementById('play-icon').className = "fas fa-play text-xs translate-x-0.5 text-yard-wood";
-            document.getElementById('player-indicator').classList.remove('opacity-100');
-            document.getElementById('player-indicator').classList.add('opacity-0');
-            document.getElementById('track-title').innerText = "山前微风吟 · 自然和弦 (已暂停)";
-            showToast('🎵 电台已合弦收回', 'fa-volume-mute');
+            if (musicStepTimer) clearInterval(musicStepTimer);
+            if (gateMusicPulse) clearInterval(gateMusicPulse);
+            updateGateMusicUI(false);
+            showToast('🎵 小曲已收起', 'fa-volume-mute');
+        }
+
+        function updateGateMusicUI(playing) {
+            const icon = document.getElementById('gate-music-icon');
+            const btn = document.getElementById('gate-music-btn');
+            if (!icon || !btn) return;
+            if (playing) {
+                icon.className = 'fas fa-music text-[11px] gate-music-spin text-yard-wood';
+                btn.classList.add('bg-yard-lightGreen');
+            } else {
+                icon.className = 'fas fa-music text-[11px] text-yard-darkGreen';
+                btn.classList.remove('bg-yard-lightGreen');
+            }
+        }
+
+        function startLightMusicLoop() {
+            const notes = [392.0, 440.0, 523.25, 587.33, 659.25, 587.33, 523.25, 440.0];
+            const bass = [196.0, 220.0, 246.94, 261.63];
+            let step = 0;
+
+            const mainGain = audioContext.createGain();
+            const filter = audioContext.createBiquadFilter();
+            const delay = audioContext.createDelay(0.8);
+            const feedback = audioContext.createGain();
+            const delayMix = audioContext.createGain();
+
+            filter.type = 'lowpass';
+            filter.frequency.setValueAtTime(1200, audioContext.currentTime);
+            mainGain.gain.setValueAtTime(0.18, audioContext.currentTime);
+            delay.delayTime.setValueAtTime(0.24, audioContext.currentTime);
+            feedback.gain.setValueAtTime(0.22, audioContext.currentTime);
+            delayMix.gain.setValueAtTime(0.08, audioContext.currentTime);
+
+            mainGain.connect(filter);
+            filter.connect(delay);
+            delay.connect(feedback);
+            feedback.connect(delay);
+            filter.connect(delayMix);
+            delayMix.connect(audioContext.destination);
+            delay.connect(audioContext.destination);
+
+            function pluck(freq, timeOffset, duration, gainValue, type = 'triangle') {
+                const osc = audioContext.createOscillator();
+                const gain = audioContext.createGain();
+                const noteFilter = audioContext.createBiquadFilter();
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, audioContext.currentTime + timeOffset);
+                noteFilter.type = 'lowpass';
+                noteFilter.frequency.setValueAtTime(1800, audioContext.currentTime + timeOffset);
+                gain.gain.setValueAtTime(0.0001, audioContext.currentTime + timeOffset);
+                gain.gain.linearRampToValueAtTime(gainValue, audioContext.currentTime + timeOffset + 0.03);
+                gain.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + timeOffset + duration);
+                osc.connect(noteFilter);
+                noteFilter.connect(gain);
+                gain.connect(mainGain);
+                osc.start(audioContext.currentTime + timeOffset);
+                osc.stop(audioContext.currentTime + timeOffset + duration + 0.15);
+            }
+
+            function tick() {
+                const now = audioContext.currentTime;
+                const n1 = notes[step % notes.length];
+                const n2 = notes[(step + 2) % notes.length];
+                const b = bass[step % bass.length];
+                pluck(n1, 0, 0.7, 0.09, 'triangle');
+                pluck(n2, 0.18, 0.7, 0.07, 'sine');
+                pluck(b, 0.36, 0.9, 0.05, 'sine');
+                if (step % 2 === 0) {
+                    pluck(n2 * 2, 0.52, 0.6, 0.035, 'sine');
+                }
+                step = (step + 1) % notes.length;
+            }
+
+            tick();
+            musicStepTimer = setInterval(tick, 1200);
+            gateMusicPulse = setInterval(() => {
+                const btn = document.getElementById('gate-music-btn');
+                if (btn) btn.classList.toggle('shadow-lg');
+            }, 600);
+            updateGateMusicUI(true);
         }
 
         // Identity Selector Highlight
