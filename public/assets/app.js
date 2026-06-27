@@ -291,7 +291,31 @@
             updatePolaroidStack();
         }
 
-        // Ambient sound synthesiser engine (With built-in Delay Feedback Loop for huge spatial resonance)
+        // Local gate music player
+        const gateMusicSrc = './assets/audio/听见风的声音.mp3';
+        let gateMusicAudio = null;
+
+        function ensureGateMusicAudio() {
+            if (!gateMusicAudio) {
+                gateMusicAudio = new Audio(gateMusicSrc);
+                gateMusicAudio.preload = 'auto';
+                gateMusicAudio.loop = true;
+                gateMusicAudio.volume = 0.75;
+                gateMusicAudio.playsInline = true;
+                gateMusicAudio.addEventListener('play', () => {
+                    isMusicPlaying = true;
+                    updateGateMusicUI(true);
+                });
+                gateMusicAudio.addEventListener('pause', () => {
+                    if (!gateMusicAudio || gateMusicAudio.currentTime === 0 || gateMusicAudio.ended) {
+                        isMusicPlaying = false;
+                        updateGateMusicUI(false);
+                    }
+                });
+            }
+            return gateMusicAudio;
+        }
+
         function toggleSynthMusic() {
             if (isMusicPlaying) {
                 stopAmbientMusic();
@@ -300,37 +324,32 @@
             }
         }
 
-        function startAmbientMusic(options = {}) {
+        async function startAmbientMusic(options = {}) {
             try {
-                if (!audioContext) {
-                    audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                }
-                
-                if (audioContext.state === 'suspended') {
-                    audioContext.resume();
-                }
-                
+                const audio = ensureGateMusicAudio();
+                audio.volume = 0.75;
+                audio.loop = true;
+                await audio.play();
                 isMusicPlaying = true;
                 updateGateMusicUI(true);
-                startLightMusicLoop();
                 if (!options.silentToast) {
-                    showToast('🎵 小院轻曲已响起', 'fa-music');
+                    showToast('?? ???????', 'fa-music');
                 }
-                
-            } catch(e) {
+            } catch (e) {
                 console.warn(e);
-                showToast('设备不支持原生声学合成器', 'fa-volume-mute');
+                isMusicPlaying = false;
+                updateGateMusicUI(false);
+                showToast('????????????????', 'fa-volume-mute');
             }
         }
 
         function stopAmbientMusic() {
+            const audio = ensureGateMusicAudio();
+            audio.pause();
+            audio.currentTime = 0;
             isMusicPlaying = false;
-            if (musicStepTimer) clearInterval(musicStepTimer);
-            if (gateMusicPulse) clearInterval(gateMusicPulse);
-            musicStepTimer = null;
-            gateMusicPulse = null;
             updateGateMusicUI(false);
-            showToast('🎵 小曲已收起', 'fa-volume-mute');
+            showToast('?? ?????', 'fa-volume-mute');
         }
 
         function updateGateMusicUI(playing) {
@@ -346,75 +365,8 @@
             }
         }
 
-        function startLightMusicLoop() {
-            const notes = [392.0, 440.0, 523.25, 587.33, 659.25, 587.33, 523.25, 440.0];
-            const bass = [196.0, 220.0, 246.94, 261.63];
-            let step = 0;
-
-            const mainGain = audioContext.createGain();
-            const filter = audioContext.createBiquadFilter();
-            const delay = audioContext.createDelay(0.8);
-            const feedback = audioContext.createGain();
-            const delayMix = audioContext.createGain();
-
-            filter.type = 'lowpass';
-            filter.frequency.setValueAtTime(1200, audioContext.currentTime);
-            mainGain.gain.setValueAtTime(0.55, audioContext.currentTime);
-            delay.delayTime.setValueAtTime(0.28, audioContext.currentTime);
-            feedback.gain.setValueAtTime(0.12, audioContext.currentTime);
-            delayMix.gain.setValueAtTime(0.18, audioContext.currentTime);
-
-            mainGain.connect(filter);
-            filter.connect(delay);
-            delay.connect(feedback);
-            feedback.connect(delay);
-            filter.connect(delayMix);
-            mainGain.connect(audioContext.destination);
-            delayMix.connect(audioContext.destination);
-            delay.connect(audioContext.destination);
-
-            function pluck(freq, timeOffset, duration, gainValue, type = 'triangle') {
-                const osc = audioContext.createOscillator();
-                const gain = audioContext.createGain();
-                const noteFilter = audioContext.createBiquadFilter();
-                osc.type = type;
-                osc.frequency.setValueAtTime(freq, audioContext.currentTime + timeOffset);
-                noteFilter.type = 'lowpass';
-                noteFilter.frequency.setValueAtTime(1800, audioContext.currentTime + timeOffset);
-                gain.gain.setValueAtTime(0.0001, audioContext.currentTime + timeOffset);
-                gain.gain.linearRampToValueAtTime(gainValue, audioContext.currentTime + timeOffset + 0.04);
-                gain.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + timeOffset + duration);
-                osc.connect(noteFilter);
-                noteFilter.connect(gain);
-                gain.connect(mainGain);
-                osc.start(audioContext.currentTime + timeOffset);
-                osc.stop(audioContext.currentTime + timeOffset + duration + 0.15);
-            }
-
-            function tick() {
-                const now = audioContext.currentTime;
-                const n1 = notes[step % notes.length];
-                const n2 = notes[(step + 2) % notes.length];
-                const b = bass[step % bass.length];
-                pluck(n1, 0, 0.85, 0.22, 'triangle');
-                pluck(n2, 0.18, 0.85, 0.16, 'sine');
-                pluck(b, 0.36, 1.05, 0.12, 'sine');
-                if (step % 2 === 0) {
-                    pluck(n2 * 2, 0.52, 0.7, 0.08, 'sine');
-                }
-                step = (step + 1) % notes.length;
-            }
-
-            tick();
-            musicStepTimer = setInterval(tick, 1200);
-            gateMusicPulse = setInterval(() => {
-                const btn = document.getElementById('gate-music-btn');
-                if (btn) btn.classList.toggle('shadow-lg');
-            }, 600);
-            updateGateMusicUI(true);
-        }
-
         // Identity Selector Highlight
+// Identity Selector Highlight
         function selectIdentity(identityName) {
             activeIdentity = identityName;
             
