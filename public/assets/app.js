@@ -25,6 +25,12 @@
             
             // Initiate polaroid swipe listeners
             initPolaroidSwipe();
+
+            if ('requestIdleCallback' in window) {
+                requestIdleCallback(warmGateMusicAudio, { timeout: 2000 });
+            } else {
+                setTimeout(warmGateMusicAudio, 1200);
+            }
         };
 
         // Elegant gate sliding with CSS Spring and Delay
@@ -292,7 +298,7 @@
         }
 
         // Local gate music player
-        const gateMusicSrc = './assets/audio/听见风的声音.mp3';
+        const gateMusicSrc = './assets/audio/听见风的声音-96k.mp3';
         let gateMusicAudio = null;
 
         function ensureGateMusicAudio() {
@@ -314,6 +320,11 @@
                 });
             }
             return gateMusicAudio;
+        }
+
+        function warmGateMusicAudio() {
+            const audio = ensureGateMusicAudio();
+            audio.load();
         }
 
         function toggleSynthMusic() {
