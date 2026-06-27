@@ -227,7 +227,7 @@
         }
 
         function warmGalleryImages() {
-            const preloadCount = Math.min(12, galleryPhotos.length);
+            const preloadCount = Math.min(24, galleryPhotos.length);
             for (let i = 0; i < preloadCount; i += 1) {
                 const img = new Image();
                 img.decoding = 'async';
@@ -314,12 +314,14 @@
         }
 
         // Local gate music player
-        const gateMusicSrc = './assets/audio/gate-music-96k.mp3';
         let gateMusicAudio = null;
 
         function ensureGateMusicAudio() {
             if (!gateMusicAudio) {
-                gateMusicAudio = new Audio(gateMusicSrc);
+                gateMusicAudio = document.getElementById('gate-music-audio');
+                if (!gateMusicAudio) {
+                    return null;
+                }
                 gateMusicAudio.preload = 'auto';
                 gateMusicAudio.loop = true;
                 gateMusicAudio.volume = 0.75;
@@ -334,13 +336,19 @@
                         updateGateMusicUI(false);
                     }
                 });
+                gateMusicAudio.addEventListener('ended', () => {
+                    isMusicPlaying = false;
+                    updateGateMusicUI(false);
+                });
             }
             return gateMusicAudio;
         }
 
         function warmGateMusicAudio() {
             const audio = ensureGateMusicAudio();
-            audio.load();
+            if (audio) {
+                audio.load();
+            }
         }
 
         function toggleSynthMusic() {
@@ -354,6 +362,7 @@
         async function startAmbientMusic(options = {}) {
             try {
                 const audio = ensureGateMusicAudio();
+                if (!audio) throw new Error('audio element missing');
                 audio.volume = 0.75;
                 audio.loop = true;
                 await audio.play();
@@ -366,12 +375,13 @@
                 console.warn(e);
                 isMusicPlaying = false;
                 updateGateMusicUI(false);
-                showToast('????????????????', 'fa-volume-mute');
+                showToast('??????????????', 'fa-volume-mute');
             }
         }
 
         function stopAmbientMusic() {
             const audio = ensureGateMusicAudio();
+            if (!audio) return;
             audio.pause();
             audio.currentTime = 0;
             isMusicPlaying = false;
@@ -393,6 +403,7 @@
         }
 
         // Identity Selector Highlight
+// Identity Selector Highlight
 // Identity Selector Highlight
         function selectIdentity(identityName) {
             activeIdentity = identityName;
