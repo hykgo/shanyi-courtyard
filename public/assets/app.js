@@ -327,6 +327,8 @@
             isMusicPlaying = false;
             if (musicStepTimer) clearInterval(musicStepTimer);
             if (gateMusicPulse) clearInterval(gateMusicPulse);
+            musicStepTimer = null;
+            gateMusicPulse = null;
             updateGateMusicUI(false);
             showToast('🎵 小曲已收起', 'fa-volume-mute');
         }
@@ -357,16 +359,17 @@
 
             filter.type = 'lowpass';
             filter.frequency.setValueAtTime(1200, audioContext.currentTime);
-            mainGain.gain.setValueAtTime(0.18, audioContext.currentTime);
-            delay.delayTime.setValueAtTime(0.24, audioContext.currentTime);
-            feedback.gain.setValueAtTime(0.22, audioContext.currentTime);
-            delayMix.gain.setValueAtTime(0.08, audioContext.currentTime);
+            mainGain.gain.setValueAtTime(0.55, audioContext.currentTime);
+            delay.delayTime.setValueAtTime(0.28, audioContext.currentTime);
+            feedback.gain.setValueAtTime(0.12, audioContext.currentTime);
+            delayMix.gain.setValueAtTime(0.18, audioContext.currentTime);
 
             mainGain.connect(filter);
             filter.connect(delay);
             delay.connect(feedback);
             feedback.connect(delay);
             filter.connect(delayMix);
+            mainGain.connect(audioContext.destination);
             delayMix.connect(audioContext.destination);
             delay.connect(audioContext.destination);
 
@@ -379,7 +382,7 @@
                 noteFilter.type = 'lowpass';
                 noteFilter.frequency.setValueAtTime(1800, audioContext.currentTime + timeOffset);
                 gain.gain.setValueAtTime(0.0001, audioContext.currentTime + timeOffset);
-                gain.gain.linearRampToValueAtTime(gainValue, audioContext.currentTime + timeOffset + 0.03);
+                gain.gain.linearRampToValueAtTime(gainValue, audioContext.currentTime + timeOffset + 0.04);
                 gain.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + timeOffset + duration);
                 osc.connect(noteFilter);
                 noteFilter.connect(gain);
@@ -393,11 +396,11 @@
                 const n1 = notes[step % notes.length];
                 const n2 = notes[(step + 2) % notes.length];
                 const b = bass[step % bass.length];
-                pluck(n1, 0, 0.7, 0.09, 'triangle');
-                pluck(n2, 0.18, 0.7, 0.07, 'sine');
-                pluck(b, 0.36, 0.9, 0.05, 'sine');
+                pluck(n1, 0, 0.85, 0.22, 'triangle');
+                pluck(n2, 0.18, 0.85, 0.16, 'sine');
+                pluck(b, 0.36, 1.05, 0.12, 'sine');
                 if (step % 2 === 0) {
-                    pluck(n2 * 2, 0.52, 0.6, 0.035, 'sine');
+                    pluck(n2 * 2, 0.52, 0.7, 0.08, 'sine');
                 }
                 step = (step + 1) % notes.length;
             }

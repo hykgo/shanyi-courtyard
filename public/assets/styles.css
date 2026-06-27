@@ -117,7 +117,7 @@ html {
         }
 
         .gate-music-spin {
-            animation: gateMusicSpin 1.2s linear infinite;
+            animation: gateMusicSpin 3s linear infinite;
         }
 
         @keyframes gateMusicSpin {
