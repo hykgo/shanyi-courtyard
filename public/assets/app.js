@@ -3,6 +3,7 @@
         let currentPhotoIndex = 0;
         let galleryUpdateToken = 0;
         const galleryImageCache = new Map();
+        let galleryPreloadStarted = false;
         const galleryPhotoFiles = [
             'photo-001.jpg',
             'photo-002.jpg',
@@ -151,7 +152,8 @@
             initPolaroidSwipe();
 
             warmPriorityImages(5);
-            deferTask(() => warmGalleryWindow(currentPhotoIndex, 2));
+            warmGalleryWindow(currentPhotoIndex, 3);
+            scheduleGalleryPreload();
             if ('requestIdleCallback' in window) {
                 requestIdleCallback(() => {
                     warmGateMusicAudio();
@@ -408,9 +410,15 @@
             img.loading = eager ? 'eager' : 'lazy';
             img.onerror = () => {
                 imageWarmCache.delete(src);
+                if (src.includes('/assets/gallery/')) {
+                    galleryImageCache.delete(src);
+                }
             };
             img.src = src;
             imageWarmCache.set(src, img);
+            if (src.includes('/assets/gallery/')) {
+                galleryImageCache.set(src, img);
+            }
             return img;
         }
 
@@ -440,9 +448,53 @@
                 const index = (centerIndex + offset + total) % total;
                 const photo = galleryPhotos[index];
                 if (galleryImageCache.has(photo.src)) continue;
-                const img = warmImage(photo.src);
-                galleryImageCache.set(photo.src, img);
+                preloadImage(photo.src, index === centerIndex);
             }
+        }
+
+        function scheduleGalleryPreload() {
+            if (galleryPreloadStarted || !galleryPhotos.length) return;
+            galleryPreloadStarted = true;
+
+            const total = galleryPhotos.length;
+            const queued = [];
+            const seen = new Set();
+            const pushIndex = (index) => {
+                const normalized = (index + total) % total;
+                if (seen.has(normalized)) return;
+                seen.add(normalized);
+                queued.push(normalized);
+            };
+
+            pushIndex(currentPhotoIndex);
+            for (let radius = 1; radius <= 3; radius += 1) {
+                pushIndex(currentPhotoIndex - radius);
+                pushIndex(currentPhotoIndex + radius);
+            }
+            for (let index = 0; index < total; index += 1) {
+                pushIndex(index);
+            }
+
+            const pump = () => {
+                const deadline = typeof performance !== 'undefined' ? performance.now() + 12 : 12;
+                while (queued.length) {
+                    const photoIndex = queued.shift();
+                    const photo = galleryPhotos[photoIndex];
+                    if (!photo || galleryImageCache.has(photo.src)) continue;
+                    preloadImage(photo.src, photoIndex === currentPhotoIndex);
+                    if (typeof performance !== 'undefined' && performance.now() >= deadline) break;
+                }
+
+                if (queued.length) {
+                    if ('requestIdleCallback' in window) {
+                        requestIdleCallback(pump, { timeout: 1200 });
+                    } else {
+                        setTimeout(pump, 60);
+                    }
+                }
+            };
+
+            deferTask(pump, 120);
         }
 
         function renderPolaroidDeck() {
@@ -488,16 +540,28 @@
             const strip = document.getElementById('gallery-strip');
             const updateToken = ++galleryUpdateToken;
 
-            if (mainImage) {
-                mainImage.src = window.current.src;
-                mainImage.alt = window.current.caption;
-                mainImage.loading = 'eager';
-                mainImage.decoding = 'async';
-                mainImage.fetchPriority = 'high';
-                mainImage.style.opacity = '1';
-            }
             if (mainCaption) {
                 mainCaption.textContent = window.current.caption;
+            }
+
+            if (mainImage) {
+                const applyMainImage = () => {
+                    if (updateToken !== galleryUpdateToken || !mainImage.isConnected) return;
+                    mainImage.src = window.current.src;
+                    mainImage.alt = window.current.caption;
+                    mainImage.loading = 'eager';
+                    mainImage.decoding = 'async';
+                    mainImage.fetchPriority = 'high';
+                    mainImage.style.opacity = '1';
+                };
+                const cachedMainImage = galleryImageCache.get(window.current.src);
+                if (cachedMainImage && cachedMainImage.complete && cachedMainImage.naturalWidth > 0) {
+                    applyMainImage();
+                } else {
+                    preloadImage(window.current.src, true).then(() => {
+                        applyMainImage();
+                    });
+                }
             }
 
             if (strip) {
