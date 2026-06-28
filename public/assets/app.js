@@ -10,6 +10,20 @@
                 caption: '文艺小院'
             };
         });
+        const articleArchive = [
+            { icon: 'fa-seedling', title: '公众号原文 01', url: 'https://mp.weixin.qq.com/s/sxVRmmy4WpbdwSRZz3cZuw' },
+            { icon: 'fa-hands-holding-child', title: '公众号原文 02', url: 'https://mp.weixin.qq.com/s/gY9AGyGz2da-88MoDxrqYw' },
+            { icon: 'fa-palette', title: '公众号原文 03', url: 'https://mp.weixin.qq.com/s/GjqEHuuhjlqg0mzheSCa8w' },
+            { icon: 'fa-scale-balanced', title: '公众号原文 04', url: 'https://mp.weixin.qq.com/s/h3r1umtWv-b7zO5eOFG6qw' },
+            { icon: 'fa-camera-retro', title: '公众号原文 05', url: 'https://mp.weixin.qq.com/s/sdTCQXtME-mRz73atsf3iA' },
+            { icon: 'fa-sun', title: '公众号原文 06', url: 'https://mp.weixin.qq.com/s/6AFv0hcwMvxqGlrr82CTnA' },
+            { icon: 'fa-feather', title: '公众号原文 07', url: 'https://mp.weixin.qq.com/s/bjTQednm2mcvibp04pA51Q' },
+            { icon: 'fa-school', title: '公众号原文 08', url: 'https://mp.weixin.qq.com/s/t98l8imX3HBqL4WADRAiKg' },
+            { icon: 'fa-people-group', title: '公众号原文 09', url: 'https://mp.weixin.qq.com/s/dRzaQ9Nqs4HmXjMth-xeUg' },
+            { icon: 'fa-pen-nib', title: '公众号原文 10', url: 'https://mp.weixin.qq.com/s/lggYmHb6BqdwBLZCJKFP7A' },
+            { icon: 'fa-leaf', title: '公众号原文 11', url: 'https://mp.weixin.qq.com/s/HMCNxSDlFi6TiQ3_LOUhgQ' },
+            { icon: 'fa-graduation-cap', title: '公众号原文 12', url: 'https://mp.weixin.qq.com/s/VWI2rEEakjOa4lcVconIqA' }
+        ];
         let audioContext = null;
         let isMusicPlaying = false;
         let musicStepTimer = null;
@@ -24,6 +38,7 @@
             // Set initial state selectors
             selectIdentity('26级萌新');
             loadMessages();
+            renderArticleArchive();
             
             // Initiate polaroid swipe listeners
             initPolaroidSwipe();
@@ -82,6 +97,20 @@
                 toast.style.opacity = '0';
                 toast.style.transform = 'translate(-50%, 0)';
             }, 2500);
+        }
+
+        function renderArticleArchive() {
+            const grid = document.getElementById('article-archive-grid');
+            const count = document.getElementById('article-archive-count');
+            if (!grid) return;
+            if (count) count.textContent = `${articleArchive.length} links`;
+            grid.innerHTML = articleArchive.map((item) => `
+                <a href="${item.url}" target="_blank" rel="noopener noreferrer" class="group bg-yard-cream/72 rounded-2xl border border-yard-wood/20 p-4 min-h-32 flex flex-col justify-between active:scale-[0.98] transition-all">
+                    <span class="text-yard-terracotta text-lg block"><i class="fas ${item.icon}"></i></span>
+                    <span class="font-bold text-xs text-yard-darkGreen tracking-widest leading-relaxed">${item.title}</span>
+                    <span class="text-[9px] text-yard-wood/80 tracking-widest flex items-center justify-between">打开原文 <i class="fas fa-up-right-from-square text-[8px]"></i></span>
+                </a>
+            `).join('');
         }
 
         // Timeline dataset
@@ -255,8 +284,8 @@
                             <div class="gallery-main-caption">
                                 <div id="gallery-main-caption" class="text-yard-cream font-brush text-lg md:text-xl leading-tight tracking-wider"></div>
                             </div>
-                            <button type="button" onclick="prevPhoto()" aria-label="上一张照片" class="absolute inset-y-0 left-0 z-20 w-1/2 cursor-pointer bg-transparent focus:outline-none"></button>
-                            <button type="button" onclick="nextPhoto()" aria-label="下一张照片" class="absolute inset-y-0 right-0 z-20 w-1/2 cursor-pointer bg-transparent focus:outline-none"></button>
+                            <button type="button" onclick="prevPhoto()" aria-label="上一张照片" class="gallery-main-nav-zone left"></button>
+                            <button type="button" onclick="nextPhoto()" aria-label="下一张照片" class="gallery-main-nav-zone right"></button>
                         </div>
                         <div class="gallery-strip-shell">
                             <div id="gallery-strip" class="gallery-strip-grid"></div>
