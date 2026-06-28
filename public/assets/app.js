@@ -445,7 +445,7 @@
             }
         }
 
-        async function renderPolaroidDeck() {
+        function renderPolaroidDeck() {
             const deck = document.getElementById('photo-deck');
             if (!deck || !galleryPhotos.length) return;
 
@@ -453,7 +453,7 @@
                 deck.innerHTML = `
                     <div class="gallery-stage">
                         <div class="gallery-main-card relative">
-                            <img id="gallery-main-image" src="" alt="" class="w-full h-full object-cover" onerror="this.src='./assets/hero-courtyard.png'; this.onerror=null;">
+                            <img id="gallery-main-image" src="" alt="" class="w-full h-full object-cover" onerror="this.style.opacity='0'; this.parentElement.style.background='#efe7d4';">
                             <div class="gallery-main-caption">
                                 <div id="gallery-main-caption" class="text-yard-cream font-brush text-lg md:text-xl leading-tight tracking-wider"></div>
                             </div>
@@ -469,7 +469,7 @@
                 attachGalleryTapNavigation();
             }
 
-            await syncPolaroidDeck();
+            syncPolaroidDeck();
             warmGalleryWindow(currentPhotoIndex, 2);
 
             const counter = document.getElementById('photo-counter');
@@ -478,7 +478,7 @@
             }
         }
 
-        async function syncPolaroidDeck() {
+        function syncPolaroidDeck() {
             const deck = document.getElementById('photo-deck');
             if (!deck || !galleryPhotos.length) return;
 
@@ -488,19 +488,13 @@
             const strip = document.getElementById('gallery-strip');
             const updateToken = ++galleryUpdateToken;
 
-            const [mainReady, ...thumbReady] = await Promise.all([
-                preloadImage(window.current.src, true),
-                ...window.strip.map((photo, index) => preloadImage(photo.src, index === 0))
-            ]);
-
-            if (updateToken !== galleryUpdateToken) return;
-
-            if (mainImage && mainReady) {
-                mainImage.src = mainReady.src;
+            if (mainImage) {
+                mainImage.src = window.current.src;
                 mainImage.alt = window.current.caption;
                 mainImage.loading = 'eager';
                 mainImage.decoding = 'async';
                 mainImage.fetchPriority = 'high';
+                mainImage.style.opacity = '1';
             }
             if (mainCaption) {
                 mainCaption.textContent = window.current.caption;
@@ -509,15 +503,10 @@
             if (strip) {
                 strip.innerHTML = window.strip.map((photo, index) => `
                     <button onclick="selectGalleryPhoto(${photo.index})" class="gallery-thumb-card${index === 0 ? ' is-active' : ''}" aria-label="${photo.caption}">
-                        <img src="${photo.src}" alt="${photo.caption}" loading="eager" decoding="async" class="gallery-thumb-image">
+                        <img src="${photo.src}" alt="${photo.caption}" loading="eager" decoding="async" class="gallery-thumb-image" onerror="this.style.opacity='0'; this.parentElement.style.background='#efe7d4';">
                     </button>
                 `).join('');
             }
-
-            thumbReady.forEach((img) => {
-                if (!img || img.naturalWidth <= 0) return;
-            });
-
         }
 
         function nextPhoto() {
