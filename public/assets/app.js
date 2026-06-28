@@ -10,6 +10,21 @@
                 caption: '文艺小院'
             };
         });
+        const priorityImageUrls = [
+            './assets/wenyi-logo-transparent.png',
+            './assets/hero-courtyard.png',
+            './assets/story/pingyi-stage.jpeg',
+            './assets/story/image1.jpeg',
+            './assets/story/image9.jpeg',
+            './assets/story/image12.png',
+            './assets/story/image17.jpeg',
+            './assets/gallery/photo-001.jpg',
+            './assets/gallery/photo-002.jpg',
+            './assets/gallery/photo-003.jpg',
+            './assets/gallery/photo-004.jpg',
+            './assets/gallery/photo-005.jpg'
+        ];
+        const imageWarmCache = new Map();
         const articleArchive = [
             { icon: 'fa-seedling', title: '青春筑梦三下乡，艺启同行新征程', url: 'https://mp.weixin.qq.com/s/sxVRmmy4WpbdwSRZz3cZuw' },
             { icon: 'fa-hands-holding-child', title: '挂牌！第三所“文艺小院”', url: 'https://mp.weixin.qq.com/s/gY9AGyGz2da-88MoDxrqYw' },
@@ -43,7 +58,9 @@
             // Initiate polaroid swipe listeners
             initPolaroidSwipe();
 
-            warmGalleryImages();
+            warmPriorityImages();
+            deferTask(() => warmGalleryImages(12));
+            deferTask(() => warmGalleryImages());
             if ('requestIdleCallback' in window) {
                 requestIdleCallback(() => {
                     warmGateMusicAudio();
@@ -54,6 +71,14 @@
                 }, 1200);
             }
         };
+
+        function deferTask(callback, timeout = 1500) {
+            if ('requestIdleCallback' in window) {
+                requestIdleCallback(callback, { timeout });
+            } else {
+                setTimeout(callback, timeout);
+            }
+        }
 
         // Elegant gate sliding with CSS Spring and Delay
         function openTheGate() {
@@ -260,14 +285,26 @@
             };
         }
 
-        function warmGalleryImages() {
-            for (let i = 0; i < galleryPhotos.length; i += 1) {
+        function warmImage(src, eager = false) {
+            if (!src || imageWarmCache.has(src)) return imageWarmCache.get(src);
+            const img = new Image();
+            img.decoding = 'async';
+            img.loading = eager ? 'eager' : 'lazy';
+            img.src = src;
+            imageWarmCache.set(src, img);
+            return img;
+        }
+
+        function warmPriorityImages() {
+            priorityImageUrls.forEach((src) => warmImage(src, true));
+        }
+
+        function warmGalleryImages(limit = galleryPhotos.length) {
+            const count = Math.min(limit, galleryPhotos.length);
+            for (let i = 0; i < count; i += 1) {
                 const photo = galleryPhotos[i];
                 if (galleryImageCache.has(photo.src)) continue;
-                const img = new Image();
-                img.decoding = 'async';
-                img.loading = 'eager';
-                img.src = photo.src;
+                const img = warmImage(photo.src);
                 galleryImageCache.set(photo.src, img);
             }
         }
