@@ -307,8 +307,6 @@
             </div>
 
             <div class="bg-yard-cream/75 border border-yard-wood/25 rounded-3xl p-5 mb-6 shadow-sm text-center">
-                <span class="text-[10px] font-bold text-yard-wood tracking-[0.2em] block mb-2">点击阅读</span>
-                <h4 class="font-bold text-yard-darkGreen text-sm tracking-widest mb-3">点击卡片，打开公众号原文</h4>
                 <p class="text-[11px] text-yard-charcoal/75 leading-loose tracking-wider">
                     从乡村到学校，从社区到街巷<br>
                     文艺小院的脚步从未停歇<br>
@@ -324,13 +322,12 @@
                     这就是我们的小院<br>
                     也是我们的青春答卷。
                 </p>
+                <button type="button" onclick="openArticleArchiveModal()" class="mt-5 px-6 py-2.5 rounded-full bg-yard-darkGreen text-yard-cream text-[10px] font-bold tracking-[0.2em] active:scale-95 transition-transform shadow-md">
+                    点击阅读
+                </button>
+                <p class="mt-3 text-[10px] text-yard-wood/80 tracking-widest">点击卡片，打开公众号原文</p>
             </div>
 
-            <div class="flex items-center justify-between text-[9px] tracking-[0.2em] text-yard-wood/70 mb-3">
-                <span>全部公众号原文</span>
-                <span id="article-archive-count">0</span>
-            </div>
-            <div id="article-archive-grid" class="grid grid-cols-2 gap-3"></div>
         </section>
 
         <!-- LETTER BOX SECTION (小院来信) -->
@@ -403,6 +400,25 @@
             </div>
         </footer>
 
+    </div>
+
+    <!-- ARTICLE ARCHIVE MODAL -->
+    <div id="article-archive-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-6 bg-[#161B18]/72 opacity-0 pointer-events-none transition-opacity duration-500">
+        <div class="bg-yard-cream max-w-sm w-full max-h-[82vh] rounded-3xl overflow-hidden shadow-2xl transform scale-90 transition-transform duration-500 relative border border-yard-wood/30 flex flex-col">
+            <button onclick="closeArticleArchiveModal()" class="absolute right-4 top-4 w-7 h-7 rounded-full bg-white/75 text-yard-darkGreen hover:bg-white flex items-center justify-center shadow-sm focus:outline-none z-10 active:scale-90 transition-transform">
+                <i class="fas fa-times text-xs"></i>
+            </button>
+            <div class="p-5 border-b border-yard-wood/15">
+                <h4 class="font-bold text-base text-yard-darkGreen tracking-widest">公众号原文 · 美育回看</h4>
+                <div class="mt-2 flex items-center justify-between text-[9px] tracking-[0.2em] text-yard-wood/70">
+                    <span>全部公众号原文</span>
+                    <span id="article-archive-count">0</span>
+                </div>
+            </div>
+            <div class="p-5 overflow-y-auto">
+                <div id="article-archive-grid" class="grid grid-cols-2 gap-3"></div>
+            </div>
+        </div>
     </div>
 
     <!-- TIMELINE DETAIL MODAL (极简东方微弱圆角弹窗) -->

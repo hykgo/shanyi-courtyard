@@ -138,6 +138,30 @@
             `).join('');
         }
 
+        function openArticleArchiveModal() {
+            const modal = document.getElementById('article-archive-modal');
+            if (!modal) return;
+            const inner = modal.querySelector('div');
+            modal.classList.remove('pointer-events-none');
+            modal.classList.add('opacity-100');
+            if (inner) {
+                inner.classList.remove('scale-90');
+                inner.classList.add('scale-100');
+            }
+        }
+
+        function closeArticleArchiveModal() {
+            const modal = document.getElementById('article-archive-modal');
+            if (!modal) return;
+            const inner = modal.querySelector('div');
+            modal.classList.add('pointer-events-none');
+            modal.classList.remove('opacity-100');
+            if (inner) {
+                inner.classList.add('scale-90');
+                inner.classList.remove('scale-100');
+            }
+        }
+
         // Timeline dataset
         const timelineData = [
             {
