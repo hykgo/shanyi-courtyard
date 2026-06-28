@@ -3,13 +3,106 @@
         let currentPhotoIndex = 0;
         let galleryUpdateToken = 0;
         const galleryImageCache = new Map();
-        const galleryPhotos = Array.from({ length: 102 }, (_, index) => {
-            const number = String(index + 1).padStart(3, '0');
-            return {
-                src: `./assets/gallery/photo-${number}.jpg`,
-                caption: '文艺小院'
-            };
-        });
+        const galleryPhotoFiles = [
+            'photo-001.jpg',
+            'photo-002.jpg',
+            'photo-003.jpg',
+            'photo-004.jpg',
+            'photo-005.jpg',
+            'photo-006.jpg',
+            'photo-007.jpg',
+            'photo-008.jpg',
+            'photo-009.jpg',
+            'photo-010.jpg',
+            'photo-011.jpg',
+            'photo-012.jpg',
+            'photo-013.jpg',
+            'photo-014.jpg',
+            'photo-015.jpg',
+            'photo-016.jpg',
+            'photo-017.jpg',
+            'photo-018.jpg',
+            'photo-019.jpg',
+            'photo-020.jpg',
+            'photo-021.jpg',
+            'photo-022.jpg',
+            'photo-023.jpg',
+            'photo-024.jpg',
+            'photo-025.jpg',
+            'photo-026.jpg',
+            'photo-027.jpg',
+            'photo-028.jpg',
+            'photo-029.jpg',
+            'photo-030.jpg',
+            'photo-031.jpg',
+            'photo-032.jpg',
+            'photo-033.jpg',
+            'photo-034.jpg',
+            'photo-035.jpg',
+            'photo-036.jpg',
+            'photo-037.jpg',
+            'photo-038.jpg',
+            'photo-039.jpg',
+            'photo-040.jpg',
+            'photo-041.jpg',
+            'photo-042.jpg',
+            'photo-043.jpg',
+            'photo-044.jpg',
+            'photo-045.jpg',
+            'photo-046.jpg',
+            'photo-048.jpg',
+            'photo-049.jpg',
+            'photo-050.jpg',
+            'photo-051.jpg',
+            'photo-052.jpg',
+            'photo-053.jpg',
+            'photo-054.jpg',
+            'photo-055.jpg',
+            'photo-057.jpg',
+            'photo-058.jpg',
+            'photo-059.jpg',
+            'photo-060.jpg',
+            'photo-061.jpg',
+            'photo-062.jpg',
+            'photo-063.jpg',
+            'photo-065.jpg',
+            'photo-066.jpg',
+            'photo-067.jpg',
+            'photo-068.jpg',
+            'photo-069.jpg',
+            'photo-070.jpg',
+            'photo-071.jpg',
+            'photo-072.jpg',
+            'photo-074.jpg',
+            'photo-075.jpg',
+            'photo-076.jpg',
+            'photo-077.jpg',
+            'photo-079.jpg',
+            'photo-080.jpg',
+            'photo-081.jpg',
+            'photo-082.jpg',
+            'photo-083.jpg',
+            'photo-084.jpg',
+            'photo-085.jpg',
+            'photo-086.jpg',
+            'photo-088.jpg',
+            'photo-089.jpg',
+            'photo-090.jpg',
+            'photo-091.jpg',
+            'photo-092.jpg',
+            'photo-093.jpg',
+            'photo-094.jpg',
+            'photo-095.jpg',
+            'photo-097.jpg',
+            'photo-098.jpg',
+            'photo-099.jpg',
+            'photo-100.jpg',
+            'photo-101.jpg'
+        ];
+        const galleryPhotos = galleryPhotoFiles.map((fileName) => ({
+            src: `./assets/gallery/${fileName}`,
+            caption: '文艺小院'
+        }));
         const priorityImageUrls = [
             './assets/wenyi-logo-transparent.png',
             './assets/hero-courtyard.png',
@@ -313,6 +406,9 @@
             const img = new Image();
             img.decoding = 'async';
             img.loading = eager ? 'eager' : 'lazy';
+            img.onerror = () => {
+                imageWarmCache.delete(src);
+            };
             img.src = src;
             imageWarmCache.set(src, img);
             return img;
@@ -344,7 +440,7 @@
                 deck.innerHTML = `
                     <div class="gallery-stage">
                         <div class="gallery-main-card relative">
-                            <img id="gallery-main-image" src="" alt="" class="w-full h-full object-cover">
+                            <img id="gallery-main-image" src="" alt="" class="w-full h-full object-cover" onerror="this.src='./assets/hero-courtyard.png'; this.onerror=null;">
                             <div class="gallery-main-caption">
                                 <div id="gallery-main-caption" class="text-yard-cream font-brush text-lg md:text-xl leading-tight tracking-wider"></div>
                             </div>
@@ -398,7 +494,7 @@
             if (strip) {
                 strip.innerHTML = window.strip.map((photo, index) => `
                     <button onclick="selectGalleryPhoto(${photo.index})" class="gallery-thumb-card${index === 0 ? ' is-active' : ''}" aria-label="${photo.caption}">
-                        <img src="${photo.src}" alt="${photo.caption}" loading="eager" decoding="async" class="gallery-thumb-image">
+                        <img src="${photo.src}" alt="${photo.caption}" loading="eager" decoding="async" class="gallery-thumb-image" onerror="this.style.opacity='0'; this.parentElement.style.background='#efe7d4';">
                     </button>
                 `).join('');
             }
