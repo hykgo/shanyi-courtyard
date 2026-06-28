@@ -530,10 +530,10 @@
             const tags = document.querySelectorAll('.identity-tag');
             tags.forEach(tag => {
                 if (tag.innerText.trim() === identityName) {
-                    tag.classList.add('bg-yard-darkGreen', 'text-yard-cream', 'border-transparent');
+                    tag.classList.add('is-selected', 'bg-yard-darkGreen', 'text-yard-cream', 'border-transparent');
                     tag.classList.remove('bg-yard-cream', 'text-yard-charcoal/80', 'border-yard-wood/40');
                 } else {
-                    tag.classList.remove('bg-yard-darkGreen', 'text-yard-cream', 'border-transparent');
+                    tag.classList.remove('is-selected', 'bg-yard-darkGreen', 'text-yard-cream', 'border-transparent');
                     tag.classList.add('bg-yard-cream', 'text-yard-charcoal/80', 'border-yard-wood/40');
                 }
             });
