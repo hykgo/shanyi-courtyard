@@ -250,11 +250,13 @@
             if (!deck.dataset.ready) {
                 deck.innerHTML = `
                     <div class="gallery-stage">
-                        <div class="gallery-main-card">
+                        <div class="gallery-main-card relative">
                             <img id="gallery-main-image" src="" alt="" class="w-full h-full object-cover">
                             <div class="gallery-main-caption">
                                 <div id="gallery-main-caption" class="text-yard-cream font-brush text-lg md:text-xl leading-tight tracking-wider"></div>
                             </div>
+                            <button type="button" onclick="prevPhoto()" aria-label="上一张照片" class="absolute inset-y-0 left-0 z-20 w-1/2 cursor-pointer bg-transparent focus:outline-none"></button>
+                            <button type="button" onclick="nextPhoto()" aria-label="下一张照片" class="absolute inset-y-0 right-0 z-20 w-1/2 cursor-pointer bg-transparent focus:outline-none"></button>
                         </div>
                         <div class="gallery-strip-shell">
                             <div id="gallery-strip" class="gallery-strip-grid"></div>
