@@ -128,7 +128,7 @@
             const grid = document.getElementById('article-archive-grid');
             const count = document.getElementById('article-archive-count');
             if (!grid) return;
-            if (count) count.textContent = `${articleArchive.length} links`;
+            if (count) count.textContent = `共 ${articleArchive.length} 篇`;
             grid.innerHTML = articleArchive.map((item) => `
                 <a href="${item.url}" target="_blank" rel="noopener noreferrer" class="group bg-yard-cream/72 rounded-2xl border border-yard-wood/20 p-4 min-h-32 flex flex-col justify-between active:scale-[0.98] transition-all">
                     <span class="text-yard-terracotta text-lg block"><i class="fas ${item.icon}"></i></span>
