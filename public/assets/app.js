@@ -414,6 +414,19 @@
             return img;
         }
 
+        function preloadImage(src, eager = false) {
+            const img = warmImage(src, eager);
+            if (!img) return Promise.resolve(null);
+            if (img.complete && img.naturalWidth > 0) return Promise.resolve(img);
+            if (typeof img.decode === 'function') {
+                return img.decode().then(() => img).catch(() => img);
+            }
+            return new Promise((resolve) => {
+                img.onload = () => resolve(img);
+                img.onerror = () => resolve(img);
+            });
+        }
+
         function warmPriorityImages(limit = priorityImageUrls.length) {
             const count = Math.min(limit, priorityImageUrls.length);
             for (let i = 0; i < count; i += 1) {
@@ -432,7 +445,7 @@
             }
         }
 
-        function renderPolaroidDeck() {
+        async function renderPolaroidDeck() {
             const deck = document.getElementById('photo-deck');
             if (!deck || !galleryPhotos.length) return;
 
@@ -456,7 +469,7 @@
                 attachGalleryTapNavigation();
             }
 
-            syncPolaroidDeck();
+            await syncPolaroidDeck();
             warmGalleryWindow(currentPhotoIndex, 2);
 
             const counter = document.getElementById('photo-counter');
@@ -465,7 +478,7 @@
             }
         }
 
-        function syncPolaroidDeck() {
+        async function syncPolaroidDeck() {
             const deck = document.getElementById('photo-deck');
             if (!deck || !galleryPhotos.length) return;
 
@@ -475,29 +488,35 @@
             const strip = document.getElementById('gallery-strip');
             const updateToken = ++galleryUpdateToken;
 
-            const setMain = (photo) => {
-                if (updateToken !== galleryUpdateToken) return;
-                if (mainImage) {
-                    mainImage.src = photo.src;
-                    mainImage.alt = photo.caption;
-                    mainImage.loading = 'eager';
-                    mainImage.decoding = 'async';
-                    mainImage.fetchPriority = 'high';
-                }
-                if (mainCaption) {
-                    mainCaption.textContent = photo.caption;
-                }
-            };
+            const [mainReady, ...thumbReady] = await Promise.all([
+                preloadImage(window.current.src, true),
+                ...window.strip.map((photo, index) => preloadImage(photo.src, index === 0))
+            ]);
 
-            setMain(window.current);
+            if (updateToken !== galleryUpdateToken) return;
+
+            if (mainImage && mainReady) {
+                mainImage.src = mainReady.src;
+                mainImage.alt = window.current.caption;
+                mainImage.loading = 'eager';
+                mainImage.decoding = 'async';
+                mainImage.fetchPriority = 'high';
+            }
+            if (mainCaption) {
+                mainCaption.textContent = window.current.caption;
+            }
 
             if (strip) {
                 strip.innerHTML = window.strip.map((photo, index) => `
                     <button onclick="selectGalleryPhoto(${photo.index})" class="gallery-thumb-card${index === 0 ? ' is-active' : ''}" aria-label="${photo.caption}">
-                        <img src="${photo.src}" alt="${photo.caption}" loading="eager" decoding="async" class="gallery-thumb-image" onerror="this.style.opacity='0'; this.parentElement.style.background='#efe7d4';">
+                        <img src="${photo.src}" alt="${photo.caption}" loading="eager" decoding="async" class="gallery-thumb-image">
                     </button>
                 `).join('');
             }
+
+            thumbReady.forEach((img) => {
+                if (!img || img.naturalWidth <= 0) return;
+            });
 
         }
 
