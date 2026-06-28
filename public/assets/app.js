@@ -293,6 +293,7 @@
                     </div>
                 `;
                 deck.dataset.ready = '1';
+                attachGalleryTapNavigation();
             }
 
             syncPolaroidDeck();
@@ -376,6 +377,27 @@
             });
 
             renderPolaroidDeck();
+        }
+
+        function attachGalleryTapNavigation() {
+            const deck = document.getElementById('photo-deck');
+            if (!deck || deck.dataset.tapBound === '1') return;
+            const mainCard = deck.querySelector('.gallery-main-card');
+            if (!mainCard) return;
+
+            mainCard.addEventListener('click', (event) => {
+                const target = event.target;
+                if (target.closest('button, a')) return;
+                const rect = mainCard.getBoundingClientRect();
+                const x = event.clientX - rect.left;
+                if (x < rect.width / 2) {
+                    prevPhoto();
+                } else {
+                    nextPhoto();
+                }
+            });
+
+            deck.dataset.tapBound = '1';
         }
 
         // Local gate music player
