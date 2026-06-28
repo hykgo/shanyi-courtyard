@@ -26,18 +26,18 @@
         ];
         const imageWarmCache = new Map();
         const articleArchive = [
-            { icon: 'fa-seedling', title: '青春筑梦三下乡，艺启同行新征程', url: 'https://mp.weixin.qq.com/s/sxVRmmy4WpbdwSRZz3cZuw' },
-            { icon: 'fa-hands-holding-child', title: '挂牌！第三所“文艺小院”', url: 'https://mp.weixin.qq.com/s/gY9AGyGz2da-88MoDxrqYw' },
-            { icon: 'fa-palette', title: '文艺小院再添新阵地', url: 'https://mp.weixin.qq.com/s/GjqEHuuhjlqg0mzheSCa8w' },
-            { icon: 'fa-scale-balanced', title: '大手拉小手，第四所“文艺小院”落地', url: 'https://mp.weixin.qq.com/s/h3r1umtWv-b7zO5eOFG6qw' },
-            { icon: 'fa-camera-retro', title: '“种下美好”第一课', url: 'https://mp.weixin.qq.com/s/sdTCQXtME-mRz73atsf3iA' },
-            { icon: 'fa-sun', title: '共赴成长之约', url: 'https://mp.weixin.qq.com/s/6AFv0hcwMvxqGlrr82CTnA' },
-            { icon: 'fa-feather', title: '以艺扎根，奔赴山海', url: 'https://mp.weixin.qq.com/s/bjTQednm2mcvibp04pA51Q' },
-            { icon: 'fa-school', title: '大手拉小手，一起学民法典', url: 'https://mp.weixin.qq.com/s/t98l8imX3HBqL4WADRAiKg' },
-            { icon: 'fa-people-group', title: '捕捉可爱瞬间', url: 'https://mp.weixin.qq.com/s/dRzaQ9Nqs4HmXjMth-xeUg' },
-            { icon: 'fa-pen-nib', title: '生如夏花', url: 'https://mp.weixin.qq.com/s/lggYmHb6BqdwBLZCJKFP7A' },
-            { icon: 'fa-leaf', title: '最后一课，不说再见', url: 'https://mp.weixin.qq.com/s/HMCNxSDlFi6TiQ3_LOUhgQ' },
-            { icon: 'fa-graduation-cap', title: '第一次见面', url: 'https://mp.weixin.qq.com/s/VWI2rEEakjOa4lcVconIqA' }
+            { icon: 'fa-seedling', title: '奋斗的青春丨2025 年暑期“三下乡”12：青春筑梦三下乡，艺启同行新征程', url: 'https://mp.weixin.qq.com/s/sxVRmmy4WpbdwSRZz3cZuw' },
+            { icon: 'fa-hands-holding-child', title: '奋斗的青春丨挂牌！第三所“文艺小院”', url: 'https://mp.weixin.qq.com/s/gY9AGyGz2da-88MoDxrqYw' },
+            { icon: 'fa-palette', title: '奋斗的青春丨“文艺小院”再添新阵地！', url: 'https://mp.weixin.qq.com/s/GjqEHuuhjlqg0mzheSCa8w' },
+            { icon: 'fa-scale-balanced', title: '奋斗的青春丨大手拉小手，第四所“文艺小院”落地！', url: 'https://mp.weixin.qq.com/s/h3r1umtWv-b7zO5eOFG6qw' },
+            { icon: 'fa-camera-retro', title: '奋斗的青春｜双泉镇小学，“种下美好”第一课', url: 'https://mp.weixin.qq.com/s/sdTCQXtME-mRz73atsf3iA' },
+            { icon: 'fa-sun', title: '种下美好丨双泉镇小学2：共赴一场成长之约！', url: 'https://mp.weixin.qq.com/s/6AFv0hcwMvxqGlrr82CTnA' },
+            { icon: 'fa-feather', title: '奋斗的青春丨双泉镇小学3：以艺扎根，奔赴成长山海', url: 'https://mp.weixin.qq.com/s/bjTQednm2mcvibp04pA51Q' },
+            { icon: 'fa-school', title: '民法典宣传月｜双泉镇小学5：大手拉小手，一起学民法典', url: 'https://mp.weixin.qq.com/s/t98l8imX3HBqL4WADRAiKg' },
+            { icon: 'fa-people-group', title: '奋斗的青春丨双泉镇小学6：捕捉可爱瞬间，发现闪光的你', url: 'https://mp.weixin.qq.com/s/dRzaQ9Nqs4HmXjMth-xeUg' },
+            { icon: 'fa-pen-nib', title: '种下美好 | 双泉镇小学7：生如夏花，让每个孩子都绚烂绽放！', url: 'https://mp.weixin.qq.com/s/lggYmHb6BqdwBLZCJKFP7A' },
+            { icon: 'fa-leaf', title: '种下美好 | 双泉镇小学8：最后一课，不说再见！本学期收官啦！', url: 'https://mp.weixin.qq.com/s/HMCNxSDlFi6TiQ3_LOUhgQ' },
+            { icon: 'fa-graduation-cap', title: '种下美好丨大学城实验学校1：第一次见面，青春与童真相遇', url: 'https://mp.weixin.qq.com/s/VWI2rEEakjOa4lcVconIqA' }
         ];
         let audioContext = null;
         let isMusicPlaying = false;
