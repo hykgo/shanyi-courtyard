@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>文艺小院 · 云端漫游</title>
+    <link rel="preload" as="image" href="./assets/wenyi-logo-transparent.png">
+    <link rel="preload" as="image" href="./assets/hero-courtyard.png">
     <link rel="preload" as="audio" href="./assets/audio/gate-music-96k.mp3" type="audio/mpeg">
     <link rel="stylesheet" href="./assets/vendor/tailwind.css">
     <link rel="stylesheet" href="./assets/vendor/fontawesome/css/all.min.css">
@@ -62,25 +64,27 @@
 
         <!-- Center Elegant Calligraphy HUD -->
         <div id="gate-hud" class="absolute inset-0 flex flex-col justify-center items-center text-center px-6 transition-opacity duration-1000 z-10 pointer-events-none">
-            <div class="w-28 h-28 mb-4 flex items-center justify-center">
-                <img src="./assets/wenyi-logo-transparent.png" alt="文艺小院标志" class="w-full h-full object-contain">
+            <span class="text-yard-wood font-roman tracking-[0.45em] text-xs uppercase mb-3 block font-semibold">SHANDONG UNIVERSITY OF ARTS</span>
+            <div class="w-28 h-28 mb-6 flex items-center justify-center">
+                <img src="./assets/wenyi-logo-transparent.png" alt="文艺小院标志" width="112" height="112" loading="eager" decoding="sync" fetchpriority="high" class="w-full h-full object-contain">
             </div>
-            <span class="text-yard-wood font-roman tracking-[0.5em] text-xs uppercase mb-4 block font-semibold">SHANDONG UNIVERSITY OF ARTS</span>
             
             <div class="w-1 h-12 bg-gradient-to-b from-transparent to-yard-wood my-2"></div>
             <div class="w-10 h-10 rounded-full border border-yard-wood/70 bg-transparent flex items-center justify-center text-yard-wood mb-6">
                 <span class="font-accent text-lg">扉</span>
             </div>
-            <p class="text-yard-cream/80 text-xs tracking-[0.25em] mb-12 font-light italic">
+            <p class="text-yard-cream/80 text-xs tracking-[0.25em] mb-16 font-light italic">
                 “你还没有到山艺，但山艺已经在等你”
             </p>
             
             <div class="pointer-events-auto">
-                <button onclick="openTheGate()" class="px-10 py-3.5 bg-yard-wood text-yard-darkGreen rounded-full font-serif font-bold tracking-widest hover:bg-yard-wood/95 active:scale-95 transition-all shadow-xl pulse-soft text-sm">
-                    轻抚叩门 漫游小院 <i class="fas fa-feather ml-1 text-xs"></i>
+                <button onclick="openTheGate()" class="px-8 py-3.5 bg-yard-wood text-yard-darkGreen rounded-full font-serif font-bold tracking-widest hover:bg-yard-wood/95 active:scale-95 transition-all shadow-xl pulse-soft text-sm flex items-center gap-2">
+                    <span>轻抚叩门</span>
+                    <i class="fas fa-feather text-xs"></i>
+                    <span>漫游小院</span>
                 </button>
             </div>
-            <span class="text-yard-cream/20 text-[10px] mt-16 tracking-widest animate-pulse">
+            <span class="text-yard-cream/20 text-[10px] mt-6 tracking-widest animate-pulse">
                 <i class="fas fa-fingerprint mr-1"></i> 触碰上方金钮，启扉观景
             </span>
         </div>
@@ -94,7 +98,7 @@
             <!-- Delicate Top Header -->
             <div class="flex justify-between items-center mb-10">
                 <div class="flex items-center space-x-3 min-w-0">
-                    <img src="./assets/wenyi-logo-transparent.png" alt="文艺小院标志" class="w-16 h-16 object-contain shrink-0">
+                    <img src="./assets/wenyi-logo-transparent.png" alt="文艺小院标志" width="64" height="64" loading="eager" decoding="async" fetchpriority="high" class="w-16 h-16 object-contain shrink-0">
                     <div class="flex flex-col min-w-0">
                         <span class="text-[16px] md:text-[20px] text-yard-darkGreen/95 font-brush tracking-[0.12em] font-semibold truncate leading-none">文艺小院 · 山艺来信</span>
                         <span class="text-[9px] md:text-[10px] text-yard-wood/90 font-roman tracking-[0.22em] uppercase mt-1">SDUA · Art Takes Root</span>
@@ -108,7 +112,7 @@
             <!-- Hero Illustration -->
             <div class="w-full h-56 bg-yard-cream/75 rounded-3xl relative mb-10 overflow-hidden shadow-sm flex items-center justify-center border border-yard-wood/35">
                 <div class="absolute inset-0 opacity-10 paper-texture"></div>
-                <img src="./assets/hero-courtyard.png" alt="文艺小院插画" class="w-full h-full object-cover">
+                <img src="./assets/hero-courtyard.png" alt="文艺小院插画" loading="eager" decoding="async" fetchpriority="high" class="w-full h-full object-cover">
             </div>
 
             <!-- Deeply Sincere Slogans -->
@@ -120,7 +124,8 @@
                 <div class="w-8 h-[2px] bg-yard-wood mx-auto my-4"></div>
                 <p class="text-yard-charcoal/80 text-xs md:text-sm max-w-xs mx-auto leading-loose font-light tracking-widest">
                     文艺小院，是山艺青年走进基层的流动美育课堂。<br>
-                    每一次驻足，每一次交流，都让美从书本走入街巷，让艺术有温度，让陪伴有回响。
+                    每一次驻足，每一次交流，都让美从书本走入街巷，<br>
+                    让艺术有温度，让陪伴有回响。
                 </p>
             </div>
         </header>
@@ -145,7 +150,7 @@
                     <!-- Traditional seal-dot indicator -->
                     <div class="absolute -left-[33px] top-1.5 w-3 h-3 rounded-full border border-yard-wood bg-yard-terracotta group-hover:scale-125 transition-transform shadow-sm"></div>
                     <div class="bg-[#fbf6e9]/75 p-4 rounded-2xl border border-yard-wood/25 hover:border-yard-wood transition-all shadow-sm active:scale-[0.99]">
-                        <span class="font-bold text-sm text-yard-darkGreen tracking-wide block mb-2">2025年7月7日，校团委与平邑县共建第一所文艺小院 🏡</span>
+                        <span class="font-bold text-sm text-yard-darkGreen tracking-wide block mb-2">2025年7月7日，学校与平邑县共建第一所文艺小院 🏡</span>
                         <h4 class="mb-2 tracking-wide text-right">
                             <span class="text-[10px] text-yard-wood font-normal">临沂平邑 <i class="fas fa-chevron-right text-[8px] ml-1"></i></span>
                         </h4>
@@ -165,7 +170,7 @@
                 <div class="relative group cursor-pointer" onclick="openTimelineModal(1)">
                     <div class="absolute -left-[33px] top-1.5 w-3 h-3 rounded-full border border-yard-wood bg-yard-terracotta group-hover:scale-125 transition-transform shadow-sm"></div>
                     <div class="bg-[#fbf6e9]/75 p-4 rounded-2xl border border-yard-wood/25 hover:border-yard-wood transition-all shadow-sm active:scale-[0.99]">
-                        <span class="font-bold text-sm text-yard-darkGreen tracking-wide block mb-2">2025年7月8日，校团委与定陶区半堤镇共建第二所文艺小院 🎨</span>
+                        <span class="font-bold text-sm text-yard-darkGreen tracking-wide block mb-2">2025年7月8日，学校与定陶区半堤镇共建第二所文艺小院 🎨</span>
                         <h4 class="mb-2 tracking-wide text-right">
                             <span class="text-[10px] text-yard-wood font-normal">菏泽定陶 <i class="fas fa-chevron-right text-[8px] ml-1"></i></span>
                         </h4>
@@ -185,7 +190,7 @@
                 <div class="relative group cursor-pointer" onclick="openTimelineModal(2)">
                     <div class="absolute -left-[33px] top-1.5 w-3 h-3 rounded-full border border-yard-wood bg-yard-terracotta group-hover:scale-125 transition-transform shadow-sm"></div>
                     <div class="bg-[#fbf6e9]/75 p-4 rounded-2xl border border-yard-wood/25 hover:border-yard-wood transition-all shadow-sm active:scale-[0.99]">
-                        <span class="font-bold text-sm text-yard-darkGreen tracking-wide block mb-2">2026年4月1日，校团委与长清区双泉镇共建第三所文艺小院 🌸</span>
+                        <span class="font-bold text-sm text-yard-darkGreen tracking-wide block mb-2">2026年4月1日，学校与长清区双泉镇共建第三所文艺小院 🌸</span>
                         <h4 class="mb-2 tracking-wide text-right">
                             <span class="text-[10px] text-yard-wood font-normal">长清双泉 <i class="fas fa-chevron-right text-[8px] ml-1"></i></span>
                         </h4>
@@ -205,7 +210,7 @@
                 <div class="relative group cursor-pointer" onclick="openTimelineModal(3)">
                     <div class="absolute -left-[33px] top-1.5 w-3 h-3 rounded-full border border-yard-wood bg-yard-terracotta group-hover:scale-125 transition-transform shadow-sm"></div>
                     <div class="bg-[#fbf6e9]/75 p-4 rounded-2xl border border-yard-wood/25 hover:border-yard-wood transition-all shadow-sm active:scale-[0.99]">
-                        <span class="font-bold text-sm text-yard-darkGreen tracking-wide block mb-2">2026年4月17日，校团委与山东省青少年宫共建文艺小院新阵地 🏛️</span>
+                        <span class="font-bold text-sm text-yard-darkGreen tracking-wide block mb-2">2026年4月17日，学校与山东省青少年宫共建文艺小院新阵地 🏛️</span>
                         <h4 class="mb-2 tracking-wide text-right">
                             <span class="text-[10px] text-yard-wood font-normal">山东省青少年宫 <i class="fas fa-chevron-right text-[8px] ml-1"></i></span>
                         </h4>
@@ -225,7 +230,7 @@
                 <div class="relative group cursor-pointer" onclick="openTimelineModal(4)">
                     <div class="absolute -left-[33px] top-1.5 w-3 h-3 rounded-full border border-yard-wood bg-yard-terracotta group-hover:scale-125 transition-transform shadow-sm"></div>
                     <div class="bg-[#fbf6e9]/75 p-4 rounded-2xl border border-yard-wood/25 hover:border-yard-wood transition-all shadow-sm active:scale-[0.99]">
-                        <span class="font-bold text-sm text-yard-darkGreen tracking-wide block mb-2">2026年5月27日，校团委与长清大学城实验学校共建第四所文艺小院 🏫</span>
+                        <span class="font-bold text-sm text-yard-darkGreen tracking-wide block mb-2">2026年5月27日，学校与长清大学城实验学校共建第四所文艺小院 🏫</span>
                         <h4 class="mb-2 tracking-wide text-right">
                             <span class="text-[10px] text-yard-wood font-normal">长清实验学校 <i class="fas fa-chevron-right text-[8px] ml-1"></i></span>
                         </h4>
@@ -241,61 +246,6 @@
                     </div>
                 </div>
 
-            </div>
-        </section>
-
-        <!-- CLASSROOM SECTION (种下美好) -->
-        <section class="px-6 py-12 bg-yard-lightGreen/35 border-t border-yard-wood/25 relative">
-            <div class="flex items-center space-x-3 mb-8">
-                <div class="p-2.5 bg-yard-darkGreen text-yard-cream rounded-full w-10 h-10 flex items-center justify-center shadow-md">
-                    <i class="fas fa-seedling text-xs"></i>
-                </div>
-                <div>
-                    <h3 class="font-bold text-base text-yard-darkGreen font-serif tracking-widest">种下美好 · 美育课堂</h3>
-                    <p class="text-[9px] text-yard-charcoal/40 uppercase tracking-[0.2em] font-roman">Art Classes With Young Volunteers</p>
-                </div>
-            </div>
-
-            <div class="bg-yard-cream/75 border border-yard-wood/25 rounded-3xl p-5 mb-6 shadow-sm">
-                <span class="text-[10px] font-bold text-yard-wood tracking-[0.2em] font-roman block mb-2">SHUANGQUAN PRIMARY SCHOOL</span>
-                <h4 class="font-bold text-yard-darkGreen text-sm tracking-widest mb-3">八次奔赴，把艺术种进童心</h4>
-                <p class="text-[11px] text-yard-charcoal/75 leading-loose tracking-wider">
-                    从 4 月 9 日第一课到 6 月 11 日收官课，山艺“种下美好”文艺志愿服务团队持续走进双泉中心小学。戏剧、舞蹈、戏曲、书法四大社团陪伴孩子们练声音、舒展身体、触摸传统、安放心绪，让每一颗艺术的种子在校园里向阳生长。
-                </p>
-            </div>
-
-            <div class="grid grid-cols-2 gap-3 mb-6">
-                <div class="bg-yard-cream/70 rounded-2xl border border-yard-wood/20 p-4">
-                    <span class="text-yard-terracotta text-lg block mb-2"><i class="fas fa-theater-masks"></i></span>
-                    <h4 class="font-bold text-xs text-yard-darkGreen tracking-widest mb-1">戏剧社团</h4>
-                    <p class="text-[10px] text-yard-charcoal/65 leading-relaxed">从朗读、绕口令到即兴表演，让孩子敢开口、敢表达。</p>
-                </div>
-                <div class="bg-yard-cream/70 rounded-2xl border border-yard-wood/20 p-4">
-                    <span class="text-yard-terracotta text-lg block mb-2"><i class="fas fa-person-running"></i></span>
-                    <h4 class="font-bold text-xs text-yard-darkGreen tracking-widest mb-1">舞蹈社团</h4>
-                    <p class="text-[10px] text-yard-charcoal/65 leading-relaxed">在节拍与舞步里舒展身姿，慢慢找回自在和自信。</p>
-                </div>
-                <div class="bg-yard-cream/70 rounded-2xl border border-yard-wood/20 p-4">
-                    <span class="text-yard-terracotta text-lg block mb-2"><i class="fas fa-masks-theater"></i></span>
-                    <h4 class="font-bold text-xs text-yard-darkGreen tracking-widest mb-1">戏曲社团</h4>
-                    <p class="text-[10px] text-yard-charcoal/65 leading-relaxed">唱腔、身段、脸谱与折扇，把传统文化送到孩子身边。</p>
-                </div>
-                <div class="bg-yard-cream/70 rounded-2xl border border-yard-wood/20 p-4">
-                    <span class="text-yard-terracotta text-lg block mb-2"><i class="fas fa-pen-nib"></i></span>
-                    <h4 class="font-bold text-xs text-yard-darkGreen tracking-widest mb-1">书法社团</h4>
-                    <p class="text-[10px] text-yard-charcoal/65 leading-relaxed">一横一竖端正书写，也在笔墨里沉淀耐心与心性。</p>
-                </div>
-            </div>
-
-            <div class="space-y-3">
-                <div class="flex gap-3 bg-yard-cream/65 rounded-2xl border border-yard-wood/20 p-4">
-                    <span class="text-[10px] font-bold text-yard-wood font-roman shrink-0">05.15</span>
-                    <p class="text-[10px] text-yard-charcoal/70 leading-relaxed tracking-wider">“大手拉小手，一起学民法典”：把法治知识融进戏剧、戏曲、书法、舞蹈课堂，艺术润心，也让规则意识生根。</p>
-                </div>
-                <div class="flex gap-3 bg-yard-cream/65 rounded-2xl border border-yard-wood/20 p-4">
-                    <span class="text-[10px] font-bold text-yard-wood font-roman shrink-0">06.02</span>
-                    <p class="text-[10px] text-yard-charcoal/70 leading-relaxed tracking-wider">大学城实验学校第一课：四支队伍、三门课程，山艺青年把戏剧表达、舞蹈感知与京剧启蒙带进新校园。</p>
-                </div>
             </div>
         </section>
 
@@ -336,6 +286,90 @@
             </div>
 
             <!-- Zen Sound Ambient Synthesizer removed -->
+        </section>
+
+        <!-- CLASSROOM SECTION (种下美好) -->
+        <section class="px-6 py-12 bg-yard-lightGreen/35 border-t border-yard-wood/25 relative">
+            <div class="flex items-center space-x-3 mb-8">
+                <div class="p-2.5 bg-yard-darkGreen text-yard-cream rounded-full w-10 h-10 flex items-center justify-center shadow-md">
+                    <i class="fas fa-seedling text-xs"></i>
+                </div>
+                <div>
+                    <h3 class="font-bold text-base text-yard-darkGreen font-serif tracking-widest">公众号原文 · 美育回看</h3>
+                    <p class="text-[9px] text-yard-charcoal/40 uppercase tracking-[0.2em] font-roman">WeChat Article Archive</p>
+                </div>
+            </div>
+
+            <div class="bg-yard-cream/75 border border-yard-wood/25 rounded-3xl p-5 mb-6 shadow-sm">
+                <span class="text-[10px] font-bold text-yard-wood tracking-[0.2em] font-roman block mb-2">TAP TO READ</span>
+                <h4 class="font-bold text-yard-darkGreen text-sm tracking-widest mb-3">点击卡片，打开公众号原文</h4>
+                <p class="text-[11px] text-yard-charcoal/75 leading-loose tracking-wider">
+                    这里收录文艺小院相关公众号原文，点击任一卡片即可跳转，回看每一次共建、课堂与青春奔赴。
+                </p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+                <a href="https://mp.weixin.qq.com/s/sxVRmmy4WpbdwSRZz3cZuw" target="_blank" rel="noopener noreferrer" class="group bg-yard-cream/70 rounded-2xl border border-yard-wood/20 p-4 min-h-32 flex flex-col justify-between active:scale-[0.98] transition-all">
+                    <span class="text-yard-terracotta text-lg block"><i class="fas fa-route"></i></span>
+                    <span class="font-bold text-xs text-yard-darkGreen tracking-widest leading-relaxed">青春筑梦三下乡</span>
+                    <span class="text-[9px] text-yard-wood/80 tracking-widest flex items-center justify-between">打开原文 <i class="fas fa-up-right-from-square text-[8px]"></i></span>
+                </a>
+                <a href="https://mp.weixin.qq.com/s/gY9AGyGz2da-88MoDxrqYw" target="_blank" rel="noopener noreferrer" class="group bg-yard-cream/70 rounded-2xl border border-yard-wood/20 p-4 min-h-32 flex flex-col justify-between active:scale-[0.98] transition-all">
+                    <span class="text-yard-terracotta text-lg block"><i class="fas fa-landmark"></i></span>
+                    <span class="font-bold text-xs text-yard-darkGreen tracking-widest leading-relaxed">第三所文艺小院挂牌</span>
+                    <span class="text-[9px] text-yard-wood/80 tracking-widest flex items-center justify-between">打开原文 <i class="fas fa-up-right-from-square text-[8px]"></i></span>
+                </a>
+                <a href="https://mp.weixin.qq.com/s/GjqEHuuhjlqg0mzheSCa8w" target="_blank" rel="noopener noreferrer" class="group bg-yard-cream/70 rounded-2xl border border-yard-wood/20 p-4 min-h-32 flex flex-col justify-between active:scale-[0.98] transition-all">
+                    <span class="text-yard-terracotta text-lg block"><i class="fas fa-building-columns"></i></span>
+                    <span class="font-bold text-xs text-yard-darkGreen tracking-widest leading-relaxed">再添文艺新阵地</span>
+                    <span class="text-[9px] text-yard-wood/80 tracking-widest flex items-center justify-between">打开原文 <i class="fas fa-up-right-from-square text-[8px]"></i></span>
+                </a>
+                <a href="https://mp.weixin.qq.com/s/h3r1umtWv-b7zO5eOFG6qw" target="_blank" rel="noopener noreferrer" class="group bg-yard-cream/70 rounded-2xl border border-yard-wood/20 p-4 min-h-32 flex flex-col justify-between active:scale-[0.98] transition-all">
+                    <span class="text-yard-terracotta text-lg block"><i class="fas fa-handshake-angle"></i></span>
+                    <span class="font-bold text-xs text-yard-darkGreen tracking-widest leading-relaxed">第四所文艺小院落地</span>
+                    <span class="text-[9px] text-yard-wood/80 tracking-widest flex items-center justify-between">打开原文 <i class="fas fa-up-right-from-square text-[8px]"></i></span>
+                </a>
+                <a href="https://mp.weixin.qq.com/s/sdTCQXtME-mRz73atsf3iA" target="_blank" rel="noopener noreferrer" class="group bg-yard-cream/70 rounded-2xl border border-yard-wood/20 p-4 min-h-32 flex flex-col justify-between active:scale-[0.98] transition-all">
+                    <span class="text-yard-terracotta text-lg block"><i class="fas fa-seedling"></i></span>
+                    <span class="font-bold text-xs text-yard-darkGreen tracking-widest leading-relaxed">“种下美好”第一课</span>
+                    <span class="text-[9px] text-yard-wood/80 tracking-widest flex items-center justify-between">打开原文 <i class="fas fa-up-right-from-square text-[8px]"></i></span>
+                </a>
+                <a href="https://mp.weixin.qq.com/s/6AFv0hcwMvxqGlrr82CTnA" target="_blank" rel="noopener noreferrer" class="group bg-yard-cream/70 rounded-2xl border border-yard-wood/20 p-4 min-h-32 flex flex-col justify-between active:scale-[0.98] transition-all">
+                    <span class="text-yard-terracotta text-lg block"><i class="fas fa-hands-holding-child"></i></span>
+                    <span class="font-bold text-xs text-yard-darkGreen tracking-widest leading-relaxed">共赴成长之约</span>
+                    <span class="text-[9px] text-yard-wood/80 tracking-widest flex items-center justify-between">打开原文 <i class="fas fa-up-right-from-square text-[8px]"></i></span>
+                </a>
+                <a href="https://mp.weixin.qq.com/s/bjTQednm2mcvibp04pA51Q" target="_blank" rel="noopener noreferrer" class="group bg-yard-cream/70 rounded-2xl border border-yard-wood/20 p-4 min-h-32 flex flex-col justify-between active:scale-[0.98] transition-all">
+                    <span class="text-yard-terracotta text-lg block"><i class="fas fa-palette"></i></span>
+                    <span class="font-bold text-xs text-yard-darkGreen tracking-widest leading-relaxed">以艺扎根，奔赴山海</span>
+                    <span class="text-[9px] text-yard-wood/80 tracking-widest flex items-center justify-between">打开原文 <i class="fas fa-up-right-from-square text-[8px]"></i></span>
+                </a>
+                <a href="https://mp.weixin.qq.com/s/t98l8imX3HBqL4WADRAiKg" target="_blank" rel="noopener noreferrer" class="group bg-yard-cream/70 rounded-2xl border border-yard-wood/20 p-4 min-h-32 flex flex-col justify-between active:scale-[0.98] transition-all">
+                    <span class="text-yard-terracotta text-lg block"><i class="fas fa-scale-balanced"></i></span>
+                    <span class="font-bold text-xs text-yard-darkGreen tracking-widest leading-relaxed">一起学民法典</span>
+                    <span class="text-[9px] text-yard-wood/80 tracking-widest flex items-center justify-between">打开原文 <i class="fas fa-up-right-from-square text-[8px]"></i></span>
+                </a>
+                <a href="https://mp.weixin.qq.com/s/dRzaQ9Nqs4HmXjMth-xeUg" target="_blank" rel="noopener noreferrer" class="group bg-yard-cream/70 rounded-2xl border border-yard-wood/20 p-4 min-h-32 flex flex-col justify-between active:scale-[0.98] transition-all">
+                    <span class="text-yard-terracotta text-lg block"><i class="fas fa-camera-retro"></i></span>
+                    <span class="font-bold text-xs text-yard-darkGreen tracking-widest leading-relaxed">捕捉可爱瞬间</span>
+                    <span class="text-[9px] text-yard-wood/80 tracking-widest flex items-center justify-between">打开原文 <i class="fas fa-up-right-from-square text-[8px]"></i></span>
+                </a>
+                <a href="https://mp.weixin.qq.com/s/lggYmHb6BqdwBLZCJKFP7A" target="_blank" rel="noopener noreferrer" class="group bg-yard-cream/70 rounded-2xl border border-yard-wood/20 p-4 min-h-32 flex flex-col justify-between active:scale-[0.98] transition-all">
+                    <span class="text-yard-terracotta text-lg block"><i class="fas fa-sun"></i></span>
+                    <span class="font-bold text-xs text-yard-darkGreen tracking-widest leading-relaxed">生如夏花</span>
+                    <span class="text-[9px] text-yard-wood/80 tracking-widest flex items-center justify-between">打开原文 <i class="fas fa-up-right-from-square text-[8px]"></i></span>
+                </a>
+                <a href="https://mp.weixin.qq.com/s/HMCNxSDlFi6TiQ3_LOUhgQ" target="_blank" rel="noopener noreferrer" class="group bg-yard-cream/70 rounded-2xl border border-yard-wood/20 p-4 min-h-32 flex flex-col justify-between active:scale-[0.98] transition-all">
+                    <span class="text-yard-terracotta text-lg block"><i class="fas fa-feather"></i></span>
+                    <span class="font-bold text-xs text-yard-darkGreen tracking-widest leading-relaxed">最后一课，不说再见</span>
+                    <span class="text-[9px] text-yard-wood/80 tracking-widest flex items-center justify-between">打开原文 <i class="fas fa-up-right-from-square text-[8px]"></i></span>
+                </a>
+                <a href="https://mp.weixin.qq.com/s/VWI2rEEakjOa4lcVconIqA" target="_blank" rel="noopener noreferrer" class="group bg-yard-cream/70 rounded-2xl border border-yard-wood/20 p-4 min-h-32 flex flex-col justify-between active:scale-[0.98] transition-all">
+                    <span class="text-yard-terracotta text-lg block"><i class="fas fa-school"></i></span>
+                    <span class="font-bold text-xs text-yard-darkGreen tracking-widest leading-relaxed">第一次见面</span>
+                    <span class="text-[9px] text-yard-wood/80 tracking-widest flex items-center justify-between">打开原文 <i class="fas fa-up-right-from-square text-[8px]"></i></span>
+                </a>
+            </div>
         </section>
 
         <!-- LETTER BOX SECTION (小院来信) -->
@@ -396,8 +430,7 @@
         <footer class="mt-auto px-6 py-10 border-t border-yard-wood/20 bg-gradient-to-t from-yard-darkGreen/10 to-transparent">
             <div class="flex items-center justify-center gap-3">
                 <p class="text-[9px] text-yard-charcoal/40 tracking-[0.25em] leading-loose text-left">
-                    © 2026 山东艺术学院云漫游 H5 开发工作坊部<br>
-                    推开朱扉，让艺术与青春在田野间野蛮生长
+                    © 2026 山东艺术学院校团委
                 </p>
                 <img src="./assets/wenyi-logo-transparent.png" alt="文艺小院标志" class="w-12 h-12 object-contain shrink-0">
             </div>
