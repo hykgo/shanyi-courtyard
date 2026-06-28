@@ -53,6 +53,7 @@
             // Set initial state selectors
             selectIdentity('26级萌新');
             loadMessages();
+            renderArticleArchive();
             // Initiate polaroid swipe listeners
             initPolaroidSwipe();
 
@@ -134,6 +135,31 @@
                     <span class="text-[9px] text-yard-wood/80 tracking-widest flex items-center justify-between">打开原文 <i class="fas fa-up-right-from-square text-[8px]"></i></span>
                 </a>
             `).join('');
+        }
+
+        function openArticleArchiveModal() {
+            renderArticleArchive();
+            const modal = document.getElementById('article-archive-modal');
+            if (!modal) return;
+            const inner = modal.querySelector('div');
+            modal.classList.remove('pointer-events-none');
+            modal.classList.add('opacity-100');
+            if (inner) {
+                inner.classList.remove('scale-90');
+                inner.classList.add('scale-100');
+            }
+        }
+
+        function closeArticleArchiveModal() {
+            const modal = document.getElementById('article-archive-modal');
+            if (!modal) return;
+            const inner = modal.querySelector('div');
+            modal.classList.add('pointer-events-none');
+            modal.classList.remove('opacity-100');
+            if (inner) {
+                inner.classList.add('scale-90');
+                inner.classList.remove('scale-100');
+            }
         }
 
         // Timeline dataset
