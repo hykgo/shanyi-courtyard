@@ -57,9 +57,8 @@
             // Initiate polaroid swipe listeners
             initPolaroidSwipe();
 
-            warmPriorityImages();
-            deferTask(() => warmGalleryImages(12));
-            deferTask(() => warmGalleryImages());
+            warmPriorityImages(5);
+            deferTask(() => warmGalleryWindow(currentPhotoIndex, 2));
             if ('requestIdleCallback' in window) {
                 requestIdleCallback(() => {
                     warmGateMusicAudio();
@@ -319,14 +318,18 @@
             return img;
         }
 
-        function warmPriorityImages() {
-            priorityImageUrls.forEach((src) => warmImage(src, true));
+        function warmPriorityImages(limit = priorityImageUrls.length) {
+            const count = Math.min(limit, priorityImageUrls.length);
+            for (let i = 0; i < count; i += 1) {
+                warmImage(priorityImageUrls[i], true);
+            }
         }
 
-        function warmGalleryImages(limit = galleryPhotos.length) {
-            const count = Math.min(limit, galleryPhotos.length);
-            for (let i = 0; i < count; i += 1) {
-                const photo = galleryPhotos[i];
+        function warmGalleryWindow(centerIndex = 0, radius = 2) {
+            const total = galleryPhotos.length;
+            for (let offset = -radius; offset <= radius; offset += 1) {
+                const index = (centerIndex + offset + total) % total;
+                const photo = galleryPhotos[index];
                 if (galleryImageCache.has(photo.src)) continue;
                 const img = warmImage(photo.src);
                 galleryImageCache.set(photo.src, img);
@@ -358,6 +361,7 @@
             }
 
             syncPolaroidDeck();
+            warmGalleryWindow(currentPhotoIndex, 2);
 
             const counter = document.getElementById('photo-counter');
             if (counter) {
@@ -380,6 +384,9 @@
                 if (mainImage) {
                     mainImage.src = photo.src;
                     mainImage.alt = photo.caption;
+                    mainImage.loading = 'eager';
+                    mainImage.decoding = 'async';
+                    mainImage.fetchPriority = 'high';
                 }
                 if (mainCaption) {
                     mainCaption.textContent = photo.caption;
@@ -639,6 +646,31 @@
             }
         }
 
+        function renderMessageList(messages) {
+            const scroller = document.getElementById('bullet-scroller');
+            if (!scroller) return;
+
+            if (!messages.length) {
+                renderEmptyMessageState();
+                return;
+            }
+
+            scroller.innerHTML = '';
+            const fragment = document.createDocumentFragment();
+
+            messages.forEach((message) => {
+                const div = document.createElement('div');
+                div.className = "bullet-item text-[11px] bg-white/70 p-3 rounded-xl border border-yard-lightGreen/30 shadow-xs text-yard-charcoal/90 leading-relaxed tracking-wider transition-all opacity-100 scale-100";
+                const name = message.name || '26级萌新';
+                const content = message.content || '';
+                div.innerHTML = buildBulletMarkup(name, content, message.created_at);
+                fragment.appendChild(div);
+            });
+
+            scroller.appendChild(fragment);
+            scroller.scrollTop = scroller.scrollHeight;
+        }
+
         async function loadMessages() {
             try {
                 const response = await fetch('/api/messages?limit=80', {
@@ -648,14 +680,7 @@
 
                 const data = await response.json();
                 const messages = Array.isArray(data.messages) ? data.messages : [];
-                if (!messages.length) {
-                    renderEmptyMessageState();
-                    return;
-                }
-
-                const scroller = document.getElementById('bullet-scroller');
-                scroller.innerHTML = '';
-                messages.forEach((message) => renderMessageItem(message));
+                renderMessageList(messages);
             } catch (error) {
                 console.warn('Failed to load messages', error);
             }
