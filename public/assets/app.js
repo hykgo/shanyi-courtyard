@@ -742,9 +742,15 @@
                 if (tag.innerText.trim() === identityName) {
                     tag.classList.add('is-selected', 'bg-yard-darkGreen', 'text-yard-cream', 'border-transparent');
                     tag.classList.remove('bg-yard-cream', 'text-yard-charcoal/80', 'border-yard-wood/40');
+                    tag.style.backgroundColor = '#173D25';
+                    tag.style.color = '#F6EFDE';
+                    tag.style.borderColor = 'transparent';
                 } else {
                     tag.classList.remove('is-selected', 'bg-yard-darkGreen', 'text-yard-cream', 'border-transparent');
                     tag.classList.add('bg-yard-cream', 'text-yard-charcoal/80', 'border-yard-wood/40');
+                    tag.style.backgroundColor = '';
+                    tag.style.color = '';
+                    tag.style.borderColor = '';
                 }
             });
         }
