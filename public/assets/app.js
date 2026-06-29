@@ -153,7 +153,7 @@
             initPolaroidSwipe();
 
             warmPriorityImages(5);
-            warmGalleryWindow(currentPhotoIndex, 3);
+            warmGalleryWindow(currentPhotoIndex, 8);
             scheduleGalleryPreload();
             if ('requestIdleCallback' in window) {
                 requestIdleCallback(() => {
@@ -409,6 +409,7 @@
             const img = new Image();
             img.decoding = 'async';
             img.loading = eager ? 'eager' : 'lazy';
+            img.fetchPriority = eager ? 'high' : 'low';
             img.onerror = () => {
                 imageWarmCache.delete(src);
                 if (src.includes('/assets/gallery/')) {
@@ -460,7 +461,7 @@
             const total = galleryPhotos.length;
             const queued = [];
             const seen = new Set();
-            const maxConcurrent = 3;
+            const maxConcurrent = 8;
             let activeLoads = 0;
             const pushIndex = (index) => {
                 const normalized = (index + total) % total;
@@ -470,7 +471,7 @@
             };
 
             pushIndex(currentPhotoIndex);
-            for (let radius = 1; radius <= 3; radius += 1) {
+            for (let radius = 1; radius <= 12; radius += 1) {
                 pushIndex(currentPhotoIndex - radius);
                 pushIndex(currentPhotoIndex + radius);
             }
@@ -498,11 +499,7 @@
 
             const scheduleNext = () => {
                 if (!queued.length && activeLoads === 0) return;
-                if ('requestIdleCallback' in window) {
-                    requestIdleCallback(pump, { timeout: 1200 });
-                } else {
-                    setTimeout(pump, 80);
-                }
+                setTimeout(pump, 20);
             };
 
             scheduleNext();
@@ -533,7 +530,7 @@
             }
 
             syncPolaroidDeck();
-            warmGalleryWindow(currentPhotoIndex, 2);
+            warmGalleryWindow(currentPhotoIndex, 8);
 
             const counter = document.getElementById('photo-counter');
             if (counter) {
@@ -556,22 +553,14 @@
             }
 
             if (mainImage) {
-                const applyMainImage = () => {
-                    if (updateToken !== galleryUpdateToken || !mainImage.isConnected) return;
+                if (updateToken === galleryUpdateToken && mainImage.isConnected) {
                     mainImage.src = window.current.src;
                     mainImage.alt = window.current.caption;
                     mainImage.loading = 'eager';
                     mainImage.decoding = 'async';
                     mainImage.fetchPriority = 'high';
                     mainImage.style.opacity = '1';
-                };
-                const cachedMainImage = galleryImageCache.get(window.current.src);
-                if (cachedMainImage && cachedMainImage.complete && cachedMainImage.naturalWidth > 0) {
-                    applyMainImage();
-                } else {
-                    preloadImage(window.current.src, true).then(() => {
-                        applyMainImage();
-                    });
+                    preloadImage(window.current.src, true);
                 }
             }
 
