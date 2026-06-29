@@ -6,6 +6,28 @@ const RATE_LIMIT_MAX_MESSAGES = 3;
 const DUPLICATE_WINDOW_HOURS = 24;
 const OWNER_TOKEN_MIN_LENGTH = 16;
 const OWNER_TOKEN_MAX_LENGTH = 128;
+const BLOCKED_CONTENT_MESSAGE = "这条留言不适合展示，请换一种表达";
+const BLOCKED_WORDS = [
+  "傻逼",
+  "煞笔",
+  "sb",
+  "妈的",
+  "草泥马",
+  "操你",
+  "去死",
+  "色情",
+  "黄片",
+  "约炮",
+  "赌博",
+  "博彩",
+  "贷款",
+  "刷单",
+  "代刷",
+  "加微信",
+  "加vx",
+  "加qq",
+  "qq群",
+];
 let messagesSchemaHasOwnerTokenHash = null;
 
 function json(data, init = {}) {
@@ -24,6 +46,38 @@ function sanitizeText(value, maxLength) {
     .replace(/\s+/g, " ")
     .trim()
     .slice(0, maxLength);
+}
+
+function normalizeForModeration(value) {
+  return String(value || "")
+    .toLowerCase()
+    .replace(/[\s~!！?？,，.。:：;；'"“”‘’`·、|｜/\\()[\]{}<>《》_-]+/g, "");
+}
+
+function validateMessageContent(content) {
+  const normalized = normalizeForModeration(content);
+
+  if (/https?:\/\//i.test(content) || /www\./i.test(content) || /\.(com|cn|net|org|top|xyz|vip|cc)\b/i.test(content)) {
+    return "留言里先不要放链接哦";
+  }
+
+  if (/(1[3-9]\d{9})/.test(content)) {
+    return "留言里先不要放手机号哦";
+  }
+
+  if (/(微信|vx|v信|qq)[:：]?[A-Za-z0-9_-]{5,}/i.test(content)) {
+    return "留言里先不要放联系方式哦";
+  }
+
+  if (/(.)\1{7,}/.test(normalized)) {
+    return "这条留言有点像刷屏，请换一种表达";
+  }
+
+  if (BLOCKED_WORDS.some((word) => normalized.includes(normalizeForModeration(word)))) {
+    return BLOCKED_CONTENT_MESSAGE;
+  }
+
+  return null;
 }
 
 async function hashIp(ip, salt) {
@@ -131,6 +185,11 @@ export async function onRequestPost(context) {
 
   if (!content) {
     return json({ error: "请先写下留言" }, { status: 400 });
+  }
+
+  const moderationError = validateMessageContent(content);
+  if (moderationError) {
+    return json({ error: moderationError }, { status: 400 });
   }
 
   const ip = request.headers.get("CF-Connecting-IP") || "";
