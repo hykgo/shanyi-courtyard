@@ -739,7 +739,7 @@
             
             const tags = document.querySelectorAll('.identity-tag');
             tags.forEach(tag => {
-                if (tag.innerText.trim() === identityName) {
+                if (tag.dataset.identity === identityName) {
                     tag.classList.add('is-selected', 'bg-yard-darkGreen', 'text-yard-cream', 'border-transparent');
                     tag.classList.remove('bg-yard-cream', 'text-yard-charcoal/80', 'border-yard-wood/40');
                     tag.style.backgroundColor = '#173D25';
