@@ -459,6 +459,8 @@
             const total = galleryPhotos.length;
             const queued = [];
             const seen = new Set();
+            const maxConcurrent = 3;
+            let activeLoads = 0;
             const pushIndex = (index) => {
                 const normalized = (index + total) % total;
                 if (seen.has(normalized)) return;
@@ -476,25 +478,33 @@
             }
 
             const pump = () => {
-                const deadline = typeof performance !== 'undefined' ? performance.now() + 12 : 12;
-                while (queued.length) {
+                while (activeLoads < maxConcurrent && queued.length) {
                     const photoIndex = queued.shift();
                     const photo = galleryPhotos[photoIndex];
                     if (!photo || galleryImageCache.has(photo.src)) continue;
-                    preloadImage(photo.src, photoIndex === currentPhotoIndex);
-                    if (typeof performance !== 'undefined' && performance.now() >= deadline) break;
+                    activeLoads += 1;
+                    preloadImage(photo.src, photoIndex === currentPhotoIndex).finally(() => {
+                        activeLoads -= 1;
+                        scheduleNext();
+                    });
                 }
 
-                if (queued.length) {
-                    if ('requestIdleCallback' in window) {
-                        requestIdleCallback(pump, { timeout: 1200 });
-                    } else {
-                        setTimeout(pump, 60);
-                    }
+                if (!queued.length || activeLoads >= maxConcurrent) {
+                    return;
+                }
+                scheduleNext();
+            };
+
+            const scheduleNext = () => {
+                if (!queued.length && activeLoads === 0) return;
+                if ('requestIdleCallback' in window) {
+                    requestIdleCallback(pump, { timeout: 1200 });
+                } else {
+                    setTimeout(pump, 80);
                 }
             };
 
-            deferTask(pump, 120);
+            scheduleNext();
         }
 
         function renderPolaroidDeck() {
