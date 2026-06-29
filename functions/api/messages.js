@@ -6,6 +6,7 @@ const RATE_LIMIT_MAX_MESSAGES = 3;
 const DUPLICATE_WINDOW_HOURS = 24;
 const OWNER_TOKEN_MIN_LENGTH = 16;
 const OWNER_TOKEN_MAX_LENGTH = 128;
+let messagesSchemaHasOwnerTokenHash = null;
 
 function json(data, init = {}) {
   return new Response(JSON.stringify(data), {
@@ -53,6 +54,21 @@ async function hashOwnerToken(token, salt) {
     .join("");
 }
 
+async function hasOwnerTokenHashColumn(env) {
+  if (messagesSchemaHasOwnerTokenHash !== null) {
+    return messagesSchemaHasOwnerTokenHash;
+  }
+
+  try {
+    const { results } = await env.DB.prepare(`PRAGMA table_info(messages)`).all();
+    messagesSchemaHasOwnerTokenHash = Array.isArray(results) && results.some((column) => column.name === "owner_token_hash");
+  } catch {
+    messagesSchemaHasOwnerTokenHash = false;
+  }
+
+  return messagesSchemaHasOwnerTokenHash;
+}
+
 export async function onRequestGet(context) {
   const { env, request } = context;
   const url = new URL(request.url);
@@ -61,14 +77,21 @@ export async function onRequestGet(context) {
     request.headers.get("X-Message-Owner") || url.searchParams.get("owner") || "",
     env.MESSAGE_OWNER_SALT || env.IP_HASH_SALT || ""
   );
+  const hasOwnerColumn = await hasOwnerTokenHashColumn(env);
 
-  const { results } = await env.DB.prepare(
-    `SELECT id, name, content, created_at, owner_token_hash
-     FROM messages
-     WHERE approved = 1
-     ORDER BY created_at DESC, id DESC
-     LIMIT ?`
-  )
+  const selectSql = hasOwnerColumn
+    ? `SELECT id, name, content, created_at, owner_token_hash
+       FROM messages
+       WHERE approved = 1
+       ORDER BY created_at DESC, id DESC
+       LIMIT ?`
+    : `SELECT id, name, content, created_at
+       FROM messages
+       WHERE approved = 1
+       ORDER BY created_at DESC, id DESC
+       LIMIT ?`;
+
+  const { results } = await env.DB.prepare(selectSql)
     .bind(limit)
     .all();
 
@@ -78,7 +101,7 @@ export async function onRequestGet(context) {
       name: message.name,
       content: message.content,
       created_at: message.created_at,
-      owned: Boolean(ownerHash && message.owner_token_hash && message.owner_token_hash === ownerHash),
+      owned: Boolean(hasOwnerColumn && ownerHash && message.owner_token_hash && message.owner_token_hash === ownerHash),
     })),
   });
 }
@@ -99,6 +122,7 @@ export async function onRequestPost(context) {
     payload.ownerToken || request.headers.get("X-Message-Owner") || "",
     env.MESSAGE_OWNER_SALT || env.IP_HASH_SALT || ""
   );
+  const hasOwnerColumn = await hasOwnerTokenHashColumn(env);
 
   if (!content) {
     return json({ error: "请先写下留言" }, { status: 400 });
@@ -140,12 +164,15 @@ export async function onRequestPost(context) {
     }
   }
 
-  const result = await env.DB.prepare(
-    `INSERT INTO messages (name, content, ip_hash, owner_token_hash, approved, created_at)
-     VALUES (?, ?, ?, ?, 1, ?)`
-  )
-    .bind(name, content, ipHash, ownerHash, now)
-    .run();
+  const insertSql = hasOwnerColumn
+    ? `INSERT INTO messages (name, content, ip_hash, owner_token_hash, approved, created_at)
+       VALUES (?, ?, ?, ?, 1, ?)`
+    : `INSERT INTO messages (name, content, ip_hash, approved, created_at)
+       VALUES (?, ?, ?, 1, ?)`;
+
+  const result = hasOwnerColumn
+    ? await env.DB.prepare(insertSql).bind(name, content, ipHash, ownerHash, now).run()
+    : await env.DB.prepare(insertSql).bind(name, content, ipHash, now).run();
 
   return json(
     {
@@ -169,6 +196,7 @@ export async function onRequestDelete(context) {
     request.headers.get("X-Message-Owner") || "",
     env.MESSAGE_OWNER_SALT || env.IP_HASH_SALT || ""
   );
+  const hasOwnerColumn = await hasOwnerTokenHashColumn(env);
 
   if (!Number.isInteger(id) || id <= 0) {
     return json({ error: "Message not found" }, { status: 400 });
@@ -176,6 +204,10 @@ export async function onRequestDelete(context) {
 
   if (!ownerHash) {
     return json({ error: "Only your own messages can be deleted" }, { status: 403 });
+  }
+
+  if (!hasOwnerColumn) {
+    return json({ error: "Delete is unavailable until the database migration is applied" }, { status: 409 });
   }
 
   const existing = await env.DB.prepare(
