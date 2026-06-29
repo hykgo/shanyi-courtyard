@@ -800,11 +800,7 @@
             const isNeon = name.includes('萌新');
             const tagColorClass = isNeon ? 'text-yard-terracotta' : (name.includes('学长') || name.includes('学姐') ? 'text-yard-darkGreen' : 'text-yard-wood');
             const time = formatMessageTime(message.created_at);
-            const deleteButton = message.owned && message.id ? `
-                    <button type="button" onclick="deleteOwnMessage(${Number(message.id)})" class="w-6 h-6 rounded-full bg-yard-cream/95 text-yard-wood border border-yard-wood/30 flex items-center justify-center active:scale-90 transition-transform" aria-label="delete message">
-                        <i class="fas fa-times text-[10px]"></i>
-                    </button>
-                ` : '';
+            const deleteButton = '';
 
             return `
                 <div class="flex items-center justify-between gap-3 mb-1">
