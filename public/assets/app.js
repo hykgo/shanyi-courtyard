@@ -789,14 +789,14 @@
         }
 
         function buildBulletMarkup(message, suffix = '') {
-            const name = message.name || '26???';
+            const name = message.name || '26级萌新';
             const content = message.content || '';
-            const isNeon = name.includes('??');
-            const tagColorClass = isNeon ? 'text-yard-terracotta' : (name.includes('??') || name.includes('??') ? 'text-yard-darkGreen' : 'text-yard-wood');
+            const isNeon = name.includes('萌新');
+            const tagColorClass = isNeon ? 'text-yard-terracotta' : (name.includes('学长') || name.includes('学姐') ? 'text-yard-darkGreen' : 'text-yard-wood');
             const time = formatMessageTime(message.created_at);
             const deleteButton = message.owned && message.id ? `
-                    <button type="button" onclick="deleteOwnMessage(${Number(message.id)})" class="w-5 h-5 rounded-full bg-yard-cream/85 text-yard-wood border border-yard-wood/25 flex items-center justify-center active:scale-90 transition-transform" aria-label="???????">
-                        <i class="fas fa-times text-[9px]"></i>
+                    <button type="button" onclick="deleteOwnMessage(${Number(message.id)})" class="w-6 h-6 rounded-full bg-yard-cream/95 text-yard-wood border border-yard-wood/30 flex items-center justify-center active:scale-90 transition-transform" aria-label="delete message">
+                        <i class="fas fa-times text-[10px]"></i>
                     </button>
                 ` : '';
 
@@ -808,7 +808,7 @@
                         ${deleteButton}
                     </div>
                 </div>
-                <div>?${escapeHtml(content)}?${suffix}</div>
+                <div>${escapeHtml(content)}${suffix}</div>
             `;
         }
 
@@ -818,7 +818,7 @@
             div.className = "bullet-item text-[11px] bg-white/70 p-3 rounded-xl border border-yard-lightGreen/30 shadow-xs text-yard-charcoal/90 leading-relaxed tracking-wider transition-all opacity-0 scale-95";
             div.dataset.messageId = message.id || '';
 
-            const suffix = options.justNow ? '<span class="text-yard-terracotta text-[9px] ml-1.5 font-bold">????</span>' : '';
+            const suffix = '';
 
             div.innerHTML = buildBulletMarkup(message, suffix);
             scroller.appendChild(div);
