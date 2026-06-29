@@ -138,6 +138,7 @@
         let musicStepTimer = null;
         let gateMusicPulse = null;
         let isSubmittingMessage = false;
+        let messageOwnerToken = null;
         
         // Window on-load
         window.onload = function() {
@@ -787,17 +788,27 @@
             }).format(date);
         }
 
-        function buildBulletMarkup(name, content, createdAt, suffix = '') {
-            const isNeon = name.includes('萌新');
-            const tagColorClass = isNeon ? 'text-yard-terracotta' : (name.includes('学长') || name.includes('学姐') ? 'text-yard-darkGreen' : 'text-yard-wood');
-            const time = formatMessageTime(createdAt);
+        function buildBulletMarkup(message, suffix = '') {
+            const name = message.name || '26???';
+            const content = message.content || '';
+            const isNeon = name.includes('??');
+            const tagColorClass = isNeon ? 'text-yard-terracotta' : (name.includes('??') || name.includes('??') ? 'text-yard-darkGreen' : 'text-yard-wood');
+            const time = formatMessageTime(message.created_at);
+            const deleteButton = message.owned && message.id ? `
+                    <button type="button" onclick="deleteOwnMessage(${Number(message.id)})" class="w-5 h-5 rounded-full bg-yard-cream/85 text-yard-wood border border-yard-wood/25 flex items-center justify-center active:scale-90 transition-transform" aria-label="???????">
+                        <i class="fas fa-times text-[9px]"></i>
+                    </button>
+                ` : '';
 
             return `
                 <div class="flex items-center justify-between gap-3 mb-1">
                     <span class="font-bold ${tagColorClass}">#${escapeHtml(name)}</span>
-                    <span class="text-[9px] text-yard-charcoal/35 font-roman tracking-[0.12em] shrink-0">${escapeHtml(time)}</span>
+                    <div class="flex items-center gap-1.5 shrink-0">
+                        <span class="text-[9px] text-yard-charcoal/35 font-roman tracking-[0.12em]">${escapeHtml(time)}</span>
+                        ${deleteButton}
+                    </div>
                 </div>
-                <div>“${escapeHtml(content)}” ${suffix}</div>
+                <div>?${escapeHtml(content)}?${suffix}</div>
             `;
         }
 
@@ -805,12 +816,11 @@
             const scroller = document.getElementById('bullet-scroller');
             const div = document.createElement('div');
             div.className = "bullet-item text-[11px] bg-white/70 p-3 rounded-xl border border-yard-lightGreen/30 shadow-xs text-yard-charcoal/90 leading-relaxed tracking-wider transition-all opacity-0 scale-95";
+            div.dataset.messageId = message.id || '';
 
-            const name = message.name || '26级萌新';
-            const content = message.content || '';
-            const suffix = options.justNow ? '<span class="text-yard-terracotta text-[9px] ml-1.5 font-bold">刚刚发布</span>' : '';
+            const suffix = options.justNow ? '<span class="text-yard-terracotta text-[9px] ml-1.5 font-bold">????</span>' : '';
 
-            div.innerHTML = buildBulletMarkup(name, content, message.created_at, suffix);
+            div.innerHTML = buildBulletMarkup(message, suffix);
             scroller.appendChild(div);
 
             requestAnimationFrame(() => {
@@ -839,9 +849,8 @@
             messages.forEach((message) => {
                 const div = document.createElement('div');
                 div.className = "bullet-item text-[11px] bg-white/70 p-3 rounded-xl border border-yard-lightGreen/30 shadow-xs text-yard-charcoal/90 leading-relaxed tracking-wider transition-all opacity-100 scale-100";
-                const name = message.name || '26级萌新';
-                const content = message.content || '';
-                div.innerHTML = buildBulletMarkup(name, content, message.created_at);
+                div.dataset.messageId = message.id || '';
+                div.innerHTML = buildBulletMarkup(message);
                 fragment.appendChild(div);
             });
 
@@ -849,10 +858,30 @@
             scroller.scrollTop = scroller.scrollHeight;
         }
 
+        function getMessageOwnerToken() {
+            if (messageOwnerToken) return messageOwnerToken;
+            const storageKey = 'shanyi-message-owner-token';
+            try {
+                messageOwnerToken = localStorage.getItem(storageKey);
+                if (!messageOwnerToken) {
+                    const bytes = new Uint8Array(24);
+                    crypto.getRandomValues(bytes);
+                    messageOwnerToken = Array.from(bytes, (byte) => byte.toString(36).padStart(2, '0')).join('').slice(0, 48);
+                    localStorage.setItem(storageKey, messageOwnerToken);
+                }
+            } catch (error) {
+                messageOwnerToken = `${Date.now().toString(36)}${Math.random().toString(36).slice(2)}`;
+            }
+            return messageOwnerToken;
+        }
+
         async function loadMessages() {
             try {
                 const response = await fetch('/api/messages?limit=80', {
-                    headers: { 'accept': 'application/json' }
+                    headers: {
+                        'accept': 'application/json',
+                        'X-Message-Owner': getMessageOwnerToken()
+                    }
                 });
                 if (!response.ok) return;
 
@@ -870,7 +899,7 @@
             const textarea = document.getElementById('message-input');
             const message = textarea.value.trim();
             if (!message) {
-                showToast('写下你的短笺后再发布吧', 'fa-pen-fancy');
+                showToast('???????????', 'fa-pen-fancy');
                 return;
             }
 
@@ -887,25 +916,57 @@
                     },
                     body: JSON.stringify({
                         name: activeIdentity,
-                        content: message
+                        content: message,
+                        ownerToken: getMessageOwnerToken()
                     })
                 });
 
                 const data = await response.json().catch(() => ({}));
                 if (!response.ok) {
-                    throw new Error(data.error || '留言发布失败');
+                    throw new Error(data.error || '??????');
                 }
 
                 renderMessageItem(data.message || { name: activeIdentity, content: message }, { justNow: true });
                 generatePostcard();
                 textarea.value = '';
             } catch (error) {
-                showToast(error.message || '留言发布失败，请稍后再试', 'fa-circle-exclamation');
+                showToast(error.message || '????????????', 'fa-circle-exclamation');
             } finally {
                 isSubmittingMessage = false;
                 submitButton?.classList.remove('opacity-70', 'pointer-events-none');
             }
         }
+
+        async function deleteOwnMessage(id) {
+            if (!id) return;
+            const item = document.querySelector(`.bullet-item[data-message-id="${id}"]`);
+            item?.classList.add('opacity-50', 'pointer-events-none');
+
+            try {
+                const response = await fetch(`/api/messages?id=${encodeURIComponent(id)}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'accept': 'application/json',
+                        'X-Message-Owner': getMessageOwnerToken()
+                    }
+                });
+
+                if (!response.ok) {
+                    const data = await response.json().catch(() => ({}));
+                    throw new Error(data.error || '????');
+                }
+
+                item?.remove();
+                const scroller = document.getElementById('bullet-scroller');
+                if (scroller && !scroller.querySelector('.bullet-item')) {
+                    renderEmptyMessageState();
+                }
+            } catch (error) {
+                item?.classList.remove('opacity-50', 'pointer-events-none');
+                showToast(error.message || '??????????', 'fa-circle-exclamation');
+            }
+        }
+
 
         // Elegant flowing petal generator for background visual depth
         function spawnPetalsLoop() {
