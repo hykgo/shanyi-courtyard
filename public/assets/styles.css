@@ -2,6 +2,20 @@ html {
             scroll-behavior: smooth;
             -webkit-tap-highlight-color: transparent;
         }
+
+        body,
+        button,
+        input,
+        textarea,
+        select,
+        .identity-tag,
+        .bullet-item,
+        #message-input,
+        #submit-message-btn {
+            font-family: "Noto Serif SC", "Songti SC", SimSun, serif;
+            font-size-adjust: none;
+            text-rendering: optimizeLegibility;
+        }
         
         ::-webkit-scrollbar {
             display: none;
@@ -27,6 +41,7 @@ html {
         .identity-tag {
             -webkit-appearance: none;
             appearance: none;
+            line-height: 1.25rem;
         }
 
         .identity-tag.is-selected {
@@ -39,6 +54,18 @@ html {
             background-color: #F6EFDE !important;
             color: rgba(41, 51, 43, 0.8) !important;
             border-color: rgba(210, 181, 143, 0.4) !important;
+        }
+
+        .bullet-item {
+            line-height: 1.625;
+        }
+
+        #message-input {
+            line-height: 1.625;
+        }
+
+        #submit-message-btn {
+            line-height: 1.25rem;
         }
 
         .mist-gate {
