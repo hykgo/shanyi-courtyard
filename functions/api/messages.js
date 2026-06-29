@@ -78,14 +78,16 @@ export async function onRequestGet(context) {
     env.MESSAGE_OWNER_SALT || env.IP_HASH_SALT || ""
   );
   const hasOwnerColumn = await hasOwnerTokenHashColumn(env);
+  const ip = request.headers.get("CF-Connecting-IP") || "";
+  const ipHash = await hashIp(ip, env.IP_HASH_SALT || "");
 
   const selectSql = hasOwnerColumn
-    ? `SELECT id, name, content, created_at, owner_token_hash
+    ? `SELECT id, name, content, created_at, owner_token_hash, ip_hash
        FROM messages
        WHERE approved = 1
        ORDER BY created_at DESC, id DESC
        LIMIT ?`
-    : `SELECT id, name, content, created_at
+    : `SELECT id, name, content, created_at, ip_hash
        FROM messages
        WHERE approved = 1
        ORDER BY created_at DESC, id DESC
@@ -101,7 +103,10 @@ export async function onRequestGet(context) {
       name: message.name,
       content: message.content,
       created_at: message.created_at,
-      owned: Boolean(hasOwnerColumn && ownerHash && message.owner_token_hash && message.owner_token_hash === ownerHash),
+      owned: Boolean(
+        (hasOwnerColumn && ownerHash && message.owner_token_hash && message.owner_token_hash === ownerHash) ||
+        (!hasOwnerColumn && ipHash && message.ip_hash && message.ip_hash === ipHash)
+      ),
     })),
   });
 }
@@ -206,18 +211,26 @@ export async function onRequestDelete(context) {
     return json({ error: "Only your own messages can be deleted" }, { status: 403 });
   }
 
-  if (!hasOwnerColumn) {
-    return json({ error: "Delete is unavailable until the database migration is applied" }, { status: 409 });
-  }
+  const ip = request.headers.get("CF-Connecting-IP") || "";
+  const ipHash = await hashIp(ip, env.IP_HASH_SALT || "");
 
-  const existing = await env.DB.prepare(
-    `SELECT id
-     FROM messages
-     WHERE id = ? AND owner_token_hash = ?
-     LIMIT 1`
-  )
-    .bind(id, ownerHash)
-    .first();
+  const existing = hasOwnerColumn
+    ? await env.DB.prepare(
+        `SELECT id
+         FROM messages
+         WHERE id = ? AND owner_token_hash = ?
+         LIMIT 1`
+      )
+        .bind(id, ownerHash)
+        .first()
+    : await env.DB.prepare(
+        `SELECT id
+         FROM messages
+         WHERE id = ? AND ip_hash = ?
+         LIMIT 1`
+      )
+        .bind(id, ipHash)
+        .first();
 
   if (!existing) {
     return json({ error: "Only your own messages can be deleted" }, { status: 403 });
