@@ -4,8 +4,6 @@ const DEFAULT_LIMIT = 50;
 const RATE_LIMIT_WINDOW_MINUTES = 10;
 const RATE_LIMIT_MAX_MESSAGES = 3;
 const DUPLICATE_WINDOW_HOURS = 24;
-const OWNER_TOKEN_MIN_LENGTH = 16;
-const OWNER_TOKEN_MAX_LENGTH = 128;
 const BLOCKED_CONTENT_MESSAGE = "这条留言不适合展示，请换一种表达";
 const BLOCKED_WORDS = [
   "傻逼",
@@ -28,7 +26,6 @@ const BLOCKED_WORDS = [
   "加qq",
   "qq群",
 ];
-let messagesSchemaHasOwnerTokenHash = null;
 
 function json(data, init = {}) {
   return new Response(JSON.stringify(data), {
@@ -90,64 +87,18 @@ async function hashIp(ip, salt) {
     .join("");
 }
 
-async function hashOwnerToken(token, salt) {
-  const normalized = String(token || "").trim();
-  if (
-    normalized.length < OWNER_TOKEN_MIN_LENGTH ||
-    normalized.length > OWNER_TOKEN_MAX_LENGTH ||
-    !/^[A-Za-z0-9_-]+$/.test(normalized)
-  ) {
-    return null;
-  }
-
-  const safeSalt = salt || "shanyi-default-owner-salt";
-  const bytes = new TextEncoder().encode(`${safeSalt}:${normalized}`);
-  const digest = await crypto.subtle.digest("SHA-256", bytes);
-  return [...new Uint8Array(digest)]
-    .map((byte) => byte.toString(16).padStart(2, "0"))
-    .join("");
-}
-
-async function hasOwnerTokenHashColumn(env) {
-  if (messagesSchemaHasOwnerTokenHash !== null) {
-    return messagesSchemaHasOwnerTokenHash;
-  }
-
-  try {
-    const { results } = await env.DB.prepare(`PRAGMA table_info(messages)`).all();
-    messagesSchemaHasOwnerTokenHash = Array.isArray(results) && results.some((column) => column.name === "owner_token_hash");
-  } catch {
-    messagesSchemaHasOwnerTokenHash = false;
-  }
-
-  return messagesSchemaHasOwnerTokenHash;
-}
-
 export async function onRequestGet(context) {
   const { env, request } = context;
   const url = new URL(request.url);
   const limit = Math.min(Number(url.searchParams.get("limit")) || DEFAULT_LIMIT, 100);
-  const ownerHash = await hashOwnerToken(
-    request.headers.get("X-Message-Owner") || url.searchParams.get("owner") || "",
-    env.MESSAGE_OWNER_SALT || env.IP_HASH_SALT || ""
-  );
-  const hasOwnerColumn = await hasOwnerTokenHashColumn(env);
-  const ip = request.headers.get("CF-Connecting-IP") || "";
-  const ipHash = await hashIp(ip, env.IP_HASH_SALT || "");
 
-  const selectSql = hasOwnerColumn
-    ? `SELECT id, name, content, created_at, owner_token_hash, ip_hash
-       FROM messages
-       WHERE approved = 1
-       ORDER BY created_at DESC, id DESC
-       LIMIT ?`
-    : `SELECT id, name, content, created_at, ip_hash
-       FROM messages
-       WHERE approved = 1
-       ORDER BY created_at DESC, id DESC
-       LIMIT ?`;
-
-  const { results } = await env.DB.prepare(selectSql)
+  const { results } = await env.DB.prepare(
+    `SELECT id, name, content, created_at
+     FROM messages
+     WHERE approved = 1
+     ORDER BY created_at DESC, id DESC
+     LIMIT ?`
+  )
     .bind(limit)
     .all();
 
@@ -157,10 +108,6 @@ export async function onRequestGet(context) {
       name: message.name,
       content: message.content,
       created_at: message.created_at,
-      owned: Boolean(
-        (hasOwnerColumn && ownerHash && message.owner_token_hash && message.owner_token_hash === ownerHash) ||
-        (!hasOwnerColumn && ipHash && message.ip_hash && message.ip_hash === ipHash)
-      ),
     })),
   });
 }
@@ -177,11 +124,6 @@ export async function onRequestPost(context) {
 
   const name = sanitizeText(payload.name || "26级萌新", MAX_NAME_LENGTH);
   const content = sanitizeText(payload.content, MAX_CONTENT_LENGTH);
-  const ownerHash = await hashOwnerToken(
-    payload.ownerToken || request.headers.get("X-Message-Owner") || "",
-    env.MESSAGE_OWNER_SALT || env.IP_HASH_SALT || ""
-  );
-  const hasOwnerColumn = await hasOwnerTokenHashColumn(env);
 
   if (!content) {
     return json({ error: "请先写下留言" }, { status: 400 });
@@ -228,15 +170,12 @@ export async function onRequestPost(context) {
     }
   }
 
-  const insertSql = hasOwnerColumn
-    ? `INSERT INTO messages (name, content, ip_hash, owner_token_hash, approved, created_at)
-       VALUES (?, ?, ?, ?, 1, ?)`
-    : `INSERT INTO messages (name, content, ip_hash, approved, created_at)
-       VALUES (?, ?, ?, 1, ?)`;
-
-  const result = hasOwnerColumn
-    ? await env.DB.prepare(insertSql).bind(name, content, ipHash, ownerHash, now).run()
-    : await env.DB.prepare(insertSql).bind(name, content, ipHash, now).run();
+  const result = await env.DB.prepare(
+    `INSERT INTO messages (name, content, ip_hash, approved, created_at)
+     VALUES (?, ?, ?, 1, ?)`
+  )
+    .bind(name, content, ipHash, now)
+    .run();
 
   return json(
     {
@@ -245,56 +184,9 @@ export async function onRequestPost(context) {
         name,
         content,
         created_at: now,
-        owned: Boolean(ownerHash),
       },
     },
     { status: 201 }
   );
 }
 
-export async function onRequestDelete(context) {
-  const { env, request } = context;
-  const url = new URL(request.url);
-  const id = Number(url.searchParams.get("id"));
-  const ownerHash = await hashOwnerToken(
-    request.headers.get("X-Message-Owner") || "",
-    env.MESSAGE_OWNER_SALT || env.IP_HASH_SALT || ""
-  );
-  const hasOwnerColumn = await hasOwnerTokenHashColumn(env);
-
-  if (!Number.isInteger(id) || id <= 0) {
-    return json({ error: "Message not found" }, { status: 400 });
-  }
-
-  if (!ownerHash) {
-    return json({ error: "Only your own messages can be deleted" }, { status: 403 });
-  }
-
-  const ip = request.headers.get("CF-Connecting-IP") || "";
-  const ipHash = await hashIp(ip, env.IP_HASH_SALT || "");
-
-  const existing = hasOwnerColumn
-    ? await env.DB.prepare(
-        `SELECT id
-         FROM messages
-         WHERE id = ? AND owner_token_hash = ?
-         LIMIT 1`
-      )
-        .bind(id, ownerHash)
-        .first()
-    : await env.DB.prepare(
-        `SELECT id
-         FROM messages
-         WHERE id = ? AND ip_hash = ?
-         LIMIT 1`
-      )
-        .bind(id, ipHash)
-        .first();
-
-  if (!existing) {
-    return json({ error: "Only your own messages can be deleted" }, { status: 403 });
-  }
-
-  await env.DB.prepare(`DELETE FROM messages WHERE id = ?`).bind(id).run();
-  return json({ ok: true, id });
-}
