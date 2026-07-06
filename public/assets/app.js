@@ -890,7 +890,7 @@
             const textarea = document.getElementById('message-input');
             const message = textarea.value.trim();
             if (!message) {
-                showToast('???????????', 'fa-pen-fancy');
+                showToast('先写下一句期待，再雕刻明信片吧', 'fa-pen-fancy');
                 return;
             }
 
@@ -914,14 +914,14 @@
 
                 const data = await response.json().catch(() => ({}));
                 if (!response.ok) {
-                    throw new Error(data.error || '??????');
+                    throw new Error(data.error || '留言暂时没有送达，请稍后再试');
                 }
 
                 renderMessageItem(data.message || { name: activeIdentity, content: message }, { justNow: true });
                 generatePostcard();
                 textarea.value = '';
             } catch (error) {
-                showToast(error.message || '????????????', 'fa-circle-exclamation');
+                showToast(error.message || '留言暂时没有送达，请稍后再试', 'fa-circle-exclamation');
             } finally {
                 isSubmittingMessage = false;
                 submitButton?.classList.remove('opacity-70', 'pointer-events-none');
@@ -944,7 +944,7 @@
 
                 if (!response.ok) {
                     const data = await response.json().catch(() => ({}));
-                    throw new Error(data.error || '????');
+                    throw new Error(data.error || '删除失败，请稍后再试');
                 }
 
                 item?.remove();
@@ -954,7 +954,7 @@
                 }
             } catch (error) {
                 item?.classList.remove('opacity-50', 'pointer-events-none');
-                showToast(error.message || '??????????', 'fa-circle-exclamation');
+                showToast(error.message || '删除失败，请稍后再试', 'fa-circle-exclamation');
             }
         }
 
@@ -993,7 +993,7 @@
         function generatePostcard() {
             const message = document.getElementById('message-input').value.trim();
             if(!message) {
-                showToast('📝 写下一两句期待再雕缕吧！', 'fa-pen-fancy');
+                showToast('写下一两句期待，再雕刻明信片吧', 'fa-pen-fancy');
                 return;
             }
 
