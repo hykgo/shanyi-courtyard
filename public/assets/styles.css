@@ -27,6 +27,19 @@ html {
             background-size: 24px 24px;
         }
 
+        .hero-slogan {
+            display: block;
+            width: fit-content;
+            max-width: 100%;
+            margin-inline: auto;
+            text-align: center;
+            font-size: 1.9rem;
+            line-height: 1.45;
+            letter-spacing: 0;
+            white-space: nowrap;
+            text-indent: 0;
+        }
+
         #main-content .text-\[8px\] {
             font-size: 10px;
         }
@@ -68,6 +81,10 @@ html {
         }
 
         @media (min-width: 768px) {
+            .hero-slogan {
+                font-size: 2.375rem;
+            }
+
             #main-content .md\:text-sm {
                 font-size: 1rem;
             }
