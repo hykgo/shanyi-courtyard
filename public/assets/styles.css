@@ -27,6 +27,56 @@ html {
             background-size: 24px 24px;
         }
 
+        #main-content .text-\[8px\] {
+            font-size: 10px;
+        }
+
+        #main-content .text-\[9px\] {
+            font-size: 11px;
+        }
+
+        #main-content .text-\[10px\] {
+            font-size: 12px;
+        }
+
+        #main-content .text-\[11px\] {
+            font-size: 13px;
+        }
+
+        #main-content .text-xs {
+            font-size: 0.875rem;
+        }
+
+        #main-content .text-sm {
+            font-size: 1rem;
+        }
+
+        #main-content .text-base {
+            font-size: 1.125rem;
+        }
+
+        #main-content .text-lg {
+            font-size: 1.25rem;
+        }
+
+        #main-content .text-2xl {
+            font-size: 1.625rem;
+        }
+
+        #main-content .text-3xl {
+            font-size: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            #main-content .md\:text-sm {
+                font-size: 1rem;
+            }
+
+            #main-content .md\:text-4xl {
+                font-size: 2.375rem;
+            }
+        }
+
         .paper-texture {
             background-image:
                 radial-gradient(rgba(23, 61, 37, 0.18) 1px, transparent 1px),
