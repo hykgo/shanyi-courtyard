@@ -6,7 +6,7 @@
         let galleryPreloadStarted = false;
         let allImagePreloadStarted = false;
         const galleryPhotoFiles = [
-            'photo-001.jpg',
+            'photo-001-20260708.jpg',
             'photo-002.jpg',
             'photo-003.jpg',
             'photo-004.jpg',
@@ -109,12 +109,12 @@
             './assets/wenyi-logo-transparent.webp',
             './assets/hero-courtyard.webp',
             './assets/story/pingyi-stage.jpeg',
-            './assets/story/image1.jpeg',
+            './assets/story/image1-20260708.jpeg',
             './assets/story/image9.jpeg',
             './assets/story/image12.webp',
             './assets/story/image17.jpeg',
             './assets/story/image6.jpeg',
-            './assets/gallery/photo-001.jpg',
+            './assets/gallery/photo-001-20260708.jpg',
             './assets/gallery/photo-002.jpg',
             './assets/gallery/photo-003.jpg',
             './assets/gallery/photo-004.jpg',
@@ -127,7 +127,7 @@
             './assets/shanyi-courtyard-qr.png',
             './assets/wenyixiaoyuan-qr.png',
             './assets/story/pingyi-stage.jpeg',
-            './assets/story/image1.jpeg',
+            './assets/story/image1-20260708.jpeg',
             './assets/story/image9.jpeg',
             './assets/story/image12.webp',
             './assets/story/image17.jpeg',
@@ -294,7 +294,7 @@
                 date: '菏泽定陶',
                 title: '2025年7月8日，菏泽市定陶区半堤镇，第二所“文艺小院”落地 🎨',
                 desc: '菏泽市定陶区作为我校定点帮扶区，对优质文艺资源下沉、基层艺术人才培训和常态化文化惠民活动有着迫切需求，我们将发挥文艺小院的“前哨站”和“孵化器”作用，通过定期派驻师生、开设公益课堂、挖掘地方特色非遗项目，达到“培育一支带不走的文艺队伍、打造一批本土化精品节目、形成一股长效文化造血机制”的实效，真正让文艺帮扶从“送文化”转向“种文化”。',
-                img: './assets/story/image1.jpeg',
+                img: './assets/story/image1-20260708.jpeg',
                 links: [
                     {
                         label: '青春筑梦三下乡，艺启同行新征程',
