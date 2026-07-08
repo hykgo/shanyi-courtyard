@@ -4,6 +4,7 @@
         let galleryUpdateToken = 0;
         const galleryImageCache = new Map();
         let galleryPreloadStarted = false;
+        let allImagePreloadStarted = false;
         const galleryPhotoFiles = [
             'photo-001.jpg',
             'photo-002.jpg',
@@ -105,19 +106,37 @@
             caption: '文艺小院'
         }));
         const priorityImageUrls = [
-            './assets/wenyi-logo-transparent.png',
-            './assets/hero-courtyard.png',
+            './assets/wenyi-logo-transparent.webp',
+            './assets/hero-courtyard.webp',
             './assets/story/pingyi-stage.jpeg',
             './assets/story/image1.jpeg',
             './assets/story/image9.jpeg',
-            './assets/story/image12.png',
+            './assets/story/image12.webp',
             './assets/story/image17.jpeg',
+            './assets/story/image6.jpeg',
             './assets/gallery/photo-001.jpg',
             './assets/gallery/photo-002.jpg',
             './assets/gallery/photo-003.jpg',
             './assets/gallery/photo-004.jpg',
             './assets/gallery/photo-005.jpg'
         ];
+        const staticImageUrls = [
+            './assets/wenyi-logo-transparent.webp',
+            './assets/wenyi-logo.webp',
+            './assets/hero-courtyard.webp',
+            './assets/shanyi-courtyard-qr.png',
+            './assets/wenyixiaoyuan-qr.png',
+            './assets/story/pingyi-stage.jpeg',
+            './assets/story/image1.jpeg',
+            './assets/story/image9.jpeg',
+            './assets/story/image12.webp',
+            './assets/story/image17.jpeg',
+            './assets/story/image6.jpeg'
+        ];
+        const allImageUrls = [...new Set([
+            ...staticImageUrls,
+            ...galleryPhotos.map((photo) => photo.src)
+        ])];
         const imageWarmCache = new Map();
         const articleArchive = [
             { icon: 'fa-seedling', title: '奋斗的青春丨2025 年暑期“三下乡”12：青春筑梦三下乡，艺启同行新征程', url: 'https://mp.weixin.qq.com/s/sxVRmmy4WpbdwSRZz3cZuw' },
@@ -154,6 +173,7 @@
             warmPriorityImages(5);
             warmGalleryWindow(currentPhotoIndex, 8);
             scheduleGalleryPreload();
+            scheduleAllImagePreload();
             if ('requestIdleCallback' in window) {
                 requestIdleCallback(() => {
                     warmGateMusicAudio();
@@ -326,7 +346,7 @@
                 date: '山东省青少年宫',
                 title: '2026年4月17日，山东省青少年宫，“文艺小院”再添新阵地 🏛️',
                 desc: '山东省青少年宫作为全省青少年校外教育的重要阵地，山东艺术学院作为省内艺术人才培养与创作的重要高地，双方将秉持“资源共享、优势互补、协同育人”的原则，建立长期战略合作关系。未来，双方将在美育课程开发、文艺志愿服务、非遗文化传承、艺术社团共建等方面开展深度合作，搭建实践育人平台，推动艺术教育资源向青少年延伸，让更多山艺青年在服务一线中长本领、作贡献、亮青春。',
-                img: './assets/story/image12.png',
+                img: './assets/story/image12.webp',
                 links: [
                     {
                         label: '“文艺小院”再添新阵地',
@@ -407,7 +427,7 @@
             if (!src || imageWarmCache.has(src)) return imageWarmCache.get(src);
             const img = new Image();
             img.decoding = 'async';
-            img.loading = eager ? 'eager' : 'lazy';
+            img.loading = 'eager';
             img.fetchPriority = eager ? 'high' : 'low';
             img.onerror = () => {
                 imageWarmCache.delete(src);
@@ -499,6 +519,34 @@
             const scheduleNext = () => {
                 if (!queued.length && activeLoads === 0) return;
                 setTimeout(pump, 20);
+            };
+
+            scheduleNext();
+        }
+
+        function scheduleAllImagePreload() {
+            if (allImagePreloadStarted || !allImageUrls.length) return;
+            allImagePreloadStarted = true;
+
+            const queue = allImageUrls.filter((src) => !imageWarmCache.has(src));
+            const maxConcurrent = 4;
+            let activeLoads = 0;
+
+            const pump = () => {
+                while (activeLoads < maxConcurrent && queue.length) {
+                    const src = queue.shift();
+                    if (!src || imageWarmCache.has(src)) continue;
+                    activeLoads += 1;
+                    preloadImage(src, priorityImageUrls.includes(src)).finally(() => {
+                        activeLoads -= 1;
+                        scheduleNext();
+                    });
+                }
+            };
+
+            const scheduleNext = () => {
+                if (!queue.length && activeLoads === 0) return;
+                deferTask(pump, 2500);
             };
 
             scheduleNext();
