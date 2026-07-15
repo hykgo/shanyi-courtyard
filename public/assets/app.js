@@ -114,6 +114,7 @@
             './assets/story/image12.webp',
             './assets/story/image17.jpeg',
             './assets/story/image6.jpeg',
+            './assets/story/image7.jpeg',
             './assets/gallery/photo-001-20260708.jpg',
             './assets/gallery/photo-002.jpg',
             './assets/gallery/photo-003.jpg',
@@ -131,7 +132,8 @@
             './assets/story/image9.jpeg',
             './assets/story/image12.webp',
             './assets/story/image17.jpeg',
-            './assets/story/image6.jpeg'
+            './assets/story/image6.jpeg',
+            './assets/story/image7.jpeg'
         ];
         const allImageUrls = [...new Set([
             ...staticImageUrls,
